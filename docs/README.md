@@ -2,6 +2,30 @@
 
 The `docs` module contains the reference documentation for Trino.
 
+## Documentation Systems
+
+Trino documentation is available in two formats:
+
+### Sphinx Documentation (Current)
+
+The traditional documentation system using Sphinx and ReStructuredText (RST) format.
+
+- Location: `src/main/sphinx/`
+- Format: ReStructuredText (.rst)
+- See below for build instructions
+
+### Fumadocs (New)
+
+A modern documentation framework built with Next.js, React, and MDX.
+
+- Location: `fumadocs/`
+- Format: MDX (Markdown + JSX)
+- See [FUMADOCS_SETUP.md](FUMADOCS_SETUP.md) for details
+
+---
+
+## Sphinx Documentation
+
 - [Writing and contributing](#writing-and-contributing)
 - [Tools](#tools)
 - [Fast doc build option](#fast-doc-build-option)

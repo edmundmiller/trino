@@ -1,0 +1,197 @@
+# Fumadocs Framework: Quick Start
+
+Getting Started with Fumadocs
+
+## Introduction
+
+Fumadocs is a **documentation framework**, designed to be fast, flexible, and composes seamlessly into your React framework.
+
+Fumadocs has different parts:
+
+### Fumadocs Core
+Handles most of the logic, including document search, content source adapters, and Markdown extensions.
+
+### Fumadocs UI
+The default theme of Fumadocs offers a beautiful look for documentation sites and interactive components.
+
+### Content Source
+The source of your content, can be a CMS or local data layers like Fumadocs MDX (the official content source).
+
+### Fumadocs CLI
+A command line tool to install UI components and automate things, useful for customizing layouts.
+
+> **Want to learn more?**
+> Read the in-depth [What is Fumadocs](https://fumadocs.vercel.app/docs/ui/what-is-fumadocs) introduction.
+
+### Terminology
+
+**Markdown/MDX:** Markdown is a markup language for creating formatted text. Fumadocs natively supports Markdown and MDX (superset of Markdown).
+
+**[Bun](https://bun.sh):** A JavaScript runtime, we use it for running scripts.
+
+Some basic knowledge of React.js would be useful for further customisations.
+
+## Automatic Installation
+
+A minimum version of Node.js 20 required.
+
+### npm
+```bash
+npm create fumadocs-app
+```
+
+### pnpm
+```bash
+pnpm create fumadocs-app
+```
+
+### yarn
+```bash
+yarn create fumadocs-app
+```
+
+### bun
+```bash
+bun create fumadocs-app
+```
+
+It will ask you the built-in template to use:
+
+* **React.js framework**: Next.js, Waku, React Router, Tanstack Start.
+* **Content source**: Fumadocs MDX.
+
+A new fumadocs app should be initialized. Now you can start hacking!
+
+> **From Existing Codebase?**
+> You can follow the [Manual Installation](https://fumadocs.vercel.app/docs/ui/manual-installation) guide to get started.
+
+### Enjoy!
+
+Create your first MDX file in the docs folder.
+
+```mdx title="content/docs/index.mdx"
+---
+title: Hello World
+---
+
+## Yo what's up
+```
+
+Run the app in development mode and see [http://localhost:3000/docs](http://localhost:3000/docs).
+
+**npm:**
+```bash
+npm run dev
+```
+
+**pnpm:**
+```bash
+pnpm run dev
+```
+
+**yarn:**
+```bash
+yarn dev
+```
+
+**bun:**
+```bash
+bun run dev
+```
+
+## FAQ
+
+Some common questions you may encounter.
+
+### Getting error with missing APIs or bugs?
+
+Make sure to upgrade Fumadocs when you've encountered any problems or trying out new features:
+
+```bash
+pnpm update -i -r --latest
+```
+
+### How to change the base route of docs?
+
+Routing is handled by your React framework, you need to change the routing structure first.
+
+For example, in Next.js, rename the route (`/docs/*` -> `/info/*`):
+
+Finally, update the base URL of pages in `source.ts`:
+
+```ts title="lib/source.ts"
+import { loader } from 'fumadocs-core/source';
+
+export const source = loader({
+  baseUrl: '/info', // to the new value
+});
+```
+
+### How to implement multi-docs?
+
+We recommend to use [Sidebar Tabs](https://fumadocs.vercel.app/docs/ui/navigation/sidebar#sidebar-tabs).
+
+## For Vite
+
+### Getting error with React contexts?
+
+There's some weird pre-bundling problems with Vite: [#3910](https://github.com/vitejs/vite/issues/3910).
+Make sure to exclude Fumadocs from pre-bundling and add it to `noExternal`:
+
+```ts title="vite.config.ts"
+import { defineConfig } from 'vite';
+
+// add other Fumadocs deps as needed
+const FumadocsDeps = ['fumadocs-core', 'fumadocs-ui'];
+
+export default defineConfig({
+  resolve: {
+    noExternal: FumadocsDeps,
+  },
+  optimizeDeps: {
+    exclude: FumadocsDeps,
+  },
+});
+```
+
+## For Next.js
+
+### Getting error on production build?
+
+Node.js 23.1 might have problems with Next.js, see [#1021](https://github.com/fuma-nama/fumadocs/issues/1021). Make sure to change your Node.js version.
+
+### It uses Dynamic Route, will it be poor in performance?
+
+Next.js turns dynamic route into static routes when `generateStaticParams` is configured.
+Hence, it is as fast as static pages.
+
+You can [enable Static Exports](https://fumadocs.vercel.app/docs/ui/static-export) on Next.js to get a static build output.
+
+### How to create a page in /docs without docs layout?
+
+Same as managing layouts in Next.js App Router, remove the original MDX file from content directory (`/content/docs`).
+This ensures duplicated pages will not cause errors.
+
+Now, You can add the page to another route group, which isn't a descendant of docs layout.
+
+## Learn More
+
+New to here? Don't worry, we are welcome for your questions.
+
+If you find anything confusing, please give your feedback on [Github Discussion](https://github.com/fuma-nama/fumadocs/discussions)!
+
+### Writing Content
+
+For authoring docs, make sure to read:
+
+* [Markdown](https://fumadocs.vercel.app/docs/ui/markdown) - Fumadocs has some additional features for authoring content.
+* [Navigation](https://fumadocs.vercel.app/docs/ui/navigation) - Learn how to customise navigation links and sidebar items.
+* [Page Conventions](https://fumadocs.vercel.app/docs/ui/page-conventions) - Learn how to organise content.
+* [Components](https://fumadocs.vercel.app/docs/ui/components) - See all available components to enhance your docs
+
+### Special Needs
+
+* [Configure Static Export](https://fumadocs.vercel.app/docs/ui/static-export) - Learn how to enable static export on your docs
+* [Internationalization](https://fumadocs.vercel.app/docs/ui/internationalization) - Learn how to enable i18n
+* [Color Themes](https://fumadocs.vercel.app/docs/ui/theme) - Add themes to Fumadocs UI
+* [Layouts](https://fumadocs.vercel.app/docs/ui/components) - Customise your Fumadocs UI layouts
