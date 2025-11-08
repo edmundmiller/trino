@@ -15,7 +15,7 @@ Fumadocs is a modern documentation framework built on Next.js and React. This se
 ## Directory Structure
 
 ```
-docs/fumadocs/
+docs/
 ├── app/                    # Next.js application
 │   ├── docs/              # Documentation routes
 │   │   ├── [[...slug]]/   # Dynamic documentation pages
@@ -52,7 +52,7 @@ docs/fumadocs/
 
 ### Installation
 
-From the `docs/fumadocs` directory:
+From the `docs` directory:
 
 ```bash
 npm install
@@ -132,27 +132,28 @@ More markdown...
 - **meta.json**: Control navigation order and structure
 - **Frontmatter**: Add metadata to each page (title, description, etc.)
 
-## Coexistence with Sphinx Documentation
+## Migrating from Sphinx
 
-This Fumadocs setup is designed to coexist with the existing Sphinx documentation:
+This Fumadocs setup replaces the previous Sphinx-based documentation system:
 
-### Sphinx Documentation
-- **Location**: `docs/src/main/sphinx/`
+### Previous Sphinx Documentation
 - **Format**: ReStructuredText (.rst)
-- **Build**: Uses Python/Sphinx
+- **Build**: Used Python/Sphinx
 - **Output**: `docs/target/html/`
 
-### Fumadocs Documentation
-- **Location**: `docs/fumadocs/`
+### New Fumadocs Documentation
+- **Location**: `docs/`
 - **Format**: MDX (.mdx)
 - **Build**: Uses Node.js/Next.js
 - **Output**: `.next/` directory
 
-### Migration Strategy
+### Migration Notes
 
-1. **Phase 1**: Run both systems in parallel
-2. **Phase 2**: Gradually migrate content from RST to MDX
-3. **Phase 3**: Eventually deprecate Sphinx in favor of Fumadocs
+If you have existing RST documentation to migrate, you can:
+1. Convert RST files to Markdown/MDX format
+2. Update internal links and references
+3. Add frontmatter metadata to each file
+4. Test the converted content locally
 
 ## Configuration
 
