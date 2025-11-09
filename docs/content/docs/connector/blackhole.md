@@ -128,8 +128,6 @@ additional features:
 - [/sql/show-create-view](/docs//sql/show-create-view)
 - [/sql/drop-view](/docs//sql/drop-view)
 
-:::{note}
-The connector discards all written data. While read operations are supported,
+> **Note:** The connector discards all written data. While read operations are supported,
 they return rows with all NULL values, with the number of rows controlled
 via table properties.
-:::

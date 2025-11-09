@@ -34,16 +34,12 @@ The query fails in the following circumstances:
 * The value references an environmental variable that is not set on the
   coordinator node.
 
-:::{warning}
-The complete `CREATE CATALOG` query is logged, and visible in the [Web
+> **Warning:** The complete `CREATE CATALOG` query is logged, and visible in the [Web
 UI](/docs/admin/web-interface). This includes any sensitive properties, like
 passwords and other credentials. See [](/security/secrets).
-:::
 
-:::{note}
-This command requires the [catalog management type](/docs/admin/properties-catalog)
+> **Note:** This command requires the [catalog management type](/docs/admin/properties-catalog)
 to be set to `dynamic`.
-:::
 
 ## Examples
 

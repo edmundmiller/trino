@@ -56,10 +56,8 @@ The following configuration properties are available:
 | `cassandra.password`             | Password used for authentication to the Cassandra cluster. Requires `cassandra.security=PASSWORD`. This is a global setting used for all connections, regardless of the user connected to Trino.                                                                                                                                                                                                                            |
 | `cassandra.protocol-version`     | It is possible to override the protocol version for older Cassandra clusters. By default, the value corresponds to the default protocol version used in the underlying Cassandra java driver. Possible values include `V3`, `V4`, `V5`, `V6`.                                                                                                                                                                               |
 
-:::{note}
-If authorization is enabled, `cassandra.username` must have enough permissions to perform `SELECT` queries on
+> **Note:** If authorization is enabled, `cassandra.username` must have enough permissions to perform `SELECT` queries on
 the `system.size_estimates` table.
-:::
 
 The following advanced configuration properties are available:
 
@@ -138,86 +136,33 @@ each direction.
 The connector maps Cassandra types to the corresponding Trino types according to
 the following table:
 
-:::{list-table} Cassandra type to Trino type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### Cassandra type to Trino type mapping
 
-* - Cassandra type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INT`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL`
-  - `DOUBLE`
-  -
-* - `ASCII`
-  - `VARCHAR`
-  - US-ASCII character string
-* - `TEXT`
-  - `VARCHAR`
-  - UTF-8 encoded string
-* - `VARCHAR`
-  - `VARCHAR`
-  - UTF-8 encoded string
-* - `VARINT`
-  - `VARCHAR`
-  - Arbitrary-precision integer
-* - `BLOB`
-  - `VARBINARY`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME`
-  - `TIME(9)`
-  -
-* - `TIMESTAMP`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  -
-* - `LIST<?>`
-  - `VARCHAR`
-  -
-* - `MAP<?, ?>`
-  - `VARCHAR`
-  -
-* - `SET<?>`
-  - `VARCHAR`
-  -
-* - `TUPLE`
-  - `ROW` with anonymous fields
-  -
-* - `UDT`
-  - `ROW` with field names
-  -
-* - `INET`
-  - `IPADDRESS`
-  -
-* - `UUID`
-  - `UUID`
-  -
-* - `TIMEUUID`
-  - `UUID`
-  -
-:::
+| Cassandra type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INT` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `FLOAT` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DOUBLE` |  |
+| `ASCII` | `VARCHAR` | US-ASCII character string |
+| `TEXT` | `VARCHAR` | UTF-8 encoded string |
+| `VARCHAR` | `VARCHAR` | UTF-8 encoded string |
+| `VARINT` | `VARCHAR` | Arbitrary-precision integer |
+| `BLOB` | `VARBINARY` |  |
+| `DATE` | `DATE` |  |
+| `TIME` | `TIME(9)` |  |
+| `TIMESTAMP` | `TIMESTAMP(3) WITH TIME ZONE` |  |
+| `LIST<?>` | `VARCHAR` |  |
+| `MAP<?, ?>` | `VARCHAR` |  |
+| `SET<?>` | `VARCHAR` |  |
+| `TUPLE` | `ROW` with anonymous fields |  |
+| `UDT` | `ROW` with field names |  |
+| `INET` | `IPADDRESS` |  |
+| `UUID` | `UUID` |  |
 
 No other types are supported.
 
@@ -226,51 +171,21 @@ No other types are supported.
 The connector maps Trino types to the corresponding Cassandra types according to
 the following table:
 
-:::{list-table} Trino type to Cassandra type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### Trino type to Cassandra type mapping
 
-* - Trino type
-  - Cassandra type
-  - Notes
-
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INT`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `FLOAT`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `VARCHAR`
-  - `TEXT`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIMESTAMP(3) WITH TIME ZONE`
-  - `TIMESTAMP`
-  -
-* - `IPADDRESS`
-  - `INET`
-  -
-* - `UUID`
-  - `UUID`
-  -
-:::
+| Trino type | Cassandra type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INT` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `FLOAT` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `VARCHAR` | `TEXT` |  |
+| `DATE` | `DATE` |  |
+| `TIMESTAMP(3) WITH TIME ZONE` | `TIMESTAMP` |  |
+| `IPADDRESS` | `INET` |  |
 
 No other types are supported.
 

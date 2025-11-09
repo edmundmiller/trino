@@ -76,139 +76,37 @@ support](file-system-legacy) is not recommended and will be removed.
 The following configuration properties are all using reasonable, tested default
 values. Typical usage does not require you to configure them.
 
-:::{list-table} Delta Lake configuration properties
-:widths: 30, 55, 15
-:header-rows: 1
+#### Delta Lake configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `delta.metadata.cache-ttl`
-  - Caching duration for Delta Lake tables metadata.
-  - `30m`
-* - `delta.metadata.cache-max-retained-size`
-  - Maximum retained size of Delta table metadata stored in cache. Must be
-    specified in [](prop-type-data-size) values such as `64MB`. Default is
-    calculated to 5% of the maximum memory allocated to the JVM.
-  - 
-* - `delta.metadata.live-files.cache-size`
-  - Amount of memory allocated for caching information about files. Must be
-    specified in [](prop-type-data-size) values such as `64MB`. Default is
-    calculated to 10% of the maximum memory allocated to the JVM.
-  -
-* - `delta.metadata.live-files.cache-ttl`
-  - Caching duration for active files that correspond to the Delta Lake tables.
-  - `30m`
-* - `delta.compression-codec`
-  - The compression codec to be used when writing new data files. Possible
-    values are:
-
-    * `NONE`
-    * `SNAPPY`
-    * `ZSTD`
-    * `GZIP`
-
-    The equivalent catalog session property is `compression_codec`.
-  - `ZSTD`
-* - `delta.max-partitions-per-writer`
-  - Maximum number of partitions per writer.
-  - `100`
-* - `delta.hide-non-delta-lake-tables`
-  - Hide information about tables that are not managed by Delta Lake. Hiding
-    only applies to tables with the metadata managed in a Glue catalog, and does
-    not apply to usage with a Hive metastore service.
-  - `false`
-* - `delta.enable-non-concurrent-writes`
-  - Enable [write support](delta-lake-data-management) for all supported file
-    systems. Specifically, take note of the warning about concurrency and
-    checkpoints.
-  - `false`
-* - `delta.default-checkpoint-writing-interval`
-  - Default integer count to write transaction log checkpoint entries. If the
-    value is set to N, then checkpoints are written after every Nth statement
-    performing table writes. The value can be overridden for a specific table
-    with the `checkpoint_interval` table property.
-  - `10`
-* - `delta.hive-catalog-name`
-  - Name of the catalog to which `SELECT` queries are redirected when a
-    Hive table is detected.
-  -
-* - `delta.checkpoint-row-statistics-writing.enabled`
-  - Enable writing row statistics to checkpoint files.
-  - `true`
-* - `delta.checkpoint-filtering.enabled`
-  - Enable pruning of data file entries as well as data file statistics columns
-    which are irrelevant for the query when reading Delta Lake checkpoint files.
-    Reading only the relevant active file data from the checkpoint, directly
-    from the storage, instead of relying on the active files caching, likely
-    results in decreased memory pressure on the coordinator. The equivalent
-    catalog session property is `checkpoint_filtering_enabled`.
-  - `true`
-* - `delta.dynamic-filtering.wait-timeout`
-  - Duration to wait for completion of [dynamic
-    filtering](/docs/admin/dynamic-filtering) during split generation. The equivalent
-    catalog session property is `dynamic_filtering_wait_timeout`.
-  -
-* - `delta.table-statistics-enabled`
-  - Enables [Table statistics](delta-lake-table-statistics) for performance
-    improvements. The equivalent catalog session property is
-    `statistics_enabled`.
-  - `true`
-* - `delta.extended-statistics.enabled`
-  - Enable statistics collection with [](/sql/analyze) and use of extended
-    statistics. The equivalent catalog session property is
-    `extended_statistics_enabled`.
-  - `true`
-* - `delta.extended-statistics.collect-on-write`
-  - Enable collection of extended statistics for write operations. The
-    equivalent catalog session property is
-    `extended_statistics_collect_on_write`.
-  - `true`
-* - `delta.per-transaction-metastore-cache-maximum-size`
-  - Maximum number of metastore data objects per transaction in the Hive
-    metastore cache.
-  - `1000`
-* - `delta.metastore.store-table-metadata`
-  - Store table comments and colum definitions in the metastore. The write
-    permission is required to update the metastore.
-  - `false`
-* - `delta.metastore.store-table-metadata-threads`
-  - Number of threads used for storing table metadata in metastore.
-  - `5`
-* - `delta.delete-schema-locations-fallback`
-  - Whether schema locations are deleted when Trino can't determine whether they
-    contain external files.
-  - `false`
-* - `delta.parquet.time-zone`
-  - Time zone for Parquet read and write.
-  - JVM default
-* - `delta.target-max-file-size`
-  - Target maximum size of written files; the actual size could be larger. The
-    equivalent catalog session property is `target_max_file_size`.
-  - `1GB`
-* - `delta.unique-table-location`
-  - Use randomized, unique table locations.
-  - `true`
-* - `delta.register-table-procedure.enabled`
-  - Enable to allow users to call the [`register_table` procedure](delta-lake-register-table).
-  - `false`
-* - `delta.vacuum.min-retention`
-  - Minimum retention threshold for the files taken into account for removal by
-    the [VACUUM](delta-lake-vacuum) procedure. The equivalent catalog session
-    property is `vacuum_min_retention`.
-  - `7 DAYS`
-* - `delta.deletion-vectors-enabled`
-  - Set to `true` for enabling deletion vectors by default when creating new tables.
-  - `false`
-* - `delta.metadata.parallelism`
-  - Number of threads used for retrieving metadata. Currently, only table loading 
-    is parallelized.
-  - `8`
-* - `delta.checkpoint-processing.parallelism`
-  - Number of threads used for retrieving checkpoint files of each table. Currently, only 
-    retrievals of V2 Checkpoint's sidecar files are parallelized.
-  - `4`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `delta.metadata.cache-ttl` | Caching duration for Delta Lake tables metadata. | `30m` |
+| `delta.metadata.cache-max-retained-size` | Maximum retained size of Delta table metadata stored in cache. Must be specified in [](prop-type-data-size) values such as `64MB`. Default is calculated to 5% of the maximum memory allocated to the JVM. |  |
+| `delta.metadata.live-files.cache-size` | Amount of memory allocated for caching information about files. Must be specified in [](prop-type-data-size) values such as `64MB`. Default is calculated to 10% of the maximum memory allocated to the JVM. |  |
+| `delta.metadata.live-files.cache-ttl` | Caching duration for active files that correspond to the Delta Lake tables. | `30m` |
+| `delta.compression-codec` | The compression codec to be used when writing new data files. Possible values are: * `NONE` * `SNAPPY` * `ZSTD` * `GZIP` The equivalent catalog session property is `compression_codec`. | `ZSTD` |
+| `delta.max-partitions-per-writer` | Maximum number of partitions per writer. | `100` |
+| `delta.hide-non-delta-lake-tables` | Hide information about tables that are not managed by Delta Lake. Hiding only applies to tables with the metadata managed in a Glue catalog, and does not apply to usage with a Hive metastore service. | `false` |
+| `delta.enable-non-concurrent-writes` | Enable [write support](delta-lake-data-management) for all supported file systems. Specifically, take note of the warning about concurrency and checkpoints. | `false` |
+| `delta.default-checkpoint-writing-interval` | Default integer count to write transaction log checkpoint entries. If the value is set to N, then checkpoints are written after every Nth statement performing table writes. The value can be overridden for a specific table with the `checkpoint_interval` table property. | `10` |
+| `delta.hive-catalog-name` | Name of the catalog to which `SELECT` queries are redirected when a Hive table is detected. |  |
+| `delta.checkpoint-row-statistics-writing.enabled` | Enable writing row statistics to checkpoint files. | `true` |
+| `delta.checkpoint-filtering.enabled` | Enable pruning of data file entries as well as data file statistics columns which are irrelevant for the query when reading Delta Lake checkpoint files. Reading only the relevant active file data from the checkpoint, directly from the storage, instead of relying on the active files caching, likely results in decreased memory pressure on the coordinator. The equivalent catalog session property is `checkpoint_filtering_enabled`. | `true` |
+| `delta.dynamic-filtering.wait-timeout` | Duration to wait for completion of [dynamic filtering](/docs/admin/dynamic-filtering) during split generation. The equivalent catalog session property is `dynamic_filtering_wait_timeout`. |  |
+| `delta.table-statistics-enabled` | Enables [Table statistics](delta-lake-table-statistics) for performance improvements. The equivalent catalog session property is `statistics_enabled`. | `true` |
+| `delta.extended-statistics.enabled` | Enable statistics collection with [](/sql/analyze) and use of extended statistics. The equivalent catalog session property is `extended_statistics_enabled`. | `true` |
+| `delta.extended-statistics.collect-on-write` | Enable collection of extended statistics for write operations. The equivalent catalog session property is `extended_statistics_collect_on_write`. | `true` |
+| `delta.per-transaction-metastore-cache-maximum-size` | Maximum number of metastore data objects per transaction in the Hive metastore cache. | `1000` |
+| `delta.metastore.store-table-metadata` | Store table comments and colum definitions in the metastore. The write permission is required to update the metastore. | `false` |
+| `delta.metastore.store-table-metadata-threads` | Number of threads used for storing table metadata in metastore. | `5` |
+| `delta.delete-schema-locations-fallback` | Whether schema locations are deleted when Trino can't determine whether they contain external files. | `false` |
+| `delta.parquet.time-zone` | Time zone for Parquet read and write. | JVM default |
+| `delta.target-max-file-size` | Target maximum size of written files; the actual size could be larger. The equivalent catalog session property is `target_max_file_size`. | `1GB` |
+| `delta.unique-table-location` | Use randomized, unique table locations. | `true` |
+| `delta.register-table-procedure.enabled` | Enable to allow users to call the [`register_table` procedure](delta-lake-register-table). | `false` |
+| `delta.vacuum.min-retention` | Minimum retention threshold for the files taken into account for removal by the [VACUUM](delta-lake-vacuum) procedure. The equivalent catalog session property is `vacuum_min_retention`. | `7 DAYS` |
+| `delta.deletion-vectors-enabled` | Set to `true` for enabling deletion vectors by default when creating new tables. | `false` |
+| `delta.metadata.parallelism` | Number of threads used for retrieving metadata. Currently, only table loading  is parallelized. | `8` |
 
 ### Catalog session properties
 
@@ -216,33 +114,15 @@ The following table describes [catalog session properties
 <session-properties-definition>](#catalog session properties
 <session-properties-definition>) supported by the Delta Lake connector:
 
-:::{list-table} Catalog session properties
-:widths: 40, 60, 20
-:header-rows: 1
+#### Catalog session properties
 
-* - Property name
-  - Description
-  - Default
-* - `parquet_max_read_block_size`
-  - The maximum block size used when reading Parquet files.
-  - `16MB`
-* - `parquet_writer_block_size`
-  - The maximum block size created by the Parquet writer.
-  - `128MB`
-* - `parquet_writer_page_size`
-  - The maximum page size created by the Parquet writer.
-  - `1MB`
-* - `parquet_writer_page_value_count`
-  - The maximum value count of pages created by the Parquet writer.
-  - `60000`
-* - `parquet_writer_batch_size`
-  - Maximum number of rows processed by the Parquet writer in a batch.
-  - `10000`
-* - `projection_pushdown_enabled`
-  - Read only projected fields from row columns while performing `SELECT`
-    queries.
-  - `true`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `parquet_max_read_block_size` | The maximum block size used when reading Parquet files. | `16MB` |
+| `parquet_writer_block_size` | The maximum block size created by the Parquet writer. | `128MB` |
+| `parquet_writer_page_size` | The maximum page size created by the Parquet writer. | `1MB` |
+| `parquet_writer_page_value_count` | The maximum value count of pages created by the Parquet writer. | `60000` |
+| `parquet_writer_batch_size` | Maximum number of rows processed by the Parquet writer in a batch. | `10000` |
 
 ### Fault-tolerant execution support
 
@@ -266,47 +146,26 @@ specification.
 The connector maps Delta Lake types to the corresponding Trino types following
 this table:
 
-:::{list-table} Delta Lake to Trino type mapping
-:widths: 40, 60
-:header-rows: 1
+#### Delta Lake to Trino type mapping
 
-* - Delta Lake type
-  - Trino type
-* - `BOOLEAN`
-  - `BOOLEAN`
-* - `INTEGER`
-  - `INTEGER`
-* - `BYTE`
-  - `TINYINT`
-* - `SHORT`
-  - `SMALLINT`
-* - `LONG`
-  - `BIGINT`
-* - `FLOAT`
-  - `REAL`
-* - `DOUBLE`
-  - `DOUBLE`
-* - `DECIMAL(p,s)`
-  - `DECIMAL(p,s)`
-* - `STRING`
-  - `VARCHAR`
-* - `BINARY`
-  - `VARBINARY`
-* - `DATE`
-  - `DATE`
-* - `TIMESTAMPNTZ` (`TIMESTAMP_NTZ`)
-  - `TIMESTAMP(6)`
-* - `TIMESTAMP`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-* - `VARIANT`
-  - `JSON`
-* - `ARRAY`
-  - `ARRAY`
-* - `MAP`
-  - `MAP`
-* - `STRUCT(...)`
-  - `ROW(...)`
-:::
+| Delta Lake type | Trino type |
+|---|---|
+| `BOOLEAN` | `BOOLEAN` |
+| `INTEGER` | `INTEGER` |
+| `BYTE` | `TINYINT` |
+| `SHORT` | `SMALLINT` |
+| `LONG` | `BIGINT` |
+| `FLOAT` | `REAL` |
+| `DOUBLE` | `DOUBLE` |
+| `DECIMAL(p,s)` | `DECIMAL(p,s)` |
+| `STRING` | `VARCHAR` |
+| `BINARY` | `VARBINARY` |
+| `DATE` | `DATE` |
+| `TIMESTAMPNTZ` (`TIMESTAMP_NTZ`) | `TIMESTAMP(6)` |
+| `TIMESTAMP` | `TIMESTAMP(3) WITH TIME ZONE` |
+| `VARIANT` | `JSON` |
+| `ARRAY` | `ARRAY` |
+| `MAP` | `MAP` |
 
 No other types are supported.
 
@@ -315,45 +174,25 @@ No other types are supported.
 The connector maps Trino types to the corresponding Delta Lake types following
 this table:
 
-:::{list-table} Trino to Delta Lake type mapping
-:widths: 60, 40
-:header-rows: 1
+#### Trino to Delta Lake type mapping
 
-* - Trino type
-  - Delta Lake type
-* - `BOOLEAN`
-  - `BOOLEAN`
-* - `INTEGER`
-  - `INTEGER`
-* - `TINYINT`
-  - `BYTE`
-* - `SMALLINT`
-  - `SHORT`
-* - `BIGINT`
-  - `LONG`
-* - `REAL`
-  - `FLOAT`
-* - `DOUBLE`
-  - `DOUBLE`
-* - `DECIMAL(p,s)`
-  - `DECIMAL(p,s)`
-* - `VARCHAR`
-  - `STRING`
-* - `VARBINARY`
-  - `BINARY`
-* - `DATE`
-  - `DATE`
-* - `TIMESTAMP`
-  - `TIMESTAMPNTZ` (`TIMESTAMP_NTZ`)
-* - `TIMESTAMP(3) WITH TIME ZONE`
-  - `TIMESTAMP`
-* - `ARRAY`
-  - `ARRAY`
-* - `MAP`
-  - `MAP`
-* - `ROW(...)`
-  - `STRUCT(...)`
-:::
+| Trino type | Delta Lake type |
+|---|---|
+| `BOOLEAN` | `BOOLEAN` |
+| `INTEGER` | `INTEGER` |
+| `TINYINT` | `BYTE` |
+| `SMALLINT` | `SHORT` |
+| `BIGINT` | `LONG` |
+| `REAL` | `FLOAT` |
+| `DOUBLE` | `DOUBLE` |
+| `DECIMAL(p,s)` | `DECIMAL(p,s)` |
+| `VARCHAR` | `STRING` |
+| `VARBINARY` | `BINARY` |
+| `DATE` | `DATE` |
+| `TIMESTAMP` | `TIMESTAMPNTZ` (`TIMESTAMP_NTZ`) |
+| `TIMESTAMP(3) WITH TIME ZONE` | `TIMESTAMP` |
+| `ARRAY` | `ARRAY` |
+| `MAP` | `MAP` |
 
 No other types are supported.
 
@@ -362,37 +201,21 @@ No other types are supported.
 The connector supports the following [Delta Lake table
 features](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#table-features):
 
-:::{list-table} Table features
-:widths: 70, 30
-:header-rows: 1
+#### Table features
 
-* - Feature
-  - Description
-* - Append-only tables
-  - Writers only
-* - Column invariants
-  - Writers only
-* - CHECK constraints
-  - Writers only
-* - Change data feed
-  - Writers only
-* - Column mapping
-  - Readers and writers
-* - Deletion vectors
-  - Readers and writers
-* - Iceberg compatibility V1 & V2
-  - Readers only
-* - Invariants
-  - Writers only
-* - Timestamp without time zone
-  - Readers and writers
-* - Type widening
-  - Readers only
-* - Vacuum protocol check
-  - Readers and writers
-* - V2 checkpoint
-  - Readers only
-:::
+| Feature | Description |
+|---|---|
+| Append-only tables | Writers only |
+| Column invariants | Writers only |
+| CHECK constraints | Writers only |
+| Change data feed | Writers only |
+| Column mapping | Readers and writers |
+| Deletion vectors | Readers and writers |
+| Iceberg compatibility V1 & V2 | Readers only |
+| Invariants | Writers only |
+| Timestamp without time zone | Readers and writers |
+| Type widening | Readers only |
+| Vacuum protocol check | Readers and writers |
 
 No other features are supported.
 
@@ -408,26 +231,13 @@ Enable authorization checks for the connector by setting the `delta.security`
 property in the catalog properties file. This property must be one of the
 security values in the following table:
 
-:::{list-table} Delta Lake security values
-:widths: 30, 60
-:header-rows: 1
+#### Delta Lake security values
 
-* - Property value
-  - Description
-* - `ALLOW_ALL` (default value)
-  - No authorization checks are enforced.
-* - `SYSTEM`
-  - The connector relies on system-level access control.
-* - `READ_ONLY`
-  - Operations that read data or metadata, such as [](/sql/select) are
-    permitted. No operations that write data or metadata, such as
-    [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed.
-* - `FILE`
-  - Authorization checks are enforced using a catalog-level access control
-    configuration file whose path is specified in the `security.config-file`
-    catalog configuration property. See [](catalog-file-based-access-control)
-    for information on the authorization configuration file.
-:::
+| Property value | Description |
+|---|---|
+| `ALLOW_ALL` (default value) | No authorization checks are enforced. |
+| `SYSTEM` | The connector relies on system-level access control. |
+| `READ_ONLY` | Operations that read data or metadata, such as [](/sql/select) are permitted. No operations that write data or metadata, such as [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed. |
 
 ## SQL support
 
@@ -651,10 +461,8 @@ The table schema is read from the transaction log instead. If the
 schema is changed by an external system, Trino automatically uses the new
 schema.
 
-:::{warning}
-Using `CREATE TABLE` with an existing table content is disallowed,
+> **Warning:** Using `CREATE TABLE` with an existing table content is disallowed,
 use the `system.register_table` procedure instead.
-:::
 
 If the specified location does not already contain a Delta table, the connector
 automatically writes the initial transaction log entries and registers the table
@@ -770,31 +578,15 @@ one of the following conditions:
 
 The following table properties are available for use:
 
-:::{list-table} Delta Lake table properties
-:widths: 40, 60
-:header-rows: 1
+#### Delta Lake table properties
 
-* - Property name
-  - Description
-* - `location`
-  - File system location URI for the table.
-* - `partitioned_by`
-  - Set partition columns.
-* - `checkpoint_interval`
-  - Set the checkpoint interval in number of table writes.
-* - `change_data_feed_enabled`
-  - Enables storing change data feed entries.
-* - `column_mapping_mode`
-  - Column mapping mode. Possible values are:
-
-    * `ID`
-    * `NAME`
-    * `NONE`
-
-    Defaults to `NONE`.
-* - `deletion_vectors_enabled`
-  - Enables deletion vectors.
-:::
+| Property name | Description |
+|---|---|
+| `location` | File system location URI for the table. |
+| `partitioned_by` | Set partition columns. |
+| `checkpoint_interval` | Set the checkpoint interval in number of table writes. |
+| `change_data_feed_enabled` | Enables storing change data feed entries. |
+| `column_mapping_mode` | Column mapping mode. Possible values are: * `ID` * `NAME` * `NONE` Defaults to `NONE`. |
 
 The following example uses all available table properties:
 
@@ -854,51 +646,20 @@ SELECT * FROM "test_table$history"
 
 The output of the query has the following history columns:
 
-:::{list-table} History columns
-:widths: 30, 30, 40
-:header-rows: 1
+#### History columns
 
-* - Name
-  - Type
-  - Description
-* - `version`
-  - `BIGINT`
-  - The version of the table corresponding to the operation
-* - `timestamp`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  - The time when the table version became active
-    For tables with in-Commit timestamps enabled, this field returns value of 
-    [inCommitTimestamp](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#in-commit-timestamps),
-    Otherwise returns value of `timestamp` field that in the 
-    [commitInfo](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#commit-provenance-information)
-* - `user_id`
-  - `VARCHAR`
-  - The identifier for the user which performed the operation
-* - `user_name`
-  - `VARCHAR`
-  - The username for the user which performed the operation
-* - `operation`
-  - `VARCHAR`
-  - The name of the operation performed on the table
-* - `operation_parameters`
-  - `map(VARCHAR, VARCHAR)`
-  - Parameters of the operation
-* - `cluster_id`
-  - `VARCHAR`
-  - The ID of the cluster which ran the operation
-* - `read_version`
-  - `BIGINT`
-  - The version of the table which was read in order to perform the operation
-* - `isolation_level`
-  - `VARCHAR`
-  - The level of isolation used to perform the operation
-* - `is_blind_append`
-  - `BOOLEAN`
-  - Whether or not the operation appended data
-* - `operation_metrics`
-  - `map(VARCHAR, VARCHAR)`
-  - Metrics of the operation
-  :::
+| Name | Type | Description |
+|---|---|---|
+| `version` | `BIGINT` | The version of the table corresponding to the operation |
+| `timestamp` | `TIMESTAMP(3) WITH TIME ZONE` | The time when the table version became active For tables with in-Commit timestamps enabled, this field returns value of [inCommitTimestamp](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#in-commit-timestamps), Otherwise returns value of `timestamp` field that in the [commitInfo](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#commit-provenance-information) |
+| `user_id` | `VARCHAR` | The identifier for the user which performed the operation |
+| `user_name` | `VARCHAR` | The username for the user which performed the operation |
+| `operation` | `VARCHAR` | The name of the operation performed on the table |
+| `operation_parameters` | `map(VARCHAR, VARCHAR)` | Parameters of the operation |
+| `cluster_id` | `VARCHAR` | The ID of the cluster which ran the operation |
+| `read_version` | `BIGINT` | The version of the table which was read in order to perform the operation |
+| `isolation_level` | `VARCHAR` | The level of isolation used to perform the operation |
+| `is_blind_append` | `BOOLEAN` | Whether or not the operation appended data |
 
 ##### `$partitions` table
 
@@ -921,27 +682,13 @@ SELECT * FROM "test_table$partitions"
 
 The output of the query has the following columns:
 
-:::{list-table} Partitions columns
-:widths: 20, 30, 50
-:header-rows: 1
+#### Partitions columns
 
-* - Name
-  - Type
-  - Description
-* - `partition`
-  - `ROW(...)`
-  - A row that contains the mapping of the partition column names to the
-    partition column values.
-* - `file_count`
-  - `BIGINT`
-  - The number of files mapped in the partition.
-* - `total_size`
-  - `BIGINT`
-  - The size of all the files in the partition.
-* - `data`
-  - `ROW(... ROW (min ..., max ... , null_count BIGINT))`
-  - Partition range and null counts.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `partition` | `ROW(...)` | A row that contains the mapping of the partition column names to the partition column values. |
+| `file_count` | `BIGINT` | The number of files mapped in the partition. |
+| `total_size` | `BIGINT` | The size of all the files in the partition. |
 
 ##### `$properties` table
 
@@ -1265,60 +1012,22 @@ with the `delta.hive-catalog-name` catalog configuration property.
 The following table describes performance tuning catalog properties specific to
 the Delta Lake connector.
 
-:::{warning}
-Performance tuning configuration properties are considered expert-level
+> **Warning:** Performance tuning configuration properties are considered expert-level
 features. Altering these properties from their default values is likely to
 cause instability and performance degradation. It is strongly suggested that
 you use them only to address non-trivial performance issues, and that you
 keep a backup of the original values if you change them.
-:::
 
-:::{list-table} Delta Lake performance tuning configuration properties
-:widths: 30, 50, 20
-:header-rows: 1
+#### Delta Lake performance tuning configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `delta.domain-compaction-threshold`
-  - Minimum size of query predicates above which Trino compacts the predicates.
-    Pushing a large list of predicates down to the data source can compromise
-    performance. For optimization in that situation, Trino can compact the large
-    predicates. If necessary, adjust the threshold to ensure a balance between
-    performance and predicate pushdown.
-  - `1000`
-* - `delta.max-outstanding-splits`
-  - The target number of buffered splits for each table scan in a query, before
-    the scheduler tries to pause.
-  - `1000`
-* - `delta.max-splits-per-second`
-  - Sets the maximum number of splits used per second to access underlying
-    storage. Reduce this number if your limit is routinely exceeded, based on
-    your filesystem limits. This is set to the absolute maximum value, which
-    results in Trino maximizing the parallelization of data access by default.
-    Attempting to set it higher results in Trino not being able to start.
-  - `Integer.MAX_VALUE`
-* - `delta.max-split-size`
-  - Sets the largest [](prop-type-data-size) for a single read section
-    assigned to a worker after `max-initial-splits` have been processed. You can
-    also use the corresponding catalog session property
-    `<catalog-name>.max_split_size`.
-  - `128MB`
-* - `delta.minimum-assigned-split-weight`
-  - A decimal value in the range (0, 1] used as a minimum for weights assigned
-    to each split. A low value might improve performance on tables with small
-    files. A higher value might improve performance for queries with highly
-    skewed aggregations or joins.
-  - `0.05`
-* - `delta.projection-pushdown-enabled`
-  - Read only projected fields from row columns while performing `SELECT` queries
-  - `true`
-* - `delta.query-partition-filter-required`
-  - Set to `true` to force a query to use a partition filter. You can use the
-    `query_partition_filter_required` catalog session property for temporary,
-    catalog specific use.
-  - `false`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `delta.domain-compaction-threshold` | Minimum size of query predicates above which Trino compacts the predicates. Pushing a large list of predicates down to the data source can compromise performance. For optimization in that situation, Trino can compact the large predicates. If necessary, adjust the threshold to ensure a balance between performance and predicate pushdown. | `1000` |
+| `delta.max-outstanding-splits` | The target number of buffered splits for each table scan in a query, before the scheduler tries to pause. | `1000` |
+| `delta.max-splits-per-second` | Sets the maximum number of splits used per second to access underlying storage. Reduce this number if your limit is routinely exceeded, based on your filesystem limits. This is set to the absolute maximum value, which results in Trino maximizing the parallelization of data access by default. Attempting to set it higher results in Trino not being able to start. | `Integer.MAX_VALUE` |
+| `delta.max-split-size` | Sets the largest [](prop-type-data-size) for a single read section assigned to a worker after `max-initial-splits` have been processed. You can also use the corresponding catalog session property `<catalog-name>.max_split_size`. | `128MB` |
+| `delta.minimum-assigned-split-weight` | A decimal value in the range (0, 1] used as a minimum for weights assigned to each split. A low value might improve performance on tables with small files. A higher value might improve performance for queries with highly skewed aggregations or joins. | `0.05` |
+| `delta.projection-pushdown-enabled` | Read only projected fields from row columns while performing `SELECT` queries | `true` |
 
 ### File system cache
 
@@ -1328,18 +1037,8 @@ caching](/docs/object-storage/file-system-cache).
 The following table describes file system cache properties specific to 
 the Delta Lake connector.
 
-:::{list-table} Delta Lake file system cache configuration properties
-:widths: 30, 50, 20
-:header-rows: 1
+#### Delta Lake file system cache configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `delta.fs.cache.disable-transaction-log-caching`
-  - Set to `true` to disable caching of the `_delta_log` directory of 
-    Delta Tables. This is useful in those cases when Delta Tables are 
-    destroyed and recreated, and the files inside the transaction log 
-    directory get overwritten and cannot be safely cached. Effective 
-    only when `fs.cache.enabled=true`.
-  - `false`
-:::
+| Property name | Description | Default |
+|---|---|---|
+

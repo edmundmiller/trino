@@ -16,29 +16,11 @@ group-provider.name=file
 The value for `group-provider.name` must be either `file` or `ldap` and the
 configuration of the chosen group provider must be included in the same file.
 
-:::{list-table} Group provider configuration
-:widths: 40, 60
-:header-rows: 1
+#### Group provider configuration
 
-* - Property name
-  - Description
-
-* - `group-provider.name`
-  - Name of the group provider to use.
-    Supported values are:
-
-      * `file`: [See configuration](file-group-provider)
-      * `ldap`: [See configuration](ldap-group-provider)
-* - `group-provider.group-case`
-  - Optional transformation of the case of the group name.
-    Supported values are:
-
-    * `keep`: default, no conversion
-    * `upper`: convert group name to _UPPERCASE_
-    * `lower`: converts the group name to _lowercase_
-
-    Defaults to `keep`.
-:::
+| Property name | Description |
+|---|---|
+| `group-provider.name` | Name of the group provider to use. Supported values are: * `file`: [See configuration](file-group-provider) * `ldap`: [See configuration](ldap-group-provider) |
 
 ## Integration with access control
 
@@ -63,18 +45,11 @@ file.group-file=/path/to/group.txt
 
 The following configuration properties are available:
 
-:::{list-table} File group provider configuration
-:widths: 40, 60
-:header-rows: 1
+#### File group provider configuration
 
-* - Property name
-  - Description
-* - `file.group-file`
-  - Path of the group file.
-* - `file.refresh-period`
-  - [Duration](prop-type-duration) between refreshing the group mapping
-    configuration from the file. Defaults to `5s`.
-:::
+| Property name | Description |
+|---|---|
+| `file.group-file` | Path of the group file. |
 
 ### Group file format
 
@@ -101,79 +76,43 @@ connections and other information as detailed in the following sections.
 group-provider.name=ldap
 ```
 
-:::{list-table} Generic LDAP properties
-:widths: 40, 60
-:header-rows: 1
-* - Property name
-  - Description
-* - `ldap.url`
-  - LDAP server URI.  For example, `ldap://host:389` or `ldaps://host:636`.
-* - `ldap.allow-insecure`
-  - Allow insecure connection to the LDAP server. Defaults to `false`.
-* - `ldap.ssl.keystore.path`
-  - Path to the PEM or JKS key store.
-* - `ldap.ssl.keystore.password`
-  - Password for the key store.
-* - `ldap.ssl.truststore.path`
-  - Path to the PEM or JKS trust store.
-* - `ldap.ssl.truststore.password`
-  - Password for the trust store.
-* - `ldap.ignore-referrals`
-  - Referrals allow finding entries across multiple LDAP servers. Ignore them
-    to only search within one LDAP server. Defaults to `false`.
-* - `ldap.timeout.connect`
-  - Timeout [duration](prop-type-duration) for establishing a connection.
-    Defaults to `1m`.
-* - `ldap.timeout.read`
-  - Timeout [duration](prop-type-duration) for reading data from LDAP.
-    Defaults to `1m`.
-* - `ldap.admin-user`
-  - Bind distinguished name for admin user. For example,
-    `CN=UserName,OU=City,OU=State,DC=domain,DC=domain_root`
-* - `ldap.admin-password`
-  - Bind password used for the admin user.
-* - `ldap.user-base-dn`
-  - Base distinguished name for users. For example, `dc=example,dc=com`.
-* - `ldap.user-search-filter`
-  - LDAP filter to find user entries; `{0}` is replaced with the Trino username.
-    For example, `(cn={0})`
-* - `ldap.group-name-attribute`
-  - Attribute to extract group name from group entry. For example, `cn`.
-* - `ldap.use-group-filter`
-  - Whether to use search-based group resolution. Defaults to `true`.
-    When `false`, Trino uses the attribute-based method.
-:::
+#### Generic LDAP properties
+
+| Property name | Description |
+|---|---|
+| `ldap.url` | LDAP server URI.  For example, `ldap://host:389` or `ldaps://host:636`. |
+| `ldap.allow-insecure` | Allow insecure connection to the LDAP server. Defaults to `false`. |
+| `ldap.ssl.keystore.path` | Path to the PEM or JKS key store. |
+| `ldap.ssl.keystore.password` | Password for the key store. |
+| `ldap.ssl.truststore.path` | Path to the PEM or JKS trust store. |
+| `ldap.ssl.truststore.password` | Password for the trust store. |
+| `ldap.ignore-referrals` | Referrals allow finding entries across multiple LDAP servers. Ignore them to only search within one LDAP server. Defaults to `false`. |
+| `ldap.timeout.connect` | Timeout [duration](prop-type-duration) for establishing a connection. Defaults to `1m`. |
+| `ldap.timeout.read` | Timeout [duration](prop-type-duration) for reading data from LDAP. Defaults to `1m`. |
+| `ldap.admin-user` | Bind distinguished name for admin user. For example, `CN=UserName,OU=City,OU=State,DC=domain,DC=domain_root` |
+| `ldap.admin-password` | Bind password used for the admin user. |
+| `ldap.user-base-dn` | Base distinguished name for users. For example, `dc=example,dc=com`. |
+| `ldap.user-search-filter` | LDAP filter to find user entries; `{0}` is replaced with the Trino username. For example, `(cn={0})` |
+| `ldap.group-name-attribute` | Attribute to extract group name from group entry. For example, `cn`. |
 
 Group resolution behavior is controlled by the `ldap.use-group-filter` property.
 With search-based group resolution, Trino searches for group entries that
 include the user DN. This requires the following properties:
 
-:::{list-table} Search-based group resolution
-:widths: 40, 60
-:header-rows: 1
-* - Property name
-  - Description
-* - `ldap.group-base-dn`
-  - Base distinguished name for groups. For example, `dc=example,dc=com`.
-* - `ldap.group-search-filter`
-  - Search filter for group documents. For example, `(cn=trino_*)`.
-* - `ldap.group-search-member-attribute`
-  - Attribute from group documents used for filtering by member. For example,
-    `cn`.
-:::
+#### Search-based group resolution
+
+| Property name | Description |
+|---|---|
+| `ldap.group-base-dn` | Base distinguished name for groups. For example, `dc=example,dc=com`. |
+| `ldap.group-search-filter` | Search filter for group documents. For example, `(cn=trino_*)`. |
 
 In case of attribute-based group resolution, Trino reads the group list
 directly from a user attribute. This requires the following property:
 
-:::{list-table} Attribute-based (single query) group resolution
-:widths: 40, 60
-:header-rows: 1
+#### Attribute-based (single query) group resolution
 
-* - Property name
-  - Description
-* - `ldap.user-member-of-attribute`
-  - Group membership attribute in user documents. For example, `memberOf`.
-:::
+| Property name | Description |
+|---|---|
 
 ### Example configurations
 

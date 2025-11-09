@@ -21,15 +21,8 @@ properties file.
 Use the following properties to configure general aspects of Alluxio file system
 support in your catalog properties file:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
-
-* - Property
-  - Description
-* - `fs.alluxio.enabled`
-  - Activate the Alluxio file system support. Defaults to `false`.
-:::
+| Property | Description |
+|---|---|
 
 ## Alluxio client configuration
 

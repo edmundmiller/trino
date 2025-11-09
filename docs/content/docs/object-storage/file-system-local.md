@@ -17,20 +17,9 @@ file.
 Use the following properties to configure general aspects of local file system
 support:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
-
-* - Property
-  - Description
-* - `fs.native-local.enabled`
-  - Activate the support for local file system access. Defaults to `false`. Set
-    to `true` to use local file system and enable all other properties.
-* - `local.location`
-  - Local path on all nodes to the root of the shared file system using the prefix
-    `local://` with the path to the mount point.
-
-:::
+| Property | Description |
+|---|---|
+| `fs.native-local.enabled` | Activate the support for local file system access. Defaults to `false`. Set to `true` to use local file system and enable all other properties. |
 
 The following example displays the related section from a
 `etc/catalog/example.properties` catalog configuration using the Hive connector.

@@ -88,17 +88,8 @@ catalog named `sales` using the configured connector.
 The SQL Server connector supports additional catalog properties to configure the
 behavior of the connector and the issues queries to the database.
 
-:::{list-table}
-:widths: 45, 55
-:header-rows: 1
-
-* - Property name
-  - Description
-* - `sqlserver.snapshot-isolation.disabled`
-  - Control the automatic use of snapshot isolation for transactions issued by
-      Trino in SQL Server. Defaults to `false`, which means that snapshot
-      isolation is enabled.
-:::
+| Property name | Description |
+|---|---|
 
 <!-- Fragment not found: jdbc-case-insensitive-matching.fragment -->
 
@@ -155,129 +146,51 @@ each direction.
 
 The connector maps SQL Server types to the corresponding Trino types following this table:
 
-:::{list-table} SQL Server type to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### SQL Server type to Trino type mapping
 
-* - SQL Server database type
-  - Trino type
-  - Notes
-* - `BIT`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `SMALLINT`
-  - SQL Server `TINYINT` is actually `unsigned TINYINT`
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `DOUBLE PRECISION`
-  - `DOUBLE`
-  -
-* - `FLOAT[(n)]`
-  - `REAL` or `DOUBLE`
-  -  See [](sqlserver-numeric-mapping)
-* - `REAL`
-  - `REAL`
-  -
-* - `DECIMAL[(p[, s])]`, `NUMERIC[(p[, s])]`
-  - `DECIMAL(p, s)`
-  -
-* - `CHAR[(n)]`
-  - `CHAR(n)`
-  - `1 <= n <= 8000`
-* - `NCHAR[(n)]`
-  - `CHAR(n)`
-  - `1 <= n <= 4000`
-* - `VARCHAR[(n | max)]`, `NVARCHAR[(n | max)]`
-  - `VARCHAR(n)`
-  - `1 <= n <= 8000`, `max = 2147483647`
-* - `TEXT`
-  - `VARCHAR(2147483647)`
-  -
-* - `NTEXT`
-  - `VARCHAR(1073741823)`
-  -
-* - `VARBINARY[(n | max)]`
-  - `VARBINARY`
-  - `1 <= n <= 8000`, `max = 2147483647`
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME[(n)]`
-  - `TIME(n)`
-  - `0 <= n <= 7`
-* - `DATETIME2[(n)]`
-  - `TIMESTAMP(n)`
-  - `0 <= n <= 7`
-* - `SMALLDATETIME`
-  - `TIMESTAMP(0)`
-  -
-* - `DATETIMEOFFSET[(n)]`
-  - `TIMESTAMP(n) WITH TIME ZONE`
-  - `0 <= n <= 7`
-:::
+| SQL Server database type | Trino type | Notes |
+|---|---|---|
+| `BIT` | `BOOLEAN` |  |
+| `TINYINT` | `SMALLINT` | SQL Server `TINYINT` is actually `unsigned TINYINT` |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `DOUBLE PRECISION` | `DOUBLE` |  |
+| `FLOAT[(n)]` | `REAL` or `DOUBLE` | See [](sqlserver-numeric-mapping) |
+| `REAL` | `REAL` |  |
+| `DECIMAL[(p[, s])]`, `NUMERIC[(p[, s])]` | `DECIMAL(p, s)` |  |
+| `CHAR[(n)]` | `CHAR(n)` | `1 <= n <= 8000` |
+| `NCHAR[(n)]` | `CHAR(n)` | `1 <= n <= 4000` |
+| `VARCHAR[(n | max)]`, `NVARCHAR[(n | max)]` | `VARCHAR(n)` | `1 <= n <= 8000`, `max = 2147483647` |
+| `TEXT` | `VARCHAR(2147483647)` |  |
+| `NTEXT` | `VARCHAR(1073741823)` |  |
+| `VARBINARY[(n | max)]` | `VARBINARY` | `1 <= n <= 8000`, `max = 2147483647` |
+| `DATE` | `DATE` |  |
+| `TIME[(n)]` | `TIME(n)` | `0 <= n <= 7` |
+| `DATETIME2[(n)]` | `TIMESTAMP(n)` | `0 <= n <= 7` |
+| `SMALLDATETIME` | `TIMESTAMP(0)` |  |
 
 ### Trino type to SQL Server type mapping
 
 The connector maps Trino types to the corresponding SQL Server types following this table:
 
-:::{list-table} Trino type to SQL Server type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino type to SQL Server type mapping
 
-* - Trino type
-  - SQL Server type
-  - Notes
-* - `BOOLEAN`
-  - `BIT`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  - Trino only supports writing values belonging to `[0, 127]`
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE PRECISION`
-  -
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-  -
-* - `CHAR(n)`
-  - `NCHAR(n)` or `NVARCHAR(max)`
-  -  See [](sqlserver-character-mapping)
-* - `VARCHAR(n)`
-  - `NVARCHAR(n)` or `NVARCHAR(max)`
-  -  See [](sqlserver-character-mapping)
-* - `VARBINARY`
-  - `VARBINARY(max)`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME(n)`
-  - `TIME(n)`
-  - `0 <= n <= 7`
-* - `TIMESTAMP(n)`
-  - `DATETIME2(n)`
-  - `0 <= n <= 7`
-:::
+| Trino type | SQL Server type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BIT` |  |
+| `TINYINT` | `TINYINT` | Trino only supports writing values belonging to `[0, 127]` |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `REAL` |  |
+| `DOUBLE` | `DOUBLE PRECISION` |  |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` |  |
+| `CHAR(n)` | `NCHAR(n)` or `NVARCHAR(max)` | See [](sqlserver-character-mapping) |
+| `VARCHAR(n)` | `NVARCHAR(n)` or `NVARCHAR(max)` | See [](sqlserver-character-mapping) |
+| `VARBINARY` | `VARBINARY(max)` |  |
+| `DATE` | `DATE` |  |
+| `TIME(n)` | `TIME(n)` | `0 <= n <= 7` |
 
 Complete list of [SQL Server data types](https://msdn.microsoft.com/library/ms187752.aspx).
 
@@ -436,15 +349,11 @@ database directly. It requires syntax native to SQL Server, because the full que
 is pushed down and processed in SQL Server. In order to use this table function set
 `sqlserver.stored-procedure-table-function-enabled` to `true`.
 
-:::{note}
-The `procedure` function does not support running StoredProcedures that return multiple statements,
+> **Note:** The `procedure` function does not support running StoredProcedures that return multiple statements,
 use a non-select statement, use output parameters, or use conditional statements.
-:::
 
-:::{warning}
-This feature is experimental only. The function has security implication and syntax might change and
+> **Warning:** This feature is experimental only. The function has security implication and syntax might change and
 be backward incompatible.
-:::
 
 The follow example runs the stored procedure `employee_sp` in the `example` catalog and the
 `example_schema` schema in the underlying SQL Server database:
@@ -563,24 +472,11 @@ logging requirements](https://docs.microsoft.com/sql/relational-databases/import
 The following table shows the relevant catalog configuration properties and
 their default values:
 
-:::{list-table} Bulk load properties
-:widths: 30, 60, 10
-:header-rows: 1
+#### Bulk load properties
 
-* - Property name
-  - Description
-  - Default
-* - `sqlserver.bulk-copy-for-write.enabled`
-  - Use the SQL Server bulk copy API for writes. The corresponding catalog
-    session property is `bulk_copy_for_write`.
-  - `false`
-* - `sqlserver.bulk-copy-for-write.lock-destination-table`
-  - Obtain a bulk update lock on the destination table for write operations. The
-    corresponding catalog session property is
-    `bulk_copy_for_write_lock_destination_table`. Setting is only used when
-    `bulk-copy-for-write.enabled=true`.
-  - `false`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `sqlserver.bulk-copy-for-write.enabled` | Use the SQL Server bulk copy API for writes. The corresponding catalog session property is `bulk_copy_for_write`. | `false` |
 
 Limitations:
 

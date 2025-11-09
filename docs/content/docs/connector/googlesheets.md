@@ -126,15 +126,10 @@ connector [modifies some types <type-mapping-overview>](#modifies some types <ty
 The connector maps Google Sheets types to the corresponding Trino types
 following this table:
 
-:::{list-table} Google Sheets type to Trino type mapping
-:widths: 30, 20
-:header-rows: 1
+#### Google Sheets type to Trino type mapping
 
-* - Google Sheets type
-  - Trino type
-* - `TEXT`
-  - `VARCHAR`
-:::
+| Google Sheets type | Trino type |
+|---|---|
 
 No other types are supported.
 

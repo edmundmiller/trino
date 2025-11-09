@@ -19,33 +19,15 @@ OpenLineage is a widely used open-source
 standard for capturing lineage information from variety of system including (but
 not limited to) Spark, Airflow, Flink.
 
-:::{list-table} Trino Query attributes mapping to OpenLineage attributes
-:widths: 40, 40
-:header-rows: 1
+#### Trino Query attributes mapping to OpenLineage attributes
 
-*
-    - Trino
-    - OpenLineage
-*
-    - `{UUIDv7(Query.createTime, hash(Query.Id))}`
-    - Run ID
-*
-    - `{queryCreatedEvent.getCreateTime()} or {queryCompletedEvent.getEndTime()} `
-    - Run Event Time
-*
-    - Query Id
-    - Job Facet Name (default, can be overriden)
-*
-    - `trino:// + {openlineage-event-listener.trino.uri.getHost()} + ":" + {openlineage-event-listener.trino.uri.getPort()}`
-    - Job Facet Namespace (default, can be overridden)
-*
-    - `{schema}.{table}`
-    - Dataset Name
-*
-    - `trino:// + {openlineage-event-listener.trino.uri.getHost()} + ":" + {openlineage-event-listener.trino.uri.getPort()}`
-    - Dataset Namespace
-
-:::
+| Trino | OpenLineage |
+|---|---|
+| `{UUIDv7(Query.createTime, hash(Query.Id))}` | Run ID |
+| `{queryCreatedEvent.getCreateTime()} or {queryCompletedEvent.getEndTime()} ` | Run Event Time |
+| Query Id | Job Facet Name (default, can be overriden) |
+| `trino:// + {openlineage-event-listener.trino.uri.getHost()} + ":" + {openlineage-event-listener.trino.uri.getPort()}` | Job Facet Namespace (default, can be overridden) |
+| `{schema}.{table}` | Dataset Name |
 
 (trino-facets)=
   
@@ -125,101 +107,31 @@ in [](config-properties):
 event-listener.config-files=etc/openlineage-event-listener.properties,...
 ```
 
-:::{list-table} OpenLineage event listener configuration properties
-:widths: 40, 40, 20
-:header-rows: 1
+#### OpenLineage event listener configuration properties
 
-*
-    - Property name
-    - Description
-    - Default
-*
-    - openlineage-event-listener.transport.type
-    - Type of transport to use when emitting lineage information. 
-      See [](supported-transport-types) for list of available options with
-      descriptions.
-    - `CONSOLE`
-*
-    - openlineage-event-listener.trino.uri
-    - Required Trino URL with host and port. Used to render Job Namespace in OpenLineage.
-    - None.
-*
-    - openlineage-event-listener.trino.include-query-types
-    - Which types of queries should be taken into account when emitting lineage
-      information. List of values split by comma. Each value must be
-      matching `io.trino.spi.resourcegroups.QueryType` enum. Query types not
-      included here are filtered out.
-    - `DELETE,INSERT,MERGE,UPDATE,ALTER_TABLE_EXECUTE`
-*
-    - openlineage-event-listener.disabled-facets
-    - Which [](trino-facets) should be not included in final OpenLineage event. 
-      Allowed values: `trino_metadata`, `trino_query_context`, 
-      `trino_query_statistics`.
-    - None.
-*
-    - openlineage-event-listener.namespace
-    - Custom namespace to be used for Job `namespace` attribute. If blank will
-      default to Dataset Namespace.
-    - None.
-*
-    - openlineage-event-listener.job.name-format
-    - Custom namespace to use for the job `name` attribute.
-      Use any string with, with optional substitution
-      variables: `$QUERY_ID`, `$USER`, `$SOURCE`, `$CLIENT_IP`.
-      For example: `As $USER from $CLIENT_IP via $SOURCE`.
-    - `$QUERY_ID`.
-
-:::
+| Property name | Description | Default |
+|---|---|---|
+| openlineage-event-listener.transport.type | Type of transport to use when emitting lineage information.  See [](supported-transport-types) for list of available options with descriptions. | `CONSOLE` |
+| openlineage-event-listener.trino.uri | Required Trino URL with host and port. Used to render Job Namespace in OpenLineage. | None. |
+| openlineage-event-listener.trino.include-query-types | Which types of queries should be taken into account when emitting lineage information. List of values split by comma. Each value must be matching `io.trino.spi.resourcegroups.QueryType` enum. Query types not included here are filtered out. | `DELETE,INSERT,MERGE,UPDATE,ALTER_TABLE_EXECUTE` |
+| openlineage-event-listener.disabled-facets | Which [](trino-facets) should be not included in final OpenLineage event.  Allowed values: `trino_metadata`, `trino_query_context`, `trino_query_statistics`. | None. |
+| openlineage-event-listener.namespace | Custom namespace to be used for Job `namespace` attribute. If blank will default to Dataset Namespace. | None. |
 
 ### Supported Transport Types
 
 - `CONSOLE` - sends OpenLineage JSON event to Trino coordinator standard output.
 - `HTTP` - sends OpenLineage JSON event to OpenLineage compatible HTTP endpoint.
 
-:::{list-table} OpenLineage `HTTP` Transport Configuration properties
-:widths: 40, 40, 20
-:header-rows: 1
+#### OpenLineage `HTTP` Transport Configuration properties
 
-*
-    - Property name
-    - Description
-    - Default
-*
-    - openlineage-event-listener.transport.url
-    - URL of OpenLineage . Required if `HTTP` transport is configured.
-    - None.
-*
-    - openlineage-event-listener.transport.endpoint
-    - Custom path for OpenLineage compatible endpoint. If configured, there
-      cannot be any custom path within 
-      `openlineage-event-listener.transport.url`.
-    - `/api/v1`.
-*
-    - openlineage-event-listener.transport.api-key
-    - API key (string value) used to authenticate with the service.
-      at `openlineage-event-listener.transport.url`.
-    - None.
-*
-    - openlineage-event-listener.transport.timeout
-    - [Timeout](prop-type-duration) when making HTTP Requests.
-    - `5000ms`
-*
-    - openlineage-event-listener.transport.headers
-    - List of custom HTTP headers to be sent along with the events. See
-    [](openlineage-event-listener-custom-headers) for more details.
-    - Empty
-*
-    - openlineage-event-listener.transport.url-params
-    - List of custom url params to be added to final HTTP Request. See
-    [](openlineage-event-listener-custom-url-params) for more details.
-    - Empty
-*
-    - openlineage-event-listener.transport.compression
-    - Compression codec used for reducing size of HTTP body.
-      Allowed values: `none`, `gzip`.
-    - `none`
-
-:::
+| Property name | Description | Default |
+|---|---|---|
+| openlineage-event-listener.transport.url | URL of OpenLineage . Required if `HTTP` transport is configured. | None. |
+| openlineage-event-listener.transport.endpoint | Custom path for OpenLineage compatible endpoint. If configured, there cannot be any custom path within `openlineage-event-listener.transport.url`. | `/api/v1`. |
+| openlineage-event-listener.transport.api-key | API key (string value) used to authenticate with the service. at `openlineage-event-listener.transport.url`. | None. |
+| openlineage-event-listener.transport.timeout | [Timeout](prop-type-duration) when making HTTP Requests. | `5000ms` |
+| openlineage-event-listener.transport.headers | List of custom HTTP headers to be sent along with the events. See [](openlineage-event-listener-custom-headers) for more details. | Empty |
+| openlineage-event-listener.transport.url-params | List of custom url params to be added to final HTTP Request. See [](openlineage-event-listener-custom-url-params) for more details. | Empty |
 
 (openlineage-event-listener-custom-headers)=
 

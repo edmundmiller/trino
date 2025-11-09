@@ -43,68 +43,21 @@ synced to the metastore by the [Hudi sync tool](https://hudi.apache.org/docs/syn
 
 Additionally, following configuration properties can be set depending on the use-case:
 
-:::{list-table} Hudi configuration properties
-:widths: 30, 55, 15
-:header-rows: 1
+#### Hudi configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `hudi.columns-to-hide`
-  - List of column names that are hidden from the query output. It can be used
-    to hide Hudi meta fields. By default, no fields are hidden.
-  -
-* - `hudi.parquet.use-column-names`
-  - Access Parquet columns using names from the file. If disabled, then columns
-    are accessed using the index. Only applicable to Parquet file format.
-  - `true`
-* - `hudi.split-generator-parallelism`
-  - Number of threads to generate splits from partitions.
-  - `4`
-* - `hudi.split-loader-parallelism`
-  - Number of threads to run background split loader. A single background split
-    loader is needed per query.
-  - `4`
-* - `hudi.size-based-split-weights-enabled`
-  - Unlike uniform splitting, size-based splitting ensures that each batch of
-    splits has enough data to process. By default, it is enabled to improve
-    performance.
-  - `true`
-* - `hudi.standard-split-weight-size`
-  - The split size corresponding to the standard weight (1.0) when size-based
-    split weights are enabled.
-  - `128MB`
-* - `hudi.minimum-assigned-split-weight`
-  - Minimum weight that a split can be assigned when size-based split weights
-    are enabled.
-  - `0.05`
-* - `hudi.max-splits-per-second`
-  - Rate at which splits are queued for processing. The queue is throttled if
-    this rate limit is breached.
-  - `Integer.MAX_VALUE`
-* - `hudi.max-outstanding-splits`
-  - Maximum outstanding splits in a batch enqueued for processing.
-  - `1000`
-* - `hudi.per-transaction-metastore-cache-maximum-size`
-  - Maximum number of metastore data objects per transaction in the Hive
-    metastore cache.
-  - `2000`
-* - `hudi.query-partition-filter-required`
-  - Set to `true` to force a query to use a partition column in the filter condition.
-    The equivalent catalog session property is `query_partition_filter_required`.
-    Enabling this property causes query failures if the partition column used
-    in the filter condition doesn't effectively reduce the number of data files read.
-    Example: Complex filter expressions such as `id = 1 OR part_key = '100'`
-    or `CAST(part_key AS INTEGER) % 2 = 0` are not recognized as partition filters,
-    and queries using such expressions fail if the property is set to `true`.
-  - `false`
-* - `hudi.ignore-absent-partitions`
-  - Ignore partitions when the file system location does not exist rather than
-    failing the query. This skips data that may be expected to be part of the
-    table.
-  - `false`
-
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `hudi.columns-to-hide` | List of column names that are hidden from the query output. It can be used to hide Hudi meta fields. By default, no fields are hidden. |  |
+| `hudi.parquet.use-column-names` | Access Parquet columns using names from the file. If disabled, then columns are accessed using the index. Only applicable to Parquet file format. | `true` |
+| `hudi.split-generator-parallelism` | Number of threads to generate splits from partitions. | `4` |
+| `hudi.split-loader-parallelism` | Number of threads to run background split loader. A single background split loader is needed per query. | `4` |
+| `hudi.size-based-split-weights-enabled` | Unlike uniform splitting, size-based splitting ensures that each batch of splits has enough data to process. By default, it is enabled to improve performance. | `true` |
+| `hudi.standard-split-weight-size` | The split size corresponding to the standard weight (1.0) when size-based split weights are enabled. | `128MB` |
+| `hudi.minimum-assigned-split-weight` | Minimum weight that a split can be assigned when size-based split weights are enabled. | `0.05` |
+| `hudi.max-splits-per-second` | Rate at which splits are queued for processing. The queue is throttled if this rate limit is breached. | `Integer.MAX_VALUE` |
+| `hudi.max-outstanding-splits` | Maximum outstanding splits in a batch enqueued for processing. | `1000` |
+| `hudi.per-transaction-metastore-cache-maximum-size` | Maximum number of metastore data objects per transaction in the Hive metastore cache. | `2000` |
+| `hudi.query-partition-filter-required` | Set to `true` to force a query to use a partition column in the filter condition. The equivalent catalog session property is `query_partition_filter_required`. Enabling this property causes query failures if the partition column used in the filter condition doesn't effectively reduce the number of data files read. Example: Complex filter expressions such as `id = 1 OR part_key = '100'` or `CAST(part_key AS INTEGER) % 2 = 0` are not recognized as partition filters, and queries using such expressions fail if the property is set to `true`. | `false` |
 
 ## File system access configuration
 
@@ -177,17 +130,11 @@ Hudi supports [two types of tables](https://hudi.apache.org/docs/table_types)
 depending on how the data is indexed and laid out on the file system. The following
 table displays a support matrix of tables types and query types for the connector:
 
-:::{list-table} Hudi configuration properties
-:widths: 45, 55
-:header-rows: 1
+#### Hudi configuration properties
 
-* - Table type
-  - Supported query type
-* - Copy on write
-  - Snapshot queries
-* - Merge on read
-  - Read-optimized queries
-:::
+| Table type | Supported query type |
+|---|---|
+| Copy on write | Snapshot queries |
 
 #### Metadata tables
 
@@ -221,21 +168,10 @@ SELECT * FROM "test_table$timeline"
 
 The output of the query has the following columns:
 
-:::{list-table} Timeline columns
-:widths: 20, 30, 50
-:header-rows: 1
+#### Timeline columns
 
-* - Name
-  - Type
-  - Description
-* - `timestamp`
-  - `VARCHAR`
-  - Instant time is typically a timestamp when the actions performed.
-* - `action`
-  - `VARCHAR`
-  - [Type of action](https://hudi.apache.org/docs/concepts/#timeline) performed
-    on the table.
-* - `state`
-  - `VARCHAR`
-  - Current state of the instant.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `timestamp` | `VARCHAR` | Instant time is typically a timestamp when the actions performed. |
+| `action` | `VARCHAR` | [Type of action](https://hudi.apache.org/docs/concepts/#timeline) performed on the table. |
+

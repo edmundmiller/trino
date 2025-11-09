@@ -43,21 +43,8 @@ You must select and configure one of the
 
 The following configuration properties are available:
 
-:::{list-table}
-:widths: 30, 58, 12
-:header-rows: 1
-
-* - Property name
-  - Description
-  - Default
-* - `lakehouse.table-type`
-  - The default table type for newly created tables when the `format`
-    table property is not specified. Possible values:
-    * `HIVE`
-    * `ICEBERG`
-    * `DELTA`
-  - `ICEBERG`
-:::
+| Property name | Description | Default |
+|---|---|---|
 
 ## File system access configuration
 

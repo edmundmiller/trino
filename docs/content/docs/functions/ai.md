@@ -49,29 +49,14 @@ configured in the catalog. Performance, results, and cost of all AI function
 invocations are dependent on the LLM provider and the model used. You must
 specify a model that is suitable for textual analysis.
 
-:::{list-table} AI functions provider configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### AI functions provider configuration properties
 
-* - Property name
-  - Description
-* - `ai.provider`
-  - Required name of the provider. Must be `anthropic` for using the
-    [Anthropic provider](ai-anthropic) or `openai` for [OpenAI](ai-openai) or
-    [Ollama](ai-ollama).
-* - `ai.anthropic.endpoint`
-  - URL for the Anthropic API endpoint. Defaults to `https://api.anthropic.com`.
-* - `ai.anthropic.api-key`
-  - API key value for Anthropic API access. Required with `ai.provider` set to
-    `anthropic`.
-* - `ai.openai.endpoint`
-  - URL for the OpenAI API or Ollama endpoint. Defaults to
-    `https://api.openai.com`. Set to the URL endpoint for Ollama when using
-    models via Ollama and add any string for the `ai.openai.api-key`.
-* - `ai.openai.api-key`
-  - API key value for OpenAI API access. Required with `ai.provider` set to
-    `openai`. Required and ignored with Ollama use.
-:::
+| Property name | Description |
+|---|---|
+| `ai.provider` | Required name of the provider. Must be `anthropic` for using the [Anthropic provider](ai-anthropic) or `openai` for [OpenAI](ai-openai) or [Ollama](ai-ollama). |
+| `ai.anthropic.endpoint` | URL for the Anthropic API endpoint. Defaults to `https://api.anthropic.com`. |
+| `ai.anthropic.api-key` | API key value for Anthropic API access. Required with `ai.provider` set to `anthropic`. |
+| `ai.openai.endpoint` | URL for the OpenAI API or Ollama endpoint. Defaults to `https://api.openai.com`. Set to the URL endpoint for Ollama when using models via Ollama and add any string for the `ai.openai.api-key`. |
 
 The AI functions connect to the providers over HTTP. Configure the connection
 using the `ai` prefix with the [](/admin/properties-http-client).
@@ -138,38 +123,25 @@ providers charge based input and output tokens.
 Optionally configure different models from the same provider for each functions
 as an override:
 
-:::{list-table} AI function model configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### AI function model configuration properties
 
-* - Property name
-  - Description
-* - `ai.model`
-  - Required name of the model. Valid names vary by provider. Model must be
-    suitable for textual analysis. The model is used for all functions, unless a
-    specific model is configured for a function as override.
-* - `ai.analyze-sentiment.model`
-  - Optional override to use a different model for {func}`ai_analyze_sentiment`.
-* - `ai.classify.model`
-  - Optional override to use a different model for {func}`ai_classify`.
-* - `ai.extract.model`
-  - Optional override to use a different model for {func}`ai_extract`.
-* - `ai.fix-grammar.model`
-  - Optional override to use a different model for {func}`ai_fix_grammar`.
-* - `ai.generate.model`
-  - Optional override to use a different model for {func}`ai_gen`.
-* - `ai.mask.model`
-  - Optional override to use a different model for {func}`ai_mask`.
-* - `ai.translate.model`
-  - Optional override to use a different model for {func}`ai_translate`.
-:::
+| Property name | Description |
+|---|---|
+| `ai.model` | Required name of the model. Valid names vary by provider. Model must be suitable for textual analysis. The model is used for all functions, unless a specific model is configured for a function as override. |
+| `ai.analyze-sentiment.model` | Optional override to use a different model for {func}`ai_analyze_sentiment`. |
+| `ai.classify.model` | Optional override to use a different model for {func}`ai_classify`. |
+| `ai.extract.model` | Optional override to use a different model for {func}`ai_extract`. |
+| `ai.fix-grammar.model` | Optional override to use a different model for {func}`ai_fix_grammar`. |
+| `ai.generate.model` | Optional override to use a different model for {func}`ai_gen`. |
+| `ai.mask.model` | Optional override to use a different model for {func}`ai_mask`. |
 
 ## Functions
 
 The following functions are available in each catalog configured with the `ai`
 connector under the `ai` schema and use the configured LLM provider:
 
-:::{function} ai_analyze_sentiment(text) -> varchar
+#### `ai_analyze_sentiment(text) -> varchar`
+
 Analyzes the sentiment of the input text.
 
 The sentiment result is `positive`, `negative`, `neutral`, or `mixed`.
@@ -178,45 +150,45 @@ The sentiment result is `positive`, `negative`, `neutral`, or `mixed`.
 SELECT ai_analyze_sentiment('I love Trino');
 -- positive
 ```
-:::
 
-:::{function} ai_classify(text, labels) -> varchar
+#### `ai_classify(text, labels) -> varchar`
+
 Classifies the input text according to the provided labels.
 
 ```sql
 SELECT ai_classify('Buy now!', ARRAY['spam', 'not spam']);
 -- spam
 ```
-:::
 
-:::{function} ai_extract(text, labels) -> map(varchar, varchar)
+#### `ai_extract(text, labels) -> map(varchar, varchar)`
+
 Extracts values for the provided labels from the input text.
 
 ```sql
 SELECT ai_extract('John is 25 years old', ARRAY['name', 'age']);
 -- {name=John, age=25}
 ```
-:::
 
-:::{function} ai_fix_grammar(text) -> varchar
+#### `ai_fix_grammar(text) -> varchar`
+
 Corrects grammatical errors in the input text.
 
 ```sql
 SELECT ai_fix_grammar('I are happy. What you doing?');
 -- I am happy. What are you doing?
 ```
-:::
 
-:::{function} ai_gen(prompt) -> varchar
+#### `ai_gen(prompt) -> varchar`
+
 Generates text based on the input prompt.
 
 ```sql
 SELECT ai_gen('Describe Trino in a few words');
 -- Distributed SQL query engine.
 ```
-:::
 
-:::{function} ai_mask(text, labels) -> varchar
+#### `ai_mask(text, labels) -> varchar`
+
 Masks the values for the provided labels in the input text by replacing them
 with the text `[MASKED]`.
 
@@ -226,9 +198,9 @@ SELECT ai_mask(
     ARRAY['phone', 'address']);
 -- Contact me at [MASKED] or visit us at [MASKED].
 ```
-:::
 
-:::{function} ai_translate(text, language) -> varchar
+#### `ai_translate(text, language) -> varchar`
+
 Translates the input text to the specified language.
 
 ```sql
@@ -238,4 +210,3 @@ SELECT ai_translate('I like coffee', 'es');
 SELECT ai_translate('I like coffee', 'zh-TW');
 -- 我喜歡咖啡
 ```
-:::

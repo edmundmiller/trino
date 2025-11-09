@@ -121,87 +121,33 @@ each direction.
 The connector maps PostgreSQL types to the corresponding Trino types following
 this table:
 
-:::{list-table} PostgreSQL type to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### PostgreSQL type to Trino type mapping
 
-* - PostgreSQL type
-  - Trino type
-  - Notes
-* - `BIT`
-  - `BOOLEAN`
-  -
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `NUMERIC(p, s)`
-  - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)` is an alias of `NUMERIC(p, s)`. See
-    [](postgresql-decimal-type-handling) for more information.
-* - `CHAR(n)`
-  - `CHAR(n)`
-  -
-* - `VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `ENUM`
-  - `VARCHAR`
-  -
-* - `BYTEA`
-  - `VARBINARY`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME(n)`
-  - `TIME(n)`
-  -
-* - `TIMESTAMP(n)`
-  - `TIMESTAMP(n)`
-  -
-* - `TIMESTAMPTZ(n)`
-  - `TIMESTAMP(n) WITH TIME ZONE`
-  -
-* - `MONEY`
-  - `VARCHAR`
-  -
-* - `UUID`
-  - `UUID`
-  -
-* - `JSON`
-  - `JSON`
-  -
-* - `JSONB`
-  - `JSON`
-  -
-* - `VECTOR`
-  - `ARRAY(REAL)`
-  -
-* - `HSTORE`
-  - `MAP(VARCHAR, VARCHAR)`
-  -
-* - `ARRAY`
-  - Disabled, `ARRAY`, or `JSON`
-  - See [](postgresql-array-type-handling) for more information.
-* - `GEOMETRY`, `GEOMETRY(GEOMETRY TYPE, SRID)`
-  - `GEOMETRY`
-  -
-:::
+| PostgreSQL type | Trino type | Notes |
+|---|---|---|
+| `BIT` | `BOOLEAN` |  |
+| `BOOLEAN` | `BOOLEAN` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `NUMERIC(p, s)` | `DECIMAL(p, s)` | `DECIMAL(p, s)` is an alias of `NUMERIC(p, s)`. See [](postgresql-decimal-type-handling) for more information. |
+| `CHAR(n)` | `CHAR(n)` |  |
+| `VARCHAR(n)` | `VARCHAR(n)` |  |
+| `ENUM` | `VARCHAR` |  |
+| `BYTEA` | `VARBINARY` |  |
+| `DATE` | `DATE` |  |
+| `TIME(n)` | `TIME(n)` |  |
+| `TIMESTAMP(n)` | `TIMESTAMP(n)` |  |
+| `TIMESTAMPTZ(n)` | `TIMESTAMP(n) WITH TIME ZONE` |  |
+| `MONEY` | `VARCHAR` |  |
+| `UUID` | `UUID` |  |
+| `JSON` | `JSON` |  |
+| `JSONB` | `JSON` |  |
+| `VECTOR` | `ARRAY(REAL)` |  |
+| `HSTORE` | `MAP(VARCHAR, VARCHAR)` |  |
+| `ARRAY` | Disabled, `ARRAY`, or `JSON` | See [](postgresql-array-type-handling) for more information. |
 
 No other types are supported.
 
@@ -210,69 +156,28 @@ No other types are supported.
 The connector maps Trino types to the corresponding PostgreSQL types following
 this table:
 
-:::{list-table} Trino type to PostgreSQL type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino type to PostgreSQL type mapping
 
-* - Trino type
-  - PostgreSQL type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `TINYINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL(p, s)`
-  - `NUMERIC(p, s)`
-  - `DECIMAL(p, s)` is an alias of  `NUMERIC(p, s)`. See
-    [](postgresql-decimal-type-handling) for more information.
-* - `CHAR(n)`
-  - `CHAR(n)`
-  -
-* - `VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `VARBINARY`
-  - `BYTEA`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME(n)`
-  - `TIME(n)`
-  -
-* - `TIMESTAMP(n)`
-  - `TIMESTAMP(n)`
-  -
-* - `TIMESTAMP(n) WITH TIME ZONE`
-  - `TIMESTAMPTZ(n)`
-  -
-* - `UUID`
-  - `UUID`
-  -
-* - `JSON`
-  - `JSONB`
-  -
-* - `ARRAY`
-  - `ARRAY`
-  - See [](postgresql-array-type-handling) for more information.
-* - `GEOMETRY`
-  - `GEOMETRY`
-  -
-::::
+| Trino type | PostgreSQL type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `TINYINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL(p, s)` | `NUMERIC(p, s)` | `DECIMAL(p, s)` is an alias of  `NUMERIC(p, s)`. See [](postgresql-decimal-type-handling) for more information. |
+| `CHAR(n)` | `CHAR(n)` |  |
+| `VARCHAR(n)` | `VARCHAR(n)` |  |
+| `VARBINARY` | `BYTEA` |  |
+| `DATE` | `DATE` |  |
+| `TIME(n)` | `TIME(n)` |  |
+| `TIMESTAMP(n)` | `TIMESTAMP(n)` |  |
+| `TIMESTAMP(n) WITH TIME ZONE` | `TIMESTAMPTZ(n)` |  |
+| `UUID` | `UUID` |  |
+| `JSON` | `JSONB` |  |
+| `ARRAY` | `ARRAY` | See [](postgresql-array-type-handling) for more information. |
+:
 
 No other types are supported.
 

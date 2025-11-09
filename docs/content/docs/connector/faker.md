@@ -40,112 +40,48 @@ restarting the coordinator.
 
 The following table details all general configuration properties:
 
-:::{list-table} Faker configuration properties
-:widths: 25, 75
-:header-rows: 1
+#### Faker configuration properties
 
-* - Property name
-  - Description
-* - `faker.null-probability`
-  - Default probability of a value created as `null` for any column in any table
-    that allows them. Defaults to `0.5`.
-* - `faker.default-limit`
-  - Default number of rows in a table. Defaults to `1000`.
-* - `faker.locale`
-  - Default locale for generating character-based data, specified as an IETF BCP
-    47 language tag string. Defaults to `en`.
-* - `faker.sequence-detection-enabled`
-  - If true, when creating a table using existing data, columns with the number
-    of distinct values close to the number of rows are treated as sequences.
-    Defaults to `true`.
-* - `faker.dictionary-detection-enabled`
-  - If true, when creating a table using existing data, columns with a low
-    number of distinct values are treated as dictionaries, and get
-    the `allowed_values` column property populated with random values.
-    Defaults to `true`.
-:::
+| Property name | Description |
+|---|---|
+| `faker.null-probability` | Default probability of a value created as `null` for any column in any table that allows them. Defaults to `0.5`. |
+| `faker.default-limit` | Default number of rows in a table. Defaults to `1000`. |
+| `faker.locale` | Default locale for generating character-based data, specified as an IETF BCP 47 language tag string. Defaults to `en`. |
+| `faker.sequence-detection-enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
 
 The following table details all supported schema properties. If they're not
 set, values from corresponding configuration properties are used.
 
-:::{list-table} Faker schema properties
-:widths: 25, 75
-:header-rows: 1
+#### Faker schema properties
 
-* - Property name
-  - Description
-* - `null_probability`
-  - Default probability of a value created as `null` in any column that allows
-    them, in any table of this schema.
-* - `default_limit`
-  - Default number of rows in a table.
-* - `sequence_detection_enabled`
-  - If true, when creating a table using existing data, columns with the number
-    of distinct values close to the number of rows are treated as sequences.
-    Defaults to `true`.
-* - `dictionary_detection_enabled`
-  - If true, when creating a table using existing data, columns with a low
-    number of distinct values are treated as dictionaries, and get
-    the `allowed_values` column property populated with random values.
-    Defaults to `true`.
-:::
+| Property name | Description |
+|---|---|
+| `null_probability` | Default probability of a value created as `null` in any column that allows them, in any table of this schema. |
+| `default_limit` | Default number of rows in a table. |
+| `sequence_detection_enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
 
 The following table details all supported table properties. If they're not set,
 values from corresponding schema properties are used.
 
-:::{list-table} Faker table properties
-:widths: 25, 75
-:header-rows: 1
+#### Faker table properties
 
-* - Property name
-  - Description
-* - `null_probability`
-  - Default probability of a value created as `null` in any column that allows
-    `null` in the table.
-* - `default_limit`
-  - Default number of rows in the table.
-* - `sequence_detection_enabled`
-  - If true, when creating a table using existing data, columns with the number
-    of distinct values close to the number of rows are treated as sequences.
-    Defaults to `true`.
-* - `dictionary_detection_enabled`
-  - If true, when creating a table using existing data, columns with a low
-    number of distinct values are treated as dictionaries, and get
-    the `allowed_values` column property populated with random values.
-    Defaults to `true`.
-:::
+| Property name | Description |
+|---|---|
+| `null_probability` | Default probability of a value created as `null` in any column that allows `null` in the table. |
+| `default_limit` | Default number of rows in the table. |
+| `sequence_detection_enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
 
 The following table details all supported column properties.
 
-:::{list-table} Faker column properties
-:widths: 25, 75
-:header-rows: 1
+#### Faker column properties
 
-* - Property name
-  - Description
-* - `null_probability`
-  - Default probability of a value created as `null` in the column. Defaults to
-    the `null_probability` table or schema property, if set, or the
-    `faker.null-probability` configuration property.
-* - `generator`
-  - Name of the Faker library generator used to generate data for the column.
-    Only valid for columns of a character-based type. Defaults to a 3 to 40 word
-    sentence from the
-    [Lorem](https://javadoc.io/doc/net.datafaker/datafaker/latest/net/datafaker/providers/base/Lorem.html)
-    provider.
-* - `min`
-  - Minimum generated value (inclusive). Cannot be set for character-based type
-    columns.
-* - `max`
-  - Maximum generated value (inclusive). Cannot be set for character-based type
-    columns.
-* - `allowed_values`
-  - List of allowed values. Cannot be set together with the `min`, or `max`
-    properties.
-* - `step`
-  - If set, generate sequential values with this step. For date and time columns
-    set this to a duration. Cannot be set for character-based type columns.
-:::
+| Property name | Description |
+|---|---|
+| `null_probability` | Default probability of a value created as `null` in the column. Defaults to the `null_probability` table or schema property, if set, or the `faker.null-probability` configuration property. |
+| `generator` | Name of the Faker library generator used to generate data for the column. Only valid for columns of a character-based type. Defaults to a 3 to 40 word sentence from the [Lorem](https://javadoc.io/doc/net.datafaker/datafaker/latest/net/datafaker/providers/base/Lorem.html) provider. |
+| `min` | Minimum generated value (inclusive). Cannot be set for character-based type columns. |
+| `max` | Maximum generated value (inclusive). Cannot be set for character-based type columns. |
+| `allowed_values` | List of allowed values. Cannot be set together with the `min`, or `max` properties. |
 
 ### Character types
 
@@ -172,7 +108,7 @@ See the Datafaker's documentation for more information about
 [the expression](https://www.datafaker.net/documentation/expressions/) syntax
 and [available providers](https://www.datafaker.net/documentation/providers/).
 
-:::{function} random_string(expression_string) -> string
+#### `random_string(expression_string) -> string`
 
 Create a random output `string` with the provided input `expression_string`. The
 expression must use the [syntax from
@@ -184,7 +120,6 @@ catalog to test a generator expression:
 ```sql
 SELECT generator.default.random_string('#{Name.first_name}');
 ```
-:::
 
 ### Non-character types
 

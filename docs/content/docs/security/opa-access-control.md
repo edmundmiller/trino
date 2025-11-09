@@ -32,44 +32,18 @@ systems, follow the instructions about [](multiple-access-control).
 
 The following table lists the configuration properties for the OPA access control:
 
-:::{list-table} OPA access control configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### OPA access control configuration properties
 
-* - Name
-  - Description
-* - `opa.policy.uri`
-  - The **required** URI for the OPA endpoint, for example,
-    `https://opa.example.com/v1/data/trino/allow`.
-* - `opa.policy.row-filters-uri`
-  - The **optional** URI for fetching row filters - if not set no row filtering
-    is applied. For example, `https://opa.example.com/v1/data/trino/rowFilters`.
-* - `opa.policy.column-masking-uri`
-  - The **optional** URI for fetching column masks - if not set no masking
-    is applied. For example, `https://opa.example.com/v1/data/trino/columnMask`.
-* - `opa.policy.batch-column-masking-uri`
-  -  The **optional** URI for fetching columns masks in batches; must **not**
-     be used with `opa.policy.column-masking-uri`. For example,
-     `http://opa.example.com/v1/data/trino/batchColumnMasks`.
-* - `opa.policy.batched-uri`
-  - The **optional** URI for activating batch mode for certain authorization
-    queries where batching is applicable, for example
-    `https://opa.example.com/v1/data/trino/batch`. Batch mode is described
-    [](opa-batch-mode).
-* - `opa.log-requests`
-  - Configure if request details, including URI, headers and the entire body, are
-    logged prior to sending them to OPA. Defaults to `false`.
-* - `opa.log-responses`
-  - Configure if OPA response details, including URI, status code, headers and
-    the entire body, are logged. Defaults to `false`.
-* - `opa.allow-permission-management-operations`
-  - Configure if permission management operations are allowed. Find more details in
-    [](opa-permission-management). Defaults to `false`.
-* - `opa.http-client.*`
-  - Optional HTTP client configurations for the connection from Trino to OPA,
-    for example `opa.http-client.http-proxy` for configuring the HTTP proxy.
-    Find more details in [](/admin/properties-http-client).
-:::
+| Name | Description |
+|---|---|
+| `opa.policy.uri` | The **required** URI for the OPA endpoint, for example, `https://opa.example.com/v1/data/trino/allow`. |
+| `opa.policy.row-filters-uri` | The **optional** URI for fetching row filters - if not set no row filtering is applied. For example, `https://opa.example.com/v1/data/trino/rowFilters`. |
+| `opa.policy.column-masking-uri` | The **optional** URI for fetching column masks - if not set no masking is applied. For example, `https://opa.example.com/v1/data/trino/columnMask`. |
+| `opa.policy.batch-column-masking-uri` | The **optional** URI for fetching columns masks in batches; must **not** be used with `opa.policy.column-masking-uri`. For example, `http://opa.example.com/v1/data/trino/batchColumnMasks`. |
+| `opa.policy.batched-uri` | The **optional** URI for activating batch mode for certain authorization queries where batching is applicable, for example `https://opa.example.com/v1/data/trino/batch`. Batch mode is described [](opa-batch-mode). |
+| `opa.log-requests` | Configure if request details, including URI, headers and the entire body, are logged prior to sending them to OPA. Defaults to `false`. |
+| `opa.log-responses` | Configure if OPA response details, including URI, status code, headers and the entire body, are logged. Defaults to `false`. |
+| `opa.allow-permission-management-operations` | Configure if permission management operations are allowed. Find more details in [](opa-permission-management). Defaults to `false`. |
 
 ### Logging
 

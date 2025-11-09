@@ -20,10 +20,8 @@ setting up Apache Kafka and integrating it with Trino.
 
 Download and extract [Apache Kafka](https://kafka.apache.org/).
 
-:::{note}
-This tutorial was tested with Apache Kafka 0.8.1.
+> **Note:** This tutorial was tested with Apache Kafka 0.8.1.
 It should work with any 0.8.x version of Apache Kafka.
-:::
 
 Start ZooKeeper and the Kafka server:
 

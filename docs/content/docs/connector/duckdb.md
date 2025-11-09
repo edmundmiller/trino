@@ -75,44 +75,19 @@ List of [DuckDB data types](https://duckdb.org/docs/sql/data_types/overview.html
 The connector maps DuckDB types to the corresponding Trino types following
 this table:
 
-:::{list-table} DuckDB type to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### DuckDB type to Trino type mapping
 
-* - DuckDB type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  - 
-* - `SMALLINT`
-  - `SMALLINT`
-  - 
-* - `INTEGER`
-  - `INTEGER`
-  - 
-* - `BIGINT`
-  - `BIGINT`
-  - 
-* - `FLOAT`
-  - `REAL`
-  - 
-* - `DOUBLE`
-  - `DOUBLE`
-  - 
-* - `DECIMAL`
-  - `DECIMAL`
-  - Default precision and scale are (18,3).
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `DATE`
-  -
-:::
+| DuckDB type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `FLOAT` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DECIMAL` | Default precision and scale are (18,3). |
+| `VARCHAR` | `VARCHAR` |  |
 
 No other types are supported.
 
@@ -121,47 +96,20 @@ No other types are supported.
 The connector maps Trino types to the corresponding DuckDB types following
 this table:
 
-:::{list-table} Trino type to DuckDB type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino type to DuckDB type mapping
 
-* - Trino type
-  - DuckDB type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL`
-  - `DECIMAL`
-  -
-* - `CHAR`
-  - `VARCHAR`
-  -
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `DATE`
-  -
-:::
+| Trino type | DuckDB type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DECIMAL` |  |
+| `CHAR` | `VARCHAR` |  |
+| `VARCHAR` | `VARCHAR` |  |
 
 No other types are supported.
 

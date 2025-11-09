@@ -77,178 +77,41 @@ with [general metastore configuration properties
 The following configuration properties are independent of which catalog
 implementation is used:
 
-:::{list-table} Iceberg general configuration properties
-:widths: 30, 58, 12
-:header-rows: 1
+#### Iceberg general configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `iceberg.catalog.type`
-  - Define the [metastore type](general-metastore-properties) to use. Possible
-    values are:
-
-    * `hive_metastore`
-    * `glue`
-    * `jdbc`
-    * `rest`
-    * `nessie`
-    * `snowflake`
-  - `hive_metastore`
-* - `iceberg.file-format`
-  - Define the data storage file format for Iceberg tables. Possible values are:
-
-    * `PARQUET`
-    * `ORC`
-    * `AVRO`
-  - `PARQUET`
-* - `iceberg.compression-codec`
-  - The compression codec used when writing files. Possible values are:
-
-      * `NONE`
-      * `SNAPPY`
-      * `LZ4`
-      * `ZSTD`
-      * `GZIP`
-  - `ZSTD`
-* - `iceberg.use-file-size-from-metadata`
-  - Read file sizes from metadata instead of file system. This property must
-    only be used as a workaround for [this
-    issue](https://github.com/apache/iceberg/issues/1980). The problem was fixed
-    in Iceberg version 0.11.0.
-  - `true`
-* - `iceberg.max-partitions-per-writer`
-  - Maximum number of partitions handled per writer. The equivalent catalog session property is
-    `max_partitions_per_writer`.
-  - `100`
-* - `iceberg.target-max-file-size`
-  - Target maximum size of written files; the actual size may be larger.
-  - `1GB`
-* - `iceberg.unique-table-location`
-  - Use randomized, unique table locations.
-  - `true`
-* - `iceberg.dynamic-filtering.wait-timeout`
-  - Maximum duration to wait for completion of dynamic filters during split
-    generation.
-  - `1s`
-* - `iceberg.delete-schema-locations-fallback`
-  - Whether schema locations are deleted when Trino can't determine whether
-    they contain external files.
-  - `false`
-* - `iceberg.minimum-assigned-split-weight`
-  - A decimal value in the range `(0, 1]` used as a minimum for weights assigned
-    to each split. A low value may improve performance on tables with small
-    files. A higher value may improve performance for queries with highly skewed
-    aggregations or joins.
-  - 0.05
-* - `iceberg.table-statistics-enabled`
-  - Enable [](/optimizer/statistics). The equivalent [catalog session
-    property](/docs/sql/set-session) is `statistics_enabled` for session specific
-    use. Set to `false` to prevent statistics usage by the
-    [](/optimizer/cost-based-optimizations) to make better decisions about the
-    query plan and therefore improve query processing performance. Setting to
-    `false` is not recommended and does not disable statistics gathering.
-  - `true`
-* - `iceberg.extended-statistics.enabled`
-  - Enable statistics collection with [](/sql/analyze) and use of extended
-    statistics. The equivalent catalog session property is
-    `extended_statistics_enabled`.
-  - `true`
-* - `iceberg.extended-statistics.collect-on-write`
-  - Enable collection of extended statistics for write operations. The
-    equivalent catalog session property is
-    `collect_extended_statistics_on_write`.
-  - `true`
-* - `iceberg.projection-pushdown-enabled`
-  - Enable [projection pushdown](/docs/optimizer/pushdown)
-  - `true`
-* - `iceberg.hive-catalog-name`
-  - Catalog to redirect to when a Hive table is referenced.
-  -
-* - `iceberg.register-table-procedure.enabled`
-  - Enable to allow user to call [`register_table` procedure](iceberg-register-table).
-  - `false`
-* - `iceberg.add-files-procedure.enabled`
-  - Enable to allow user to call [`add_files` procedure](iceberg-add-files).
-  - `false`
-* - `iceberg.query-partition-filter-required`
-  - Set to `true` to force a query to use a partition filter for schemas
-    specified with `iceberg.query-partition-filter-required-schemas`. Equivalent
-    catalog session property is `query_partition_filter_required`.
-  - `false`
-* - `iceberg.query-partition-filter-required-schemas`
-  - Specify the list of schemas for which Trino can enforce that queries use a
-    filter on partition keys for source tables. Equivalent session property is
-    `query_partition_filter_required_schemas`. The list is used if the
-    `iceberg.query-partition-filter-required` configuration property or the
-    `query_partition_filter_required` catalog session property is set to `true`.
-  - `[]`
-* - `iceberg.incremental-refresh-enabled`
-  - Set to `false` to force the materialized view refresh operation to always
-    perform a full refresh. You can use the `incremental_refresh_enabled`
-    catalog session property for temporary, catalog specific use. In the
-    majority of cases, using incremental refresh, as compared to a full refresh,
-    is beneficial since a much smaller subset of the source tables needs to be
-    scanned. While incremental refresh may scan less data, it may result in the
-    creation of more data files, since it uses the append operation to insert
-    the new records.
-  - `true`
-* - `iceberg.metadata-cache.enabled`
-  - Set to `false` to disable in-memory caching of metadata files on the
-    coordinator. This cache is not used when `fs.cache.enabled` is set to true.
-  - `true`
-* - `iceberg.object-store-layout.enabled`
-  - Set to `true` to enable Iceberg's [object store file layout](https://iceberg.apache.org/docs/latest/aws/#object-store-file-layout). 
-    Enabling the object store file layout appends a deterministic hash directly 
-    after the data write path.
-  - `false`
-* - `iceberg.expire-snapshots.min-retention`
-  -  Minimal retention period for the
-     [`expire_snapshot` command](iceberg-expire-snapshots).
-     Equivalent session property is `expire_snapshots_min_retention`.
-  -  `7d` 
-* - `iceberg.remove-orphan-files.min-retention`
-  -  Minimal retention period for the 
-     [`remove_orphan_files` command](iceberg-remove-orphan-files).
-     Equivalent session property is `remove_orphan_files_min_retention`.
-  -  `7d`
-* - `iceberg.idle-writer-min-file-size`
-  -  Minimum data written by a single partition writer before it can
-     be considered as idle and can be closed by the engine. Equivalent
-     session property is `idle_writer_min_file_size`.
-  -  `16MB`
-* - `iceberg.sorted-writing-enabled`
-  -  Enable [sorted writing](iceberg-sorted-files) to tables with a specified sort order. Equivalent
-     session property is `sorted_writing_enabled`.
-  -  `true` 
-* - `iceberg.sorted-writing.local-staging-path`
-  -  A local directory that Trino can use for staging writes to sorted tables.
-     The `${USER}` placeholder can be used to use a different
-     location for each user. When this property is not configured, the target 
-     storage will be used for staging while writing to sorted tables which can
-     be inefficient when writing to object stores like S3. When 
-     `fs.hadoop.enabled` is not enabled, using this feature requires setup of 
-     [local file system](/docs/object-storage/file-system-local)
-  -  
-* - `iceberg.allowed-extra-properties`
-  -  List of extra properties that are allowed to be set on Iceberg tables.
-     Use `*` to allow all properties.
-  - `[]`
-* - `iceberg.split-manager-threads`
-  -  Number of threads to use for generating splits.
-  -  Double the number of processors on the coordinator node.
-* - `iceberg.metadata.parallelism`
-  - Number of threads used for retrieving metadata. Currently, only table loading 
-    is parallelized.
-  - `8`
-* - `iceberg.file-delete-threads`
-  - Number of threads to use for deleting files when running `expire_snapshots` procedure.
-  - Double the number of processors on the coordinator node.
-* - `iceberg.bucket-execution`
-  - Enable bucket-aware execution. This allows the engine to use physical
-    bucketing information to optimize queries by reducing data exchanges.
-  - `true`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `iceberg.catalog.type` | Define the [metastore type](general-metastore-properties) to use. Possible values are: * `hive_metastore` * `glue` * `jdbc` * `rest` * `nessie` * `snowflake` | `hive_metastore` |
+| `iceberg.file-format` | Define the data storage file format for Iceberg tables. Possible values are: * `PARQUET` * `ORC` * `AVRO` | `PARQUET` |
+| `iceberg.compression-codec` | The compression codec used when writing files. Possible values are: * `NONE` * `SNAPPY` * `LZ4` * `ZSTD` * `GZIP` | `ZSTD` |
+| `iceberg.use-file-size-from-metadata` | Read file sizes from metadata instead of file system. This property must only be used as a workaround for [this issue](https://github.com/apache/iceberg/issues/1980). The problem was fixed in Iceberg version 0.11.0. | `true` |
+| `iceberg.max-partitions-per-writer` | Maximum number of partitions handled per writer. The equivalent catalog session property is `max_partitions_per_writer`. | `100` |
+| `iceberg.target-max-file-size` | Target maximum size of written files; the actual size may be larger. | `1GB` |
+| `iceberg.unique-table-location` | Use randomized, unique table locations. | `true` |
+| `iceberg.dynamic-filtering.wait-timeout` | Maximum duration to wait for completion of dynamic filters during split generation. | `1s` |
+| `iceberg.delete-schema-locations-fallback` | Whether schema locations are deleted when Trino can't determine whether they contain external files. | `false` |
+| `iceberg.minimum-assigned-split-weight` | A decimal value in the range `(0, 1]` used as a minimum for weights assigned to each split. A low value may improve performance on tables with small files. A higher value may improve performance for queries with highly skewed aggregations or joins. | 0.05 |
+| `iceberg.table-statistics-enabled` | Enable [](/optimizer/statistics). The equivalent [catalog session property](/docs/sql/set-session) is `statistics_enabled` for session specific use. Set to `false` to prevent statistics usage by the [](/optimizer/cost-based-optimizations) to make better decisions about the query plan and therefore improve query processing performance. Setting to `false` is not recommended and does not disable statistics gathering. | `true` |
+| `iceberg.extended-statistics.enabled` | Enable statistics collection with [](/sql/analyze) and use of extended statistics. The equivalent catalog session property is `extended_statistics_enabled`. | `true` |
+| `iceberg.extended-statistics.collect-on-write` | Enable collection of extended statistics for write operations. The equivalent catalog session property is `collect_extended_statistics_on_write`. | `true` |
+| `iceberg.projection-pushdown-enabled` | Enable [projection pushdown](/docs/optimizer/pushdown) | `true` |
+| `iceberg.hive-catalog-name` | Catalog to redirect to when a Hive table is referenced. |  |
+| `iceberg.register-table-procedure.enabled` | Enable to allow user to call [`register_table` procedure](iceberg-register-table). | `false` |
+| `iceberg.add-files-procedure.enabled` | Enable to allow user to call [`add_files` procedure](iceberg-add-files). | `false` |
+| `iceberg.query-partition-filter-required` | Set to `true` to force a query to use a partition filter for schemas specified with `iceberg.query-partition-filter-required-schemas`. Equivalent catalog session property is `query_partition_filter_required`. | `false` |
+| `iceberg.query-partition-filter-required-schemas` | Specify the list of schemas for which Trino can enforce that queries use a filter on partition keys for source tables. Equivalent session property is `query_partition_filter_required_schemas`. The list is used if the `iceberg.query-partition-filter-required` configuration property or the `query_partition_filter_required` catalog session property is set to `true`. | `[]` |
+| `iceberg.incremental-refresh-enabled` | Set to `false` to force the materialized view refresh operation to always perform a full refresh. You can use the `incremental_refresh_enabled` catalog session property for temporary, catalog specific use. In the majority of cases, using incremental refresh, as compared to a full refresh, is beneficial since a much smaller subset of the source tables needs to be scanned. While incremental refresh may scan less data, it may result in the creation of more data files, since it uses the append operation to insert the new records. | `true` |
+| `iceberg.metadata-cache.enabled` | Set to `false` to disable in-memory caching of metadata files on the coordinator. This cache is not used when `fs.cache.enabled` is set to true. | `true` |
+| `iceberg.object-store-layout.enabled` | Set to `true` to enable Iceberg's [object store file layout](https://iceberg.apache.org/docs/latest/aws/#object-store-file-layout).  Enabling the object store file layout appends a deterministic hash directly after the data write path. | `false` |
+| `iceberg.expire-snapshots.min-retention` | Minimal retention period for the [`expire_snapshot` command](iceberg-expire-snapshots). Equivalent session property is `expire_snapshots_min_retention`. | `7d` |
+| `iceberg.remove-orphan-files.min-retention` | Minimal retention period for the  [`remove_orphan_files` command](iceberg-remove-orphan-files). Equivalent session property is `remove_orphan_files_min_retention`. | `7d` |
+| `iceberg.idle-writer-min-file-size` | Minimum data written by a single partition writer before it can be considered as idle and can be closed by the engine. Equivalent session property is `idle_writer_min_file_size`. | `16MB` |
+| `iceberg.sorted-writing-enabled` | Enable [sorted writing](iceberg-sorted-files) to tables with a specified sort order. Equivalent session property is `sorted_writing_enabled`. | `true` |
+| `iceberg.sorted-writing.local-staging-path` | A local directory that Trino can use for staging writes to sorted tables. The `${USER}` placeholder can be used to use a different location for each user. When this property is not configured, the target storage will be used for staging while writing to sorted tables which can be inefficient when writing to object stores like S3. When `fs.hadoop.enabled` is not enabled, using this feature requires setup of [local file system](/docs/object-storage/file-system-local) |  |
+| `iceberg.allowed-extra-properties` | List of extra properties that are allowed to be set on Iceberg tables. Use `*` to allow all properties. | `[]` |
+| `iceberg.split-manager-threads` | Number of threads to use for generating splits. | Double the number of processors on the coordinator node. |
+| `iceberg.metadata.parallelism` | Number of threads used for retrieving metadata. Currently, only table loading  is parallelized. | `8` |
+| `iceberg.file-delete-threads` | Number of threads to use for deleting files when running `expire_snapshots` procedure. | Double the number of processors on the coordinator node. |
 
 ### Fault-tolerant execution support
 
@@ -290,47 +153,26 @@ formating in the Avro, ORC, or Parquet files:
 The connector maps Iceberg types to the corresponding Trino types according to
 the following table:
 
-:::{list-table} Iceberg to Trino type mapping
-:widths: 40, 60
-:header-rows: 1
+#### Iceberg to Trino type mapping
 
-* - Iceberg type
-  - Trino type
-* - `BOOLEAN`
-  - `BOOLEAN`
-* - `INT`
-  - `INTEGER`
-* - `LONG`
-  - `BIGINT`
-* - `FLOAT`
-  - `REAL`
-* - `DOUBLE`
-  - `DOUBLE`
-* - `DECIMAL(p,s)`
-  - `DECIMAL(p,s)`
-* - `DATE`
-  - `DATE`
-* - `TIME`
-  - `TIME(6)`
-* - `TIMESTAMP`
-  - `TIMESTAMP(6)`
-* - `TIMESTAMPTZ`
-  - `TIMESTAMP(6) WITH TIME ZONE`
-* - `STRING`
-  - `VARCHAR`
-* - `UUID`
-  - `UUID`
-* - `BINARY`
-  - `VARBINARY`
-* - `FIXED (L)`
-  - `VARBINARY`
-* - `STRUCT(...)`
-  - `ROW(...)`
-* - `LIST(e)`
-  - `ARRAY(e)`
-* - `MAP(k,v)`
-  - `MAP(k,v)`
-:::
+| Iceberg type | Trino type |
+|---|---|
+| `BOOLEAN` | `BOOLEAN` |
+| `INT` | `INTEGER` |
+| `LONG` | `BIGINT` |
+| `FLOAT` | `REAL` |
+| `DOUBLE` | `DOUBLE` |
+| `DECIMAL(p,s)` | `DECIMAL(p,s)` |
+| `DATE` | `DATE` |
+| `TIME` | `TIME(6)` |
+| `TIMESTAMP` | `TIMESTAMP(6)` |
+| `TIMESTAMPTZ` | `TIMESTAMP(6) WITH TIME ZONE` |
+| `STRING` | `VARCHAR` |
+| `UUID` | `UUID` |
+| `BINARY` | `VARBINARY` |
+| `FIXED (L)` | `VARBINARY` |
+| `STRUCT(...)` | `ROW(...)` |
+| `LIST(e)` | `ARRAY(e)` |
 
 No other types are supported.
 
@@ -339,45 +181,25 @@ No other types are supported.
 The connector maps Trino types to the corresponding Iceberg types according to
 the following table:
 
-:::{list-table} Trino to Iceberg type mapping
-:widths: 40, 60
-:header-rows: 1
+#### Trino to Iceberg type mapping
 
-* - Trino type
-  - Iceberg type
-* - `BOOLEAN`
-  - `BOOLEAN`
-* - `INTEGER`
-  - `INT`
-* - `BIGINT`
-  - `LONG`
-* - `REAL`
-  - `FLOAT`
-* - `DOUBLE`
-  - `DOUBLE`
-* - `DECIMAL(p,s)`
-  - `DECIMAL(p,s)`
-* - `DATE`
-  - `DATE`
-* - `TIME(6)`
-  - `TIME`
-* - `TIMESTAMP(6)`
-  - `TIMESTAMP`
-* - `TIMESTAMP(6) WITH TIME ZONE`
-  - `TIMESTAMPTZ`
-* - `VARCHAR`
-  - `STRING`
-* - `UUID`
-  - `UUID`
-* - `VARBINARY`
-  - `BINARY`
-* - `ROW(...)`
-  - `STRUCT(...)`
-* - `ARRAY(e)`
-  - `LIST(e)`
-* - `MAP(k,v)`
-  - `MAP(k,v)`
-:::
+| Trino type | Iceberg type |
+|---|---|
+| `BOOLEAN` | `BOOLEAN` |
+| `INTEGER` | `INT` |
+| `BIGINT` | `LONG` |
+| `REAL` | `FLOAT` |
+| `DOUBLE` | `DOUBLE` |
+| `DECIMAL(p,s)` | `DECIMAL(p,s)` |
+| `DATE` | `DATE` |
+| `TIME(6)` | `TIME` |
+| `TIMESTAMP(6)` | `TIMESTAMP` |
+| `TIMESTAMP(6) WITH TIME ZONE` | `TIMESTAMPTZ` |
+| `VARCHAR` | `STRING` |
+| `UUID` | `UUID` |
+| `VARBINARY` | `BINARY` |
+| `ROW(...)` | `STRUCT(...)` |
+| `ARRAY(e)` | `LIST(e)` |
 
 No other types are supported.
 
@@ -398,26 +220,13 @@ You can enable authorization checks for the connector by setting the
 `iceberg.security` property in the catalog properties file. This property must
 be one of the following values:
 
-:::{list-table} Iceberg security values
-:widths: 30, 60
-:header-rows: 1
+#### Iceberg security values
 
-* - Property value
-  - Description
-* - `ALLOW_ALL`
-  - No authorization checks are enforced.
-* - `SYSTEM`
-  - The connector relies on system-level access control.
-* - `READ_ONLY`
-  - Operations that read data or metadata, such as [](/sql/select) are
-    permitted. No operations that write data or metadata, such as
-    [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed.
-* - `FILE`
-  - Authorization checks are enforced using a catalog-level access control
-    configuration file whose path is specified in the `security.config-file`
-    catalog configuration property. See [](catalog-file-based-access-control)
-    for information on the authorization configuration file.
-:::
+| Property value | Description |
+|---|---|
+| `ALLOW_ALL` | No authorization checks are enforced. |
+| `SYSTEM` | The connector relies on system-level access control. |
+| `READ_ONLY` | Operations that read data or metadata, such as [](/sql/select) are permitted. No operations that write data or metadata, such as [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed. |
 
 ## SQL support
 
@@ -922,21 +731,13 @@ for this property is `7d`.
 
 The output of the query has the following metrics:
 
-:::{list-table} Output
-:widths: 40, 60
-:header-rows: 1
+#### Output
 
-* - Property name
-  - Description
-* - `processed_manifests_count`
-  - The count of manifest files read by remove_orphan_files.
-* - `active_files_count`
-  - The count of files belonging to snapshots that have not been expired.
-* - `scanned_files_count`
-  - The count of files scanned from the file system.
-* - `deleted_files_count`
-  - The count of files deleted by remove_orphan_files.
-:::
+| Property name | Description |
+|---|---|
+| `processed_manifests_count` | The count of manifest files read by remove_orphan_files. |
+| `active_files_count` | The count of files belonging to snapshots that have not been expired. |
+| `scanned_files_count` | The count of files scanned from the file system. |
 
 ##### drop_extended_stats
 
@@ -986,62 +787,22 @@ Table properties supply or set metadata for the underlying tables. This is key
 for [/sql/create-table-as](/docs//sql/create-table-as) statements. Table properties are passed to the
 connector using a [WITH ](/docs//sql/create-table-as) clause.
 
-:::{list-table} Iceberg table properties
-:widths: 40, 60
-:header-rows: 1
+#### Iceberg table properties
 
-* - Property name
-  - Description
-* - `format`
-  - Optionally specifies the format of table data files; either `PARQUET`,
-    `ORC`, or `AVRO`. Defaults to the value of the `iceberg.file-format` 
-    catalog configuration property, which defaults to `PARQUET`.
-* - `compression_codec`
-  - Optionally specifies the compression-codec used for writing the table; 
-    either `NONE`, `ZSTD`, `SNAPPY`, `LZ4`, or `GZIP`. Defaults to the value 
-    of the `iceberg.compression-codec` catalog configuration property, which 
-    defaults to `ZSTD`.
-* - `partitioning`
-  - Optionally specifies table partitioning. If a table is partitioned by
-    columns `c1` and `c2`, the partitioning property is `partitioning =
-    ARRAY['c1', 'c2']`.
-* - `sorted_by`
-  - The sort order to be applied during writes to the content of
-    each file written to the table. If the table files are sorted by columns
-    `c1` and `c2`, the sort order property is `sorted_by = ARRAY['c1', 'c2']`.
-    The sort order applies to the contents written within each output file
-    independently and not the entire dataset.
-* - `location`
-  - Optionally specifies the file system location URI for the table.
-* - `format_version`
-  - Optionally specifies the format version of the Iceberg specification to use
-    for new tables; either `1` or `2`. Defaults to `2`. Version `2` is required
-    for row level deletes.
-* - `max_commit_retry`
-  - Number of times to retry a commit before failing. Defaults to the value of 
-    the `iceberg.max-commit-retry` catalog configuration property, which 
-    defaults to `4`.
-* - `orc_bloom_filter_columns`
-  - Comma-separated list of columns to use for ORC bloom filter. It improves the
-    performance of queries using Equality and IN predicates when reading ORC
-    files. Requires ORC format. Defaults to `[]`.
-* - `orc_bloom_filter_fpp`
-  - The ORC bloom filters false positive probability. Requires ORC format.
-    Defaults to `0.05`.
-* - `parquet_bloom_filter_columns`
-  - Comma-separated list of columns to use for Parquet bloom filter. It improves
-    the performance of queries using Equality and IN predicates when reading
-    Parquet files. Requires Parquet format. Defaults to `[]`.
-* - `object_store_layout_enabled`
-  - Whether Iceberg's [object store file layout](https://iceberg.apache.org/docs/latest/aws/#object-store-file-layout) is enabled. 
-    Defaults to `false`. 
-* - `data_location`
-  - Optionally specifies the file system location URI for the table's data files
-* - `extra_properties`
-  - Additional properties added to an Iceberg table. The properties are not used by Trino,
-    and are available in the `$properties` metadata table.
-    The properties are not included in the output of `SHOW CREATE TABLE` statements.
-:::
+| Property name | Description |
+|---|---|
+| `format` | Optionally specifies the format of table data files; either `PARQUET`, `ORC`, or `AVRO`. Defaults to the value of the `iceberg.file-format` catalog configuration property, which defaults to `PARQUET`. |
+| `compression_codec` | Optionally specifies the compression-codec used for writing the table;  either `NONE`, `ZSTD`, `SNAPPY`, `LZ4`, or `GZIP`. Defaults to the value of the `iceberg.compression-codec` catalog configuration property, which defaults to `ZSTD`. |
+| `partitioning` | Optionally specifies table partitioning. If a table is partitioned by columns `c1` and `c2`, the partitioning property is `partitioning = ARRAY['c1', 'c2']`. |
+| `sorted_by` | The sort order to be applied during writes to the content of each file written to the table. If the table files are sorted by columns `c1` and `c2`, the sort order property is `sorted_by = ARRAY['c1', 'c2']`. The sort order applies to the contents written within each output file independently and not the entire dataset. |
+| `location` | Optionally specifies the file system location URI for the table. |
+| `format_version` | Optionally specifies the format version of the Iceberg specification to use for new tables; either `1` or `2`. Defaults to `2`. Version `2` is required for row level deletes. |
+| `max_commit_retry` | Number of times to retry a commit before failing. Defaults to the value of  the `iceberg.max-commit-retry` catalog configuration property, which defaults to `4`. |
+| `orc_bloom_filter_columns` | Comma-separated list of columns to use for ORC bloom filter. It improves the performance of queries using Equality and IN predicates when reading ORC files. Requires ORC format. Defaults to `[]`. |
+| `orc_bloom_filter_fpp` | The ORC bloom filters false positive probability. Requires ORC format. Defaults to `0.05`. |
+| `parquet_bloom_filter_columns` | Comma-separated list of columns to use for Parquet bloom filter. It improves the performance of queries using Equality and IN predicates when reading Parquet files. Requires Parquet format. Defaults to `[]`. |
+| `object_store_layout_enabled` | Whether Iceberg's [object store file layout](https://iceberg.apache.org/docs/latest/aws/#object-store-file-layout) is enabled.  Defaults to `false`. |
+| `data_location` | Optionally specifies the file system location URI for the table's data files |
 
 The table definition below specifies to use Parquet files, partitioning by columns
 `c1` and `c2`, and a file system location of
@@ -1138,26 +899,13 @@ SELECT * FROM "test_table$history";
 
 The output of the query has the following columns:
 
-:::{list-table} History columns
-:widths: 30, 30, 40
-:header-rows: 1
+#### History columns
 
-* - Name
-  - Type
-  - Description
-* - `made_current_at`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  - The time when the snapshot became active.
-* - `snapshot_id`
-  - `BIGINT`
-  - The identifier of the snapshot.
-* - `parent_id`
-  - `BIGINT`
-  - The identifier of the parent snapshot.
-* - `is_current_ancestor`
-  - `BOOLEAN`
-  - Whether or not this snapshot is an ancestor of the current snapshot.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `made_current_at` | `TIMESTAMP(3) WITH TIME ZONE` | The time when the snapshot became active. |
+| `snapshot_id` | `BIGINT` | The identifier of the snapshot. |
+| `parent_id` | `BIGINT` | The identifier of the parent snapshot. |
 
 ##### `$metadata_log_entries` table
 
@@ -1180,29 +928,14 @@ SELECT * FROM "test_table$metadata_log_entries";
 
 The output of the query has the following columns:
 
-:::{list-table} Metadata log entries columns
-:widths: 30, 30, 40
-:header-rows: 1
+#### Metadata log entries columns
 
-* - Name
-  - Type
-  - Description
-* - `timestamp`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  - The time when the metadata was created.
-* - `file`
-  - `VARCHAR`
-  - The location of the metadata file.
-* - `latest_snapshot_id`
-  - `BIGINT`
-  - The identifier of the latest snapshot when the metadata was updated.
-* - `latest_schema_id`
-  - `INTEGER`
-  - The identifier of the latest schema when the metadata was updated.
-* - `latest_sequence_number`
-  - `BIGINT`
-  - The data sequence number of the metadata file.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `timestamp` | `TIMESTAMP(3) WITH TIME ZONE` | The time when the metadata was created. |
+| `file` | `VARCHAR` | The location of the metadata file. |
+| `latest_snapshot_id` | `BIGINT` | The identifier of the latest snapshot when the metadata was updated. |
+| `latest_schema_id` | `INTEGER` | The identifier of the latest schema when the metadata was updated. |
 
 ##### `$snapshots` table
 
@@ -1226,41 +959,15 @@ SELECT * FROM "test_table$snapshots";
 
 The output of the query has the following columns:
 
-:::{list-table} Snapshots columns
-:widths: 20, 30, 50
-:header-rows: 1
+#### Snapshots columns
 
-* - Name
-  - Type
-  - Description
-* - `committed_at`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  - The time when the snapshot became active.
-* - `snapshot_id`
-  - `BIGINT`
-  - The identifier for the snapshot.
-* - `parent_id`
-  - `BIGINT`
-  - The identifier for the parent snapshot.
-* - `operation`
-  - `VARCHAR`
-  - The type of operation performed on the Iceberg table. The supported
-    operation types in Iceberg are:
-
-    * `append` when new data is appended.
-    * `replace` when files are removed and replaced without changing the
-      data in the table.
-    * `overwrite` when new data is added to overwrite existing data.
-    * `delete` when data is deleted from the table and no new data is added.
-* - `manifest_list`
-  - `VARCHAR`
-  - The list of Avro manifest files containing the detailed information about
-    the snapshot changes.
-* - `summary`
-  - `map(VARCHAR, VARCHAR)`
-  - A summary of the changes made from the previous snapshot to the current
-    snapshot.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `committed_at` | `TIMESTAMP(3) WITH TIME ZONE` | The time when the snapshot became active. |
+| `snapshot_id` | `BIGINT` | The identifier for the snapshot. |
+| `parent_id` | `BIGINT` | The identifier for the parent snapshot. |
+| `operation` | `VARCHAR` | The type of operation performed on the Iceberg table. The supported operation types in Iceberg are: * `append` when new data is appended. * `replace` when files are removed and replaced without changing the data in the table. * `overwrite` when new data is added to overwrite existing data. * `delete` when data is deleted from the table and no new data is added. |
+| `manifest_list` | `VARCHAR` | The list of Avro manifest files containing the detailed information about the snapshot changes. |
 
 ##### `$manifests` and `$all_manifests` tables
 
@@ -1284,52 +991,20 @@ SELECT * FROM "test_table$manifests";
 
 The output of the query has the following columns:
 
-:::{list-table} Manifests columns
-:widths: 30, 30, 40
-:header-rows: 1
+#### Manifests columns
 
-* - Name
-  - Type
-  - Description
-* - `path`
-  - `VARCHAR`
-  - The manifest file location.
-* - `length`
-  - `BIGINT`
-  - The manifest file length.
-* - `partition_spec_id`
-  - `INTEGER`
-  - The identifier for the partition specification used to write the manifest
-    file.
-* - `added_snapshot_id`
-  - `BIGINT`
-  - The identifier of the snapshot during which this manifest entry has been
-    added.
-* - `added_data_files_count`
-  - `INTEGER`
-  - The number of data files with status `ADDED` in the manifest file.
-* - `added_rows_count`
-  - `BIGINT`
-  - The total number of rows in all data files with status `ADDED` in the
-    manifest file.
-* - `existing_data_files_count`
-  - `INTEGER`
-  - The number of data files with status `EXISTING` in the manifest file.
-* - `existing_rows_count`
-  - `BIGINT`
-  - The total number of rows in all data files with status `EXISTING` in the
-    manifest file.
-* - `deleted_data_files_count`
-  - `INTEGER`
-  - The number of data files with status `DELETED` in the manifest file.
-* - `deleted_rows_count`
-  - `BIGINT`
-  - The total number of rows in all data files with status `DELETED` in the
-    manifest file.
-* - `partition_summaries`
-  - `ARRAY(row(contains_null BOOLEAN, contains_nan BOOLEAN, lower_bound VARCHAR, upper_bound VARCHAR))`
-  - Partition range metadata.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `path` | `VARCHAR` | The manifest file location. |
+| `length` | `BIGINT` | The manifest file length. |
+| `partition_spec_id` | `INTEGER` | The identifier for the partition specification used to write the manifest file. |
+| `added_snapshot_id` | `BIGINT` | The identifier of the snapshot during which this manifest entry has been added. |
+| `added_data_files_count` | `INTEGER` | The number of data files with status `ADDED` in the manifest file. |
+| `added_rows_count` | `BIGINT` | The total number of rows in all data files with status `ADDED` in the manifest file. |
+| `existing_data_files_count` | `INTEGER` | The number of data files with status `EXISTING` in the manifest file. |
+| `existing_rows_count` | `BIGINT` | The total number of rows in all data files with status `EXISTING` in the manifest file. |
+| `deleted_data_files_count` | `INTEGER` | The number of data files with status `DELETED` in the manifest file. |
+| `deleted_rows_count` | `BIGINT` | The total number of rows in all data files with status `DELETED` in the manifest file. |
 
 ##### `$partitions` table
 
@@ -1352,30 +1027,14 @@ SELECT * FROM "test_table$partitions";
 
 The output of the query has the following columns:
 
-:::{list-table} Partitions columns
-:widths: 20, 30, 50
-:header-rows: 1
+#### Partitions columns
 
-* - Name
-  - Type
-  - Description
-* - `partition`
-  - `ROW(...)`
-  - A row that contains the mapping of the partition column names to the
-    partition column values.
-* - `record_count`
-  - `BIGINT`
-  - The number of records in the partition.
-* - `file_count`
-  - `BIGINT`
-  - The number of files mapped in the partition.
-* - `total_size`
-  - `BIGINT`
-  - The size of all the files in the partition.
-* - `data`
-  - `ROW(... ROW (min ..., max ... , null_count BIGINT, nan_count BIGINT))`
-  - Partition range metadata.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `partition` | `ROW(...)` | A row that contains the mapping of the partition column names to the partition column values. |
+| `record_count` | `BIGINT` | The number of records in the partition. |
+| `file_count` | `BIGINT` | The number of files mapped in the partition. |
+| `total_size` | `BIGINT` | The size of all the files in the partition. |
 
 ##### `$files` table
 
@@ -1397,80 +1056,27 @@ SELECT * FROM "test_table$files";
 
 The output of the query has the following columns:
 
-:::{list-table} Files columns
-:widths: 25, 30, 45
-:header-rows: 1
+#### Files columns
 
-* - Name
-  - Type
-  - Description
-* - `content`
-  - `INTEGER`
-  - Type of content stored in the file. The supported content types in Iceberg
-    are:
-
-    * `DATA(0)`
-    * `POSITION_DELETES(1)`
-    * `EQUALITY_DELETES(2)`
-* - `file_path`
-  - `VARCHAR`
-  - The data file location.
-* - `file_format`
-  - `VARCHAR`
-  - The format of the data file.
-* - `spec_id`
-  - `INTEGER`
-  - Spec ID used to track the file containing a row.
-* - `partition`
-  - `ROW(...)`
-  - A row that contains the mapping of the partition column names to the
-    partition column values.
-* - `record_count`
-  - `BIGINT`
-  - The number of entries contained in the data file.
-* - `file_size_in_bytes`
-  - `BIGINT`
-  - The data file size
-* - `column_sizes`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding size in the
-    file.
-* - `value_counts`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding count of entries
-    in the file.
-* - `null_value_counts`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding count of `NULL`
-    values in the file.
-* - `nan_value_counts`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding count of 
-    non-numerical values in the file.
-* - `lower_bounds`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding lower bound in
-    the file.
-* - `upper_bounds`
-  - `map(INTEGER, BIGINT)`
-  - Mapping between the Iceberg column ID and its corresponding upper bound in
-    the file.
-* - `key_metadata`
-  - `VARBINARY`
-  - Metadata about the encryption key used to encrypt this file, if applicable.
-* - `split_offsets`
-  - `array(BIGINT)`
-  - List of recommended split locations.
-* - `equality_ids`
-  - `array(INTEGER)`
-  - The set of field IDs used for equality comparison in equality delete files.
-* - `sort_order_id`
-  - `INTEGER`
-  - ID representing sort order for this file.
-* - `readable_metrics`
-  - `JSON`
-  - File metrics in human-readable form.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `content` | `INTEGER` | Type of content stored in the file. The supported content types in Iceberg are: * `DATA(0)` * `POSITION_DELETES(1)` * `EQUALITY_DELETES(2)` |
+| `file_path` | `VARCHAR` | The data file location. |
+| `file_format` | `VARCHAR` | The format of the data file. |
+| `spec_id` | `INTEGER` | Spec ID used to track the file containing a row. |
+| `partition` | `ROW(...)` | A row that contains the mapping of the partition column names to the partition column values. |
+| `record_count` | `BIGINT` | The number of entries contained in the data file. |
+| `file_size_in_bytes` | `BIGINT` | The data file size |
+| `column_sizes` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding size in the file. |
+| `value_counts` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding count of entries in the file. |
+| `null_value_counts` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding count of `NULL` values in the file. |
+| `nan_value_counts` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding count of  non-numerical values in the file. |
+| `lower_bounds` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding lower bound in the file. |
+| `upper_bounds` | `map(INTEGER, BIGINT)` | Mapping between the Iceberg column ID and its corresponding upper bound in the file. |
+| `key_metadata` | `VARBINARY` | Metadata about the encryption key used to encrypt this file, if applicable. |
+| `split_offsets` | `array(BIGINT)` | List of recommended split locations. |
+| `equality_ids` | `array(INTEGER)` | The set of field IDs used for equality comparison in equality delete files. |
+| `sort_order_id` | `INTEGER` | ID representing sort order for this file. |
 
 ##### `$entries` and `$all_entries` tables
 
@@ -1495,37 +1101,15 @@ Abbreviated sample output:
 
 The metadata tables include the following columns:
 
-:::{list-table} Files columns
-:widths: 25, 30, 45
-:header-rows: 1
+#### Files columns
 
-* - Name
-  - Type
-  - Description
-* - `status`
-  - `INTEGER`
-  - Numeric status indication to track additions and deletions. Deletes are
-    informational only and not used in scans:
-      * `EXISTING(0)`
-      * `ADDED(1)`
-      * `DELETED(2)`
-* - `snapshot_id`
-  - `BIGINT`
-  - The snapshot ID of the reference.
-* - `sequence_number`
-  - `BIGINT`
-  - Data sequence number of the file. Inherited when null and status is 1.
-* - `file_sequence_number`
-  - `BIGINT`
-  - File sequence number indicating when the file was added. Inherited when null
-    and status is 1.
-* - `data_file`
-  - `ROW`
-  - Metadata including file path, file format, file size and other information.
-* - `readable_metrics`
-  - `JSON`
-  - JSON-formatted file metrics such as column size, value count, and others.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `status` | `INTEGER` | Numeric status indication to track additions and deletions. Deletes are informational only and not used in scans: * `EXISTING(0)` * `ADDED(1)` * `DELETED(2)` |
+| `snapshot_id` | `BIGINT` | The snapshot ID of the reference. |
+| `sequence_number` | `BIGINT` | Data sequence number of the file. Inherited when null and status is 1. |
+| `file_sequence_number` | `BIGINT` | File sequence number indicating when the file was added. Inherited when null and status is 1. |
+| `data_file` | `ROW` | Metadata including file path, file format, file size and other information. |
 
 ##### `$refs` table
 
@@ -1548,33 +1132,15 @@ example_branch  | BRANCH | 20000000000 | 20000                   | 2            
 
 The output of the query has the following columns:
 
-:::{list-table} Refs columns
-:widths: 20, 30, 50
-:header-rows: 1
+#### Refs columns
 
-* - Name
-  - Type
-  - Description
-* - `name`
-  - `VARCHAR`
-  - Name of the reference.
-* - `type`
-  - `VARCHAR`
-  - Type of the reference, either `BRANCH` or `TAG`.
-* - `snapshot_id`
-  - `BIGINT`
-  - The snapshot ID of the reference.
-* - `max_reference_age_in_ms`
-  - `BIGINT`
-  - The maximum age of the reference before it could be expired.
-* - `min_snapshots_to_keep`
-  - `INTEGER`
-  - For branch only, the minimum number of snapshots to keep in a branch.
-* - `max_snapshot_age_in_ms`
-  - `BIGINT`
-  - For branch only, the max snapshot age allowed in a branch. Older snapshots
-    in the branch will be expired.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `name` | `VARCHAR` | Name of the reference. |
+| `type` | `VARCHAR` | Type of the reference, either `BRANCH` or `TAG`. |
+| `snapshot_id` | `BIGINT` | The snapshot ID of the reference. |
+| `max_reference_age_in_ms` | `BIGINT` | The maximum age of the reference before it could be expired. |
+| `min_snapshots_to_keep` | `INTEGER` | For branch only, the minimum number of snapshots to keep in a branch. |
 
 #### Metadata columns
 
@@ -1626,20 +1192,12 @@ like Hive or Delta Lake, use the same metastore, catalog, and schema to store it
 
 The table includes following columns:
 
-:::{list-table} iceberg_tables columns
-:widths: 30, 30, 40
-:header-rows: 1
+#### iceberg_tables columns
 
-* - Name
-  - Type
-  - Description
-* - `table_schema`
-  - `VARCHAR`
-  - The name of the schema the table is in.
-* - `table_name`
-  - `VARCHAR`
-  - The name of the table.
-:::
+| Name | Type | Description |
+|---|---|---|
+| `table_schema` | `VARCHAR` | The name of the schema the table is in. |
+
  
 The following query lists Iceberg tables from all schemas in the `example` catalog.
 
@@ -1689,31 +1247,15 @@ Iceberg supports partitioning by specifying transforms over the table columns. A
 partition is created for each unique tuple value produced by the transforms.
 Identity transforms are simply the column name. Other transforms are:
 
-:::{list-table} Iceberg column transforms
-:widths: 40, 60
-:header-rows: 1
+#### Iceberg column transforms
 
-* - Transform
-  - Description
-* - `year(ts)`
-  - A partition is created for each year. The partition value is the integer
-    difference in years between `ts` and January 1 1970.
-* - `month(ts)`
-  - A partition is created for each month of each year. The partition value is
-    the integer difference in months between `ts` and January 1 1970.
-* - `day(ts)`
-  - A partition is created for each day of each year. The partition value is the
-    integer difference in days between `ts` and January 1 1970.
-* - `hour(ts)`
-  - A partition is created hour of each day. The partition value is a timestamp
-    with the minutes and seconds set to zero.
-* - `bucket(x, nbuckets)`
-  - The data is hashed into the specified number of buckets. The partition value
-    is an integer hash of `x`, with a value between 0 and `nbuckets - 1`
-    inclusive.
-* - `truncate(s, nchars)`
-  - The partition value is the first `nchars` characters of `s`.
-:::
+| Transform | Description |
+|---|---|
+| `year(ts)` | A partition is created for each year. The partition value is the integer difference in years between `ts` and January 1 1970. |
+| `month(ts)` | A partition is created for each month of each year. The partition value is the integer difference in months between `ts` and January 1 1970. |
+| `day(ts)` | A partition is created for each day of each year. The partition value is the integer difference in days between `ts` and January 1 1970. |
+| `hour(ts)` | A partition is created hour of each day. The partition value is a timestamp with the minutes and seconds set to zero. |
+| `bucket(x, nbuckets)` | The data is hashed into the specified number of buckets. The partition value is an integer hash of `x`, with a value between 0 and `nbuckets - 1` inclusive. |
 
 In this example, the table is partitioned by the month of `order_date`, a hash
 of `account_number` (with 10 buckets), and `country`:
@@ -2151,20 +1693,10 @@ enabled, metadata caching in coordinator memory is deactivated.
 
 Additionally, you can use the following catalog configuration properties:
 
-:::{list-table} Memory metadata caching configuration properties
-:widths: 25, 75
-:header-rows: 1
+#### Memory metadata caching configuration properties
 
-* - Property
-  - Description
-* - `fs.memory-cache.ttl`
-  - The maximum [duration](prop-type-duration) to keep files in the cache prior
-    to eviction. The minimum value of `0s` means that caching is effectively
-    turned off. Defaults to `1h`.
-* - `fs.memory-cache.max-size`
-  - The maximum total [data size](prop-type-data-size) of the cache. When
-    raising this value, keep in mind that the coordinator memory is used.
-    Defaults to `200MB`.
-* - `fs.memory-cache.max-content-length`
-  - The maximum file size that can be cached. Defaults to `15MB`.
- :::
+| Property | Description |
+|---|---|
+| `fs.memory-cache.ttl` | The maximum [duration](prop-type-duration) to keep files in the cache prior to eviction. The minimum value of `0s` means that caching is effectively turned off. Defaults to `1h`. |
+| `fs.memory-cache.max-size` | The maximum total [data size](prop-type-data-size) of the cache. When raising this value, keep in mind that the coordinator memory is used. Defaults to `200MB`. |
+

@@ -4,8 +4,7 @@ description: Release 432 documentation
 ---
 # Release 432 (2 Nov 2023)
 
-:::{note}
-Release notes now include a ⚠️ symbol to highlight any changes as potentially
+> **Note:** Release notes now include a ⚠️ symbol to highlight any changes as potentially
 breaking changes. The following changes are considered and may require
 adjustments:
 * Removal or renaming of configuration properties that may prevent startup or
@@ -18,7 +17,6 @@ adjustments:
   updated
 * Otherwise significant changes that requires specific attention from teams
   managing a Trino deployment
-:::
 
 ## General
 

@@ -62,16 +62,7 @@ string, user, catalog, and others with information about the query processing.
 
 ### Configuration properties
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
+| Property name | Description |
+|---|---|
+| `mysql-event-listener.db.url` | JDBC connection URL to the database including credentials |
 
-* - Property name
-  - Description
-* - `mysql-event-listener.db.url`
-  - JDBC connection URL to the database including credentials
-* - `mysql-event-listener.terminate-on-initialization-failure`
-  - MySQL event listener initialization can fail if the database is unavailable.
-    This [boolean](prop-type-boolean) switch controls whether to throw an 
-    exception in such cases. Defaults to `true`.
-  :::

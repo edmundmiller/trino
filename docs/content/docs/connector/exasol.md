@@ -40,11 +40,9 @@ determine the user credentials for the connection, often a service user. You can
 use [secrets ](/docs//security/secrets) to avoid using actual values in catalog
 properties files.
 
-:::{note}
-If your Exasol database uses a self-signed TLS certificate you must
+> **Note:** If your Exasol database uses a self-signed TLS certificate you must
 specify the certificate's fingerprint in the JDBC URL using parameter
 ``fingerprint``, e.g.: ``jdbc:exa:exasol.example.com:8563;fingerprint=ABC123``.
-:::
 
 <!-- Fragment not found: jdbc-authentication.fragment -->
 
@@ -67,35 +65,16 @@ each direction.
 Trino supports selecting Exasol database types. This table shows the Exasol to
 Trino data type mapping:
 
-:::{list-table} Exasol to Trino type mapping
-:widths: 25, 25, 50
-:header-rows: 1
+#### Exasol to Trino type mapping
 
-* - Exasol database type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `DOUBLE PRECISION`
-  - `REAL`
-  -
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-  -  See [exasol-number-mapping](#exasol-number-mapping)
-* - `CHAR(n)`
-  - `CHAR(n)`
-  -
-* - `VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `HASHTYPE`
-  - `VARBINARY`
-  -
-:::
+| Exasol database type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `DOUBLE PRECISION` | `REAL` |  |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` | See [exasol-number-mapping](#exasol-number-mapping) |
+| `CHAR(n)` | `CHAR(n)` |  |
+| `VARCHAR(n)` | `VARCHAR(n)` |  |
+| `DATE` | `DATE` |  |
 
 No other types are supported.
 

@@ -59,37 +59,19 @@ that can be set when creating a new table.
 The materialized views table contains the following information about all
 [materialized views <sql-materialized-view-management>](#materialized views <sql-materialized-view-management>):
 
-:::{list-table} Metadata for materialized views
-:widths: 30, 70
-:header-rows: 1
+#### Metadata for materialized views
 
-* - Column
-  - Description
-* - `catalog_name`
-  - Name of the catalog containing the materialized view.
-* - `schema_name`
-  - Name of the schema in `catalog_name` containing the materialized view.
-* - `name`
-  - Name of the materialized view.
-* - `storage_catalog`
-  - Name of the catalog used for the storage table backing the materialized
-    view.
-* - `storage_schema`
-  - Name of the schema in `storage_catalog` used for the storage table backing
-    the materialized view.
-* - `storage_table`
-  - Name of the storage table backing the materialized view.
-* - `freshness`
-  - Freshness of data in the storage table. Queries on the materialized view
-    access the storage table if not `STALE`, otherwise the `definition` is used
-    to access the underlying data in the source tables.
-* - `last_fresh_time`
-  - Date and time of the last refresh of the materialized view.
-* - `comment`
-  - User supplied text about the materialized view.
-* - `definition`
-  - SQL query that defines the data provided by the materialized view.
-:::
+| Column | Description |
+|---|---|
+| `catalog_name` | Name of the catalog containing the materialized view. |
+| `schema_name` | Name of the schema in `catalog_name` containing the materialized view. |
+| `name` | Name of the materialized view. |
+| `storage_catalog` | Name of the catalog used for the storage table backing the materialized view. |
+| `storage_schema` | Name of the schema in `storage_catalog` used for the storage table backing the materialized view. |
+| `storage_table` | Name of the storage table backing the materialized view. |
+| `freshness` | Freshness of data in the storage table. Queries on the materialized view access the storage table if not `STALE`, otherwise the `definition` is used to access the underlying data in the source tables. |
+| `last_fresh_time` | Date and time of the last refresh of the materialized view. |
+| `comment` | User supplied text about the materialized view. |
 
 ### `metadata.materialized_view_properties`
 
@@ -137,12 +119,10 @@ idle time, initialization parameters, and accessed catalogs.
 
 ## System connector procedures
 
-:::{function} runtime.kill_query(query_id, message)
+#### `runtime.kill_query(query_id, message)`
 
 Kill the query identified by `query_id`. The query failure message includes the
 specified `message`. `message` is optional.
-
-:::
 
 ## Type mapping
 

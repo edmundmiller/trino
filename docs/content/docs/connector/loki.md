@@ -33,20 +33,11 @@ loki.uri=http://loki.example.com:3100
 
 The following table contains a list of all available configuration properties.
 
-:::{list-table} Loki configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### Loki configuration properties
 
-* - Property name
-  - Description
-* - `loki.uri`
-  - The URI endpoint for the Loki server that Trino cluster nodes use to access
-    the Loki APIs.
-* - `loki.query-timeout`
-  - [Duration](prop-type-duration) that Trino waits for a result from Loki
-    before the specific query request times out. Defaults to `10s`. A minimum of
-    `1s` is required.
-:::
+| Property name | Description |
+|---|---|
+| `loki.uri` | The URI endpoint for the Loki server that Trino cluster nodes use to access the Loki APIs. |
 
 ## Type mapping
 
@@ -63,21 +54,13 @@ Each log line in Loki is split up by the connector into three columns:
 
 These are separately mapped to Trino types:
 
-:::{list-table} Loki log entry to Trino type mapping
-:widths: 40, 60
-:header-rows: 1
+#### Loki log entry to Trino type mapping
 
-* - Loki type
-  - Trino type
-* - `timestamp`
-  - `TIMESTAMP WITH TIME ZONE`
-* - `values` for [log queries](https://grafana.com/docs/loki/latest/query/log_queries/)
-  - `VARCHAR`
-* - `values` for [metrics queries](https://grafana.com/docs/loki/latest/query/metric_queries/)
-  - `DOUBLE`
-* - `labels`
-  - `MAP` with label names and values as `VARCHAR` key value pairs
-:::
+| Loki type | Trino type |
+|---|---|
+| `timestamp` | `TIMESTAMP WITH TIME ZONE` |
+| `values` for [log queries](https://grafana.com/docs/loki/latest/query/log_queries/) | `VARCHAR` |
+| `values` for [metrics queries](https://grafana.com/docs/loki/latest/query/metric_queries/) | `DOUBLE` |
 
 No other types are supported.
 

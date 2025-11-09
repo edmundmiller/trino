@@ -122,11 +122,9 @@ A comma separated list of `hostname:port` pairs for the Kafka data nodes.
 
 This property is required; there is no default and at least one node must be defined.
 
-:::{note}
-Trino must still be able to connect to all nodes of the cluster
+> **Note:** Trino must still be able to connect to all nodes of the cluster
 even if only a subset is specified here, as segment files may be
 located only on a specific node.
-:::
 
 ### `kafka.buffer-size`
 
@@ -293,13 +291,11 @@ Kafka maintains topics only as byte messages and leaves it to producers
 and consumers to define how a message should be interpreted. For Trino,
 this data must be mapped into columns to allow queries against the data.
 
-:::{note}
-For textual topics that contain JSON data, it is entirely possible to not
+> **Note:** For textual topics that contain JSON data, it is entirely possible to not
 use any table definition files, but instead use the Trino
 [/functions/json](/docs//functions/json) to parse the `_message` column which contains
 the bytes mapped into a UTF-8 string. This is cumbersome and makes it
 difficult to write SQL queries. This only works when reading data.
-:::
 
 A table definition file consists of a JSON definition for a table. The
 name of the file can be arbitrary but must end in `.json`. Place the
@@ -395,45 +391,15 @@ additional steps are necessary. For details, refer to [kafka-requirements](#kafk
 Set `kafka.table-description-supplier` to `CONFLUENT` to use the
 schema registry. You must also configure the additional properties in the following table:
 
-:::{note}
-Inserts are not supported, and the only data format supported is AVRO.
-:::
+> **Note:** Inserts are not supported, and the only data format supported is AVRO.
 
-:::{list-table} Confluent table description supplier properties
-:widths: 30, 55, 15
-:header-rows: 1
+#### Confluent table description supplier properties
 
-* - Property name
-  - Description
-  - Default value
-* - `kafka.confluent-schema-registry-url`
-  - Comma-separated list of URL addresses for the Confluent schema registry.
-    For example, `http://schema-registry-1.example.org:8081,http://schema-registry-2.example.org:8081`
-  -
-* - `kafka.confluent-schema-registry-client-cache-size`
-  - The maximum number of subjects that can be stored in the local cache. The
-    cache stores the schemas locally by subjectId, and is provided by the
-    Confluent `CachingSchemaRegistry` client.
-  - 1000
-* - `kafka.empty-field-strategy`
-  - Avro allows empty struct fields, but this is not allowed in Trino. There are
-    three strategies for handling empty struct fields:
-
-    * `IGNORE` - Ignore structs with no fields. This propagates to parents.
-        For example, an array of structs with no fields is ignored.
-    * `FAIL` - Fail the query if a struct with no fields is defined.
-    * `MARK` - Add a marker field named `$empty_field_marker`, which of type
-        boolean with a null value. This may be desired if the struct represents
-        a marker field.
-
-    This can also be modified via the `empty_field_strategy` session property.
-  - `IGNORE`
-* - `kafka.confluent-subjects-cache-refresh-interval`
-  - The interval used for refreshing the list of subjects and the definition
-    of the schema for the subject in the subject's cache.
-  - `1s`
-
-:::
+| Property name | Description | Default value |
+|---|---|---|
+| `kafka.confluent-schema-registry-url` | Comma-separated list of URL addresses for the Confluent schema registry. For example, `http://schema-registry-1.example.org:8081,http://schema-registry-2.example.org:8081` |  |
+| `kafka.confluent-schema-registry-client-cache-size` | The maximum number of subjects that can be stored in the local cache. The cache stores the schemas locally by subjectId, and is provided by the Confluent `CachingSchemaRegistry` client. | 1000 |
+| `kafka.empty-field-strategy` | Avro allows empty struct fields, but this is not allowed in Trino. There are three strategies for handling empty struct fields: * `IGNORE` - Ignore structs with no fields. This propagates to parents. For example, an array of structs with no fields is ignored. * `FAIL` - Fail the query if a struct with no fields is defined. * `MARK` - Add a marker field named `$empty_field_marker`, which of type boolean with a null value. This may be desired if the struct represents a marker field. This can also be modified via the `empty_field_strategy` session property. | `IGNORE` |
 
 #### Confluent subject to table name mapping
 
@@ -546,10 +512,8 @@ The Kafka connector contains the following encoders:
 - [Protobuf encoder](kafka-protobuf-encoding) - Table columns are mapped to
   Protobuf fields based on a Protobuf schema.
 
-:::{note}
-A [table definition file](#table-definition-files) must be defined
+> **Note:** A [table definition file](#table-definition-files) must be defined
 for the encoder to work.
-:::
 
 #### Raw encoder
 
@@ -597,12 +561,10 @@ No other types are supported.
 The `mapping` attribute specifies the range of bytes in a key or
 message used for encoding.
 
-:::{note}
-Both a start and end position must be defined for `VARCHAR` types.
+> **Note:** Both a start and end position must be defined for `VARCHAR` types.
 Otherwise, there is no way to know how many bytes the message contains. The
 raw format mapping information is static and cannot be dynamically changed
 to fit the variable width of some Trino data types.
-:::
 
 If only a start position is given:
 
@@ -615,9 +577,7 @@ If both a start and end position are given, then:
   specified `dataFormat`.
 - All bytes between start (inclusive) and end (exclusive) are used.
 
-:::{note}
-All mappings must include a start position for encoding to work.
-:::
+> **Note:** All mappings must include a start position for encoding to work.
 
 The encoding for numeric data types (`BIGINT`, `INTEGER`, `SMALLINT`,
 `TINYINT`, `REAL`, `DOUBLE`) is straightforward. All numeric types use
@@ -676,14 +636,12 @@ INSERT INTO example_raw_table (field1, field2, field3, field4)
   VALUES (123456789, 123456, 1234, 'abcdef');
 ```
 
-:::{note}
-The raw encoder requires the field size to be known ahead of time, including
+> **Note:** The raw encoder requires the field size to be known ahead of time, including
 for variable width data types like `VARCHAR`. It also disallows inserting
 values that do not match the width defined in the table definition
 file. This is done to ensure correctness, as otherwise longer values are
 truncated, and shorter values are read back incorrectly due to an undefined
 padding character.
-:::
 
 #### CSV encoder
 
@@ -854,9 +812,7 @@ The Avro encoder serializes rows to Avro records as defined by the
 [Avro schema](https://avro.apache.org/docs/current/).
 Trino does not support schemaless Avro encoding.
 
-:::{note}
-The Avro schema is encoded with the table column values in each Kafka message.
-:::
+> **Note:** The Avro schema is encoded with the table column values in each Kafka message.
 
 The `dataSchema` must be defined in the table definition file to use the Avro
 encoder. It points to the location of the Avro schema file for the key or message.
@@ -968,9 +924,7 @@ The following is an example insert query for the preceding table definition:
 The Protobuf encoder serializes rows to Protobuf DynamicMessages as defined by
 the [Protobuf schema](https://developers.google.com/protocol-buffers/docs/overview).
 
-:::{note}
-The Protobuf schema is encoded with the table column values in each Kafka message.
-:::
+> **Note:** The Protobuf schema is encoded with the table column values in each Kafka message.
 
 The `dataSchema` must be defined in the table definition file to use the
 Protobuf encoder. It points to the location of the `proto` file for the key
@@ -1078,10 +1032,8 @@ The Kafka connector contains the following decoders:
 - `avro` - Kafka message is parsed based on an Avro schema, and Avro fields are mapped to table columns.
 - `protobuf` - Kafka message is parsed based on a Protobuf schema, and Protobuf fields are mapped to table columns.
 
-:::{note}
-If no table definition file exists for a table, the `dummy` decoder is used,
+> **Note:** If no table definition file exists for a table, the `dummy` decoder is used,
 which does not expose any columns.
-:::
 
 #### Raw decoder
 
@@ -1164,20 +1116,11 @@ The `dataFormat` and `formatHint` attributes are not supported and must be omitt
 
 Table below lists supported Trino types, which can be used in `type` and decoding scheme:
 
-:::{list-table}
-:header-rows: 1
-
-* - Trino data type
-  - Decoding rules
-* - `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`
-  - Decoded using Java `Long.parseLong()`
-* - `DOUBLE`
-  - Decoded using Java `Double.parseDouble()`
-* - `BOOLEAN`
-  - "true" character sequence maps to `true`; Other character sequences map to `false`
-* - `VARCHAR`, `VARCHAR(x)`
-  - Used as is
-:::
+| Trino data type | Decoding rules |
+|---|---|
+| `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT` | Decoded using Java `Long.parseLong()` |
+| `DOUBLE` | Decoded using Java `Double.parseDouble()` |
+| `BOOLEAN` | "true" character sequence maps to `true`; Other character sequences map to `false` |
 
 No other types are supported.
 
@@ -1201,24 +1144,13 @@ time-based types.
 The following table lists Trino data types, which can be used as in `type`, and matching field decoders,
 which can be specified via `dataFormat` attribute.
 
-:::{list-table}
-:header-rows: 1
-
-* - Trino data type
-  - Allowed `dataFormat` values
-* - `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`, `DOUBLE`, `BOOLEAN`, `VARCHAR`, `VARCHAR(x)`
-  - Default field decoder (omitted `dataFormat` attribute)
-* - `DATE`
-  - `custom-date-time`, `iso8601`
-* - `TIME`
-  - `custom-date-time`, `iso8601`, `milliseconds-since-epoch`, `seconds-since-epoch`
-* - `TIME WITH TIME ZONE`
-  - `custom-date-time`, `iso8601`
-* - `TIMESTAMP`
-  - `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch`, `seconds-since-epoch`
-* - `TIMESTAMP WITH TIME ZONE`
-  - `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch` `seconds-since-epoch`
-:::
+| Trino data type | Allowed `dataFormat` values |
+|---|---|
+| `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`, `DOUBLE`, `BOOLEAN`, `VARCHAR`, `VARCHAR(x)` | Default field decoder (omitted `dataFormat` attribute) |
+| `DATE` | `custom-date-time`, `iso8601` |
+| `TIME` | `custom-date-time`, `iso8601`, `milliseconds-since-epoch`, `seconds-since-epoch` |
+| `TIME WITH TIME ZONE` | `custom-date-time`, `iso8601` |
+| `TIMESTAMP` | `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch`, `seconds-since-epoch` |
 
 No other types are supported.
 

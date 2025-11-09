@@ -31,63 +31,21 @@ elasticsearch.default-schema-name=default
 
 The following table details all general configuration properties:
 
-:::{list-table} Elasticsearch configuration properties
-:widths: 35, 55, 10
-:header-rows: 1
+#### Elasticsearch configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `elasticsearch.host`
-  - The comma-separated list of host names for the Elasticsearch node to connect
-    to. This property is required.
-  -
-* - `elasticsearch.port`
-  - Port to use to connect to Elasticsearch.
-  - `9200`
-* - `elasticsearch.default-schema-name`
-  - The schema that contains all tables defined without a qualifying schema
-    name.
-  - `default`
-* - `elasticsearch.scroll-size`
-  - Sets the maximum number of hits that can be returned with each
-    [Elasticsearch scroll
-    request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html#scroll-search-context).
-  - `1000`
-* - `elasticsearch.scroll-timeout`
-  - [Duration](prop-type-duration) for Elasticsearch to keep the search context
-    alive for scroll requests.
-  - `1m`
-* - `elasticsearch.request-timeout`
-  - Timeout [duration](prop-type-duration) for all Elasticsearch requests.
-  - `10s`
-* - `elasticsearch.connect-timeout`
-  - Timeout [duration](prop-type-duration) for all Elasticsearch connection
-    attempts.
-  - `1s`
-* - `elasticsearch.backoff-init-delay`
-  - The minimum [duration](prop-type-duration) between backpressure retry
-    attempts for a single request to Elasticsearch. Setting it too low can
-    overwhelm an already struggling cluster.
-  - `500ms`
-* - `elasticsearch.backoff-max-delay`
-  - The maximum [duration](prop-type-duration) between backpressure retry
-    attempts for a single request to Elasticsearch.
-  - `20s`
-* - `elasticsearch.max-retry-time`
-  - The maximum [duration](prop-type-duration) across all retry attempts for a
-    single request to Elasticsearch.
-  - `30s`
-* - `elasticsearch.node-refresh-interval`
-  - [Duration](prop-type-duration) between requests to refresh the list of
-    available Elasticsearch nodes.
-  - `1m`
-* - `elasticsearch.ignore-publish-address`
-  - Disable using the address published by the Elasticsearch API to connect for
-    queries. Some deployments map Elasticsearch ports to a random public port
-    and enabling this property can help in these cases.
-  - `false`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `elasticsearch.host` | The comma-separated list of host names for the Elasticsearch node to connect to. This property is required. |  |
+| `elasticsearch.port` | Port to use to connect to Elasticsearch. | `9200` |
+| `elasticsearch.default-schema-name` | The schema that contains all tables defined without a qualifying schema name. | `default` |
+| `elasticsearch.scroll-size` | Sets the maximum number of hits that can be returned with each [Elasticsearch scroll request](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html#scroll-search-context). | `1000` |
+| `elasticsearch.scroll-timeout` | [Duration](prop-type-duration) for Elasticsearch to keep the search context alive for scroll requests. | `1m` |
+| `elasticsearch.request-timeout` | Timeout [duration](prop-type-duration) for all Elasticsearch requests. | `10s` |
+| `elasticsearch.connect-timeout` | Timeout [duration](prop-type-duration) for all Elasticsearch connection attempts. | `1s` |
+| `elasticsearch.backoff-init-delay` | The minimum [duration](prop-type-duration) between backpressure retry attempts for a single request to Elasticsearch. Setting it too low can overwhelm an already struggling cluster. | `500ms` |
+| `elasticsearch.backoff-max-delay` | The maximum [duration](prop-type-duration) between backpressure retry attempts for a single request to Elasticsearch. | `20s` |
+| `elasticsearch.max-retry-time` | The maximum [duration](prop-type-duration) across all retry attempts for a single request to Elasticsearch. | `30s` |
+| `elasticsearch.node-refresh-interval` | [Duration](prop-type-duration) between requests to refresh the list of available Elasticsearch nodes. | `1m` |
 
 ### Authentication
 
@@ -97,41 +55,19 @@ To enable AWS authentication and authorization using IAM policies, the
 `elasticsearch.security` option must be set to `AWS`. Additionally, the
 following options must be configured:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
-
-* - Property name
-  - Description
-* - `elasticsearch.aws.region`
-  - AWS region of the Elasticsearch endpoint. This option is required.
-* - `elasticsearch.aws.access-key`
-  - AWS access key to use to connect to the Elasticsearch domain. If not set, the
-    default AWS credentials provider chain is used.
-* - `elasticsearch.aws.secret-key`
-  - AWS secret key to use to connect to the Elasticsearch domain. If not set, the
-    default AWS credentials provider chain is used.
-* - `elasticsearch.aws.iam-role`
-  - Optional ARN of an IAM role to assume to connect to Elasticsearch. Note that
-    the configured IAM user must be able to assume this role.
-* - `elasticsearch.aws.external-id`
-  - Optional external ID to pass while assuming an AWS IAM role.
-:::
+| Property name | Description |
+|---|---|
+| `elasticsearch.aws.region` | AWS region of the Elasticsearch endpoint. This option is required. |
+| `elasticsearch.aws.access-key` | AWS access key to use to connect to the Elasticsearch domain. If not set, the default AWS credentials provider chain is used. |
+| `elasticsearch.aws.secret-key` | AWS secret key to use to connect to the Elasticsearch domain. If not set, the default AWS credentials provider chain is used. |
+| `elasticsearch.aws.iam-role` | Optional ARN of an IAM role to assume to connect to Elasticsearch. Note that the configured IAM user must be able to assume this role. |
 
 To enable password authentication, the `elasticsearch.security` option must be set
 to `PASSWORD`. Additionally the following options must be configured:
 
-:::{list-table}
-:widths: 45, 55
-:header-rows: 1
-
-* - Property name
-  - Description
-* - `elasticsearch.auth.user`
-  - Username to use to connect to Elasticsearch.
-* - `elasticsearch.auth.password`
-  - Password to use to connect to Elasticsearch.
-:::
+| Property name | Description |
+|---|---|
+| `elasticsearch.auth.user` | Username to use to connect to Elasticsearch. |
 
 ### Connection security with TLS
 
@@ -144,30 +80,15 @@ supports key stores and trust stores in P12 (PKCS) or Java Key Store (JKS) forma
 
 The available configuration values are listed in the following table:
 
-:::{list-table} TLS Security Properties
-:widths: 40, 60
-:header-rows: 1
+#### TLS Security Properties
 
-* - Property name
-  - Description
-* - `elasticsearch.tls.enabled`
-  - Enables TLS security.
-* - `elasticsearch.tls.keystore-path`
-  - The path to the P12 (PKCS) or [JKS](/docs/security/inspect-jks)
-    key store.
-* - `elasticsearch.tls.truststore-path`
-  - The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks)
-    trust store.
-* - `elasticsearch.tls.keystore-password`
-  - The key password for the key store specified by
-    `elasticsearch.tls.keystore-path`.
-* - `elasticsearch.tls.truststore-password`
-  - The key password for the trust store specified by
-    `elasticsearch.tls.truststore-path`.
-* - `elasticsearch.tls.verify-hostnames`
-  - Flag to determine if the hostnames in the certificates must be verified. Defaults
-    to `true`.
-:::
+| Property name | Description |
+|---|---|
+| `elasticsearch.tls.enabled` | Enables TLS security. |
+| `elasticsearch.tls.keystore-path` | The path to the P12 (PKCS) or [JKS](/docs/security/inspect-jks) key store. |
+| `elasticsearch.tls.truststore-path` | The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks) trust store. |
+| `elasticsearch.tls.keystore-password` | The key password for the key store specified by `elasticsearch.tls.keystore-path`. |
+| `elasticsearch.tls.truststore-password` | The key password for the trust store specified by `elasticsearch.tls.truststore-path`. |
 
 ## Type mapping
 
@@ -179,47 +100,20 @@ connector [maps some types <type-mapping-overview>](#maps some types <type-mappi
 The connector maps Elasticsearch types to the corresponding Trino types
 according to the following table:
 
-:::{list-table} Elasticsearch type to Trino type mapping
-:widths: 30, 30, 50
-:header-rows: 1
+#### Elasticsearch type to Trino type mapping
 
-* - Elasticsearch type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `BYTE`
-  - `TINYINT`
-  -
-* - `SHORT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `LONG`
-  - `BIGINT`
-  -
-* - `KEYWORD`
-  - `VARCHAR`
-  -
-* - `TEXT`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `TIMESTAMP`
-  - For more information, see [](elasticsearch-date-types).
-* - `IPADDRESS`
-  - `IP`
-  -
-:::
+| Elasticsearch type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `FLOAT` | `REAL` |  |
+| `BYTE` | `TINYINT` |  |
+| `SHORT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `LONG` | `BIGINT` |  |
+| `KEYWORD` | `VARCHAR` |  |
+| `TEXT` | `VARCHAR` |  |
+| `DATE` | `TIMESTAMP` | For more information, see [](elasticsearch-date-types). |
 
 No other types are supported.
 
@@ -271,9 +165,7 @@ curl --request PUT \
 }'
 ```
 
-:::{note}
-It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
-:::
+> **Note:** It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
 
 ### Date types
 
@@ -362,27 +254,16 @@ This preceding configuration causes Trino to return the `array_string_field`
 field as a `VARCHAR` containing raw JSON. You can parse these fields with the
 [built-in JSON functions](/docs/functions/json).
 
-:::{note}
-It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
-:::
+> **Note:** It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
 
 ## Special columns
 
 The following hidden columns are available:
 
-:::{list-table}
-:widths: 25, 75
-:header-rows: 1
-
-* - Column
-  - Description
-* - `_id`
-  - The Elasticsearch document ID.
-* - `_score`
-  - The document score returned by the Elasticsearch query.
-* - `_source`
-  - The source of the original document.
-:::
+| Column | Description |
+|---|---|
+| `_id` | The Elasticsearch document ID. |
+| `_score` | The document score returned by the Elasticsearch query. |
 
 ## Full text queries
 
@@ -477,31 +358,16 @@ query processing in parallel.
 The connector supports [predicate push down](predicate-pushdown) for the
 following data types:
 
-:::{list-table}
-:widths: 50, 50
-:header-rows: 1
-
-* - Elasticsearch
-  - Trino
-* - `boolean`
-  - `BOOLEAN`
-* - `double`
-  - `DOUBLE`
-* - `float`
-  - `REAL`
-* - `byte`
-  - `TINYINT`
-* - `short`
-  - `SMALLINT`
-* - `integer`
-  - `INTEGER`
-* - `long`
-  - `BIGINT`
-* - `keyword`
-  - `VARCHAR`
-* - `date`
-  - `TIMESTAMP`
-:::
+| Elasticsearch | Trino |
+|---|---|
+| `boolean` | `BOOLEAN` |
+| `double` | `DOUBLE` |
+| `float` | `REAL` |
+| `byte` | `TINYINT` |
+| `short` | `SMALLINT` |
+| `integer` | `INTEGER` |
+| `long` | `BIGINT` |
+| `keyword` | `VARCHAR` |
 
 No other data types are supported for predicate push down.
 
