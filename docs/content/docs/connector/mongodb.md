@@ -6,7 +6,6 @@ description: Mongodb documentation
 
 <img src="../_static/img/mongodb.png" class="connector-logo">
 
-
 The `mongodb` connector allows the use of [MongoDB](https://www.mongodb.com/) collections as tables in Trino.
 
 ## Requirements
@@ -396,7 +395,6 @@ this table:
 | `Object` | `ROW` |  |
 | `Array` | `ARRAY` | Map to `ROW` if the element type is not unique. |
 
-
 No other types are supported.
 
 ### Trino to MongoDB type mapping
@@ -417,7 +415,6 @@ this table:
 | `VARBINARY` | `Binary` |
 | `ObjectId` | `ObjectId` |
 | `ROW` | `Object` |
-
 
 No other types are supported.
 

@@ -46,7 +46,6 @@ The following configuration properties are available:
 | Property name | Description | Default |
 |---|---|---|
 
-
 ## File system access configuration
 
 The connector supports accessing the following file systems:

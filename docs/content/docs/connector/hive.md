@@ -6,7 +6,6 @@ description: Hive documentation
 
 <img src="../_static/img/hive.png" class="connector-logo">
 
-
 The Hive connector allows querying data stored in an
 [Apache Hive](https://hive.apache.org/)
 data warehouse. Hive is a combination of three components:
@@ -70,7 +69,6 @@ You must configure a [metastore for metadata](/docs/object-storage/metastores).
 
 You must select and configure one of the [supported file
 systems](hive-file-system-configuration).
-
 
 ```properties
 connector.name=hive
@@ -155,7 +153,6 @@ Hive connector documentation.
 | `hive.protobuf.descriptors.location` | Path to a directory where binary Protocol Buffer descriptor files are  stored to be used for reading tables stored in the `com.twitter.elephantbird.hive.serde.ProtobufDeserializer` format. |  |
 | `hive.protobuf.descriptors.cache.max-size` | Maximum size of the Protocol Buffer descriptors cache | `64` |
 
-
 ### File system access configuration
 
 The connector supports accessing the following file systems:
@@ -198,7 +195,6 @@ the catalog properties file. This property must be one of the following values:
 | `read-only` | Operations that read data or metadata, such as `SELECT`, are permitted, but none of the operations that write data or metadata, such as `CREATE`, `INSERT` or `DELETE`, are allowed. |
 | `file` | Authorization checks are enforced using a catalog-level access control configuration file whose path is specified in the `security.config-file` catalog configuration property. See [](catalog-file-based-access-control) for details. |
 
-
 ### SQL standard based authorization
 
 When `sql-standard` security is enabled, Trino enforces the same SQL
@@ -231,7 +227,6 @@ variables. Writing encrypted Parquet files is not supported.
 |---|---|---|
 | `pme.environment-key-retriever.enabled` | Enable the key retriever that reads decryption keys from environment variables. | `false` |
 | `pme.aad-prefix` | AAD prefix used when decoding Parquet files. Must match the prefix used when the files were written, if applicable. |  |
-
 
 When `pme.environment-key-retriever.enabled` is set, provide keys with
 environment variables:
@@ -527,7 +522,6 @@ type conversions.
 | `DATE` | `VARCHAR` |
 | `TIMESTAMP` | `VARCHAR`, `DATE` |
 
-
 Any conversion failure results in null, which is the same behavior
 as Hive. For example, converting the string `'foo'` to a number,
 or converting the string `'1234'` to a `TINYINT` (which has a
@@ -645,7 +639,6 @@ ALTER TABLE test_table EXECUTE optimize
 WHERE CAST(timestamp_tz AS DATE) > DATE '2021-12-31'
 ```
 
-
 The `optimize` command is disabled by default, and can be enabled for a
 catalog with the `<catalog-name>.non_transactional_optimize_enabled`
 session property:
@@ -705,7 +698,6 @@ WITH (format='CSV',
 | `partition_projection_ignore` | Ignore any partition projection properties stored in the metastore for the selected table. This is a Trino-only property which allows you to work around compatibility issues on a specific table, and if enabled, Trino ignores all other configuration options related to partition projection. |  |
 | `partition_projection_location_template` | Projected partition location template, such as `s3a://test/name=${name}/`. Mapped from the AWS Athena table property [storage.location.template](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-setting-up.html#partition-projection-specifying-custom-s3-storage-locations) | `${table_location}/${partition_name}` |
 
-
 #### Metadata tables
 
 The raw Hive table properties are available as a hidden table, containing a
@@ -763,7 +755,6 @@ SELECT * FROM example.web."page_views$partitions";
 | `partition_projection_interval` | Used with `partition_projection_type` set to `INTEGER` or `DATE`. It represents the interval used to generate partitions within the given range `partition_projection_range`. Mapped from the AWS Athena table property [projection.${columnName}.interval](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
 | `partition_projection_digits` | Used with `partition_projection_type` set to `INTEGER`. The number of digits to be used with integer column projection. Mapped from the AWS Athena table property [projection.${columnName}.digits](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
 | `partition_projection_format` | Used with `partition_projection_type` set to `DATE`. The date column projection format, defined as a string such as `yyyy MM` or `MM-dd-yy HH:mm:ss` for use with the [Java DateTimeFormatter class](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html). Mapped from the AWS Athena table property [projection.${columnName}.format](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
-
 
 #### Metadata columns
 
@@ -884,12 +875,10 @@ functionality:
 - Support all Hive data types and correct mapping to Trino types
 - Ability to process custom UDFs
 
-
 ## Performance
 
 The connector includes a number of performance improvements, detailed in the
 following sections.
-
 
 ### Table statistics
 
@@ -916,7 +905,6 @@ and by default will also collect column level statistics:
 | `VARCHAR` | Number of nulls, number of distinct values |
 | `CHAR` | Number of nulls, number of distinct values |
 | `VARBINARY` | Number of nulls |
-
 
 #### Updating table and partition statistics
 
@@ -1031,7 +1019,6 @@ cause instability and performance degradation.
 | `hive.max-splits-per-second` | The maximum number of splits generated per second per table scan. This can be used to reduce the load on the storage system. By default, there is no limit, which results in Trino maximizing the parallelization of data access. |  |
 | `hive.max-initial-splits` | For each table scan, the coordinator first assigns file sections of up to `max-initial-split-size`. After `max-initial-splits` have been assigned, `max-split-size` is used for the remaining splits. | `200` |
 | `hive.max-initial-split-size` | The size of a single file section assigned to a worker until `max-initial-splits` have been assigned. Smaller splits results in more parallelism, which gives a boost to smaller queries. | `32 MB` |
-
 
 ## Hive 3-related limitations
 

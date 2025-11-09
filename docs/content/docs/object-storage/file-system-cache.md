@@ -105,7 +105,6 @@ enable and configure caching for the specific catalogs.
 | `fs.cache.ttl` | The maximum [duration](prop-type-duration) for objects to remain in the cache before eviction. Defaults to `7d`. The minimum value of `0s` means that caching is effectively turned off. |
 | `fs.cache.preferred-hosts-count` | The number of preferred nodes for caching files. Defaults to 2. Processing identifies and subsequently prefers using specific nodes. If the preferred nodes identified for caching a split are unavailable or too busy, then an available node is chosen at random from the cluster. More information in [](fs-cache-distributed). |
 
-
 ## Monitoring
 
 The cache exposes the

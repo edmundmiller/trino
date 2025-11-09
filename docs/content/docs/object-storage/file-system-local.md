@@ -21,7 +21,6 @@ support:
 |---|---|
 | `fs.native-local.enabled` | Activate the support for local file system access. Defaults to `false`. Set to `true` to use local file system and enable all other properties. |
 
-
 The following example displays the related section from a
 `etc/catalog/example.properties` catalog configuration using the Hive connector.
 The coordinator and all workers nodes have an external storage mounted at

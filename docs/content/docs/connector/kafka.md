@@ -6,9 +6,6 @@ description: Kafka documentation
 
 <img src="../_static/img/kafka.png" class="connector-logo">
 
-
-
-
 This connector allows the use of [Apache Kafka](https://kafka.apache.org/)
 topics as tables in Trino. Each message is presented as a row in Trino.
 
@@ -403,7 +400,6 @@ schema registry. You must also configure the additional properties in the follow
 | `kafka.confluent-schema-registry-url` | Comma-separated list of URL addresses for the Confluent schema registry. For example, `http://schema-registry-1.example.org:8081,http://schema-registry-2.example.org:8081` |  |
 | `kafka.confluent-schema-registry-client-cache-size` | The maximum number of subjects that can be stored in the local cache. The cache stores the schemas locally by subjectId, and is provided by the Confluent `CachingSchemaRegistry` client. | 1000 |
 | `kafka.empty-field-strategy` | Avro allows empty struct fields, but this is not allowed in Trino. There are three strategies for handling empty struct fields: * `IGNORE` - Ignore structs with no fields. This propagates to parents. For example, an array of structs with no fields is ignored. * `FAIL` - Fail the query if a struct with no fields is defined. * `MARK` - Add a marker field named `$empty_field_marker`, which of type boolean with a null value. This may be desired if the struct represents a marker field. This can also be modified via the `empty_field_strategy` session property. | `IGNORE` |
-
 
 #### Confluent subject to table name mapping
 
@@ -1126,7 +1122,6 @@ Table below lists supported Trino types, which can be used in `type` and decodin
 | `DOUBLE` | Decoded using Java `Double.parseDouble()` |
 | `BOOLEAN` | "true" character sequence maps to `true`; Other character sequences map to `false` |
 
-
 No other types are supported.
 
 #### JSON decoder
@@ -1156,7 +1151,6 @@ which can be specified via `dataFormat` attribute.
 | `TIME` | `custom-date-time`, `iso8601`, `milliseconds-since-epoch`, `seconds-since-epoch` |
 | `TIME WITH TIME ZONE` | `custom-date-time`, `iso8601` |
 | `TIMESTAMP` | `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch`, `seconds-since-epoch` |
-
 
 No other types are supported.
 

@@ -45,7 +45,6 @@ The following table lists the configuration properties for the OPA access contro
 | `opa.log-responses` | Configure if OPA response details, including URI, status code, headers and the entire body, are logged. Defaults to `false`. |
 | `opa.allow-permission-management-operations` | Configure if permission management operations are allowed. Find more details in [](opa-permission-management). Defaults to `false`. |
 
-
 ### Logging
 
 When request or response logging is enabled, details are logged at the `DEBUG`
@@ -327,7 +326,6 @@ batchColumnMasks contains {
   column_resource.tableName == "restricted_table"
   column_resource.columnName == "user_phone"
 }
-
 
 batchColumnMasks contains {
   "index": i,

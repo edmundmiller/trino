@@ -31,7 +31,6 @@ Storage file system support:
 | `gcs.page-size` | Maximum number of blobs to return per page. Defaults to 100. |
 | `gcs.batch-size` | Number of blobs to delete per batch. Defaults to 100. [Recommended batch size](https://cloud.google.com/storage/docs/batch) is 100. |
 
-
 ## Authentication
 
 Use one of the following properties to configure the authentication to Google
@@ -42,7 +41,6 @@ Cloud Storage:
 | `gcs.use-access-token` | Flag to set usage of a client-provided OAuth 2.0 token to access Google Cloud Storage. Defaults to `false`, deprecated to use `gcs.auth-type` instead. |
 | `gcs.auth-type` | Authentication type to use for Google Cloud Storage access. Default to `SERVICE_ACCOUNT`. Supported values are: * `SERVICE_ACCOUNT`: loads credentials from the environment. Either `gcs.json-key` or `gcs.json-key-file-path` can be set in addition to override the default credentials provider. * `ACCESS_TOKEN`: usage of client-provided OAuth 2.0 token to access Google Cloud Storage. |
 | `gcs.json-key` | Your Google Cloud service account key in JSON format. Not to be set together with `gcs.json-key-file-path`. |
-
 
 ## Migration from legacy Google Cloud Storage file system
 

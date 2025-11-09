@@ -51,7 +51,6 @@ support:
 | `s3.max-error-retries` | Specifies maximum number of retries the client will make on errors. Defaults to `20`. |
 | `s3.use-web-identity-token-credentials-provider` | Set to `true` to only use the web identity token credentials provider, instead of the default providers chain. This can be useful when running Trino on Amazon EKS and using [IAM roles for service accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) Defaults to `false`. |
 
-
 ## Authentication
 
 Use the following properties to configure the authentication to S3 with access
@@ -65,7 +64,6 @@ and secret keys, STS, or an IAM role:
 | `s3.sts.region` | AWS region of the STS service. |
 | `s3.iam-role` | ARN of an IAM role to assume when connecting to S3. |
 | `s3.role-session-name` | Role session name to use when connecting to S3. Defaults to `trino-filesystem`. |
-
 
 ## Security mapping
 
@@ -190,8 +188,6 @@ Example JSON configuration:
 | `s3.security-mapping.sse-customer-key-credential-name` | The name of the *extra credential* used to provide the server-side encryption with customer-provided keys (SSE-C). |
 | `s3.security-mapping.refresh-period` | How often to refresh the security mapping configuration, specified as a [prop-type-duration](#prop-type-duration). By default, the configuration is not refreshed. |
 
-
-
 ## Migration from legacy S3 file system
 
 Trino includes legacy Amazon S3 support to use with a catalog using the Delta
@@ -235,7 +231,6 @@ the following edits to your catalog configuration:
 | `hive.s3.socket-timeout` | `s3.socket-timeout` | Also see `s3.tcp-keep-alive` in preceding sections for more socket connection keep-alive options. |
 | `hive.s3.max-connections` | `s3.max-connections` |  |
 | `hive.s3.path-style-access` | `s3.path-style-access` |  |
-
 
 1. Remove the following legacy configuration properties if they exist in your
    catalog configuration:

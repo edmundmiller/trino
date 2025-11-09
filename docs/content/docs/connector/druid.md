@@ -7,7 +7,6 @@ description: Druid documentation
 
 <img src="../_static/img/druid.png" class="connector-logo">
 
-
 The Druid connector allows querying an [Apache Druid](https://druid.apache.org/)
 database from Trino.
 
@@ -80,7 +79,6 @@ following table:
 | `DOUBLE` | `DOUBLE` |  |
 | `LONG` | `BIGINT` | Except for the special `_time` column, which is mapped to `TIMESTAMP`. |
 
-
 No other data types are supported.
 
 Druid does not have a real `NULL` value for any data type. By
@@ -140,7 +138,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

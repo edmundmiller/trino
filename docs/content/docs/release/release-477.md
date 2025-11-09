@@ -74,7 +74,7 @@ description: Release 477 documentation
 
 ## CLI
 
-* Add support for keyboard navigation with {kbd}`Alt+↑` or {kbd}`Alt+↓` in query
+* Add support for keyboard navigation with Alt+↑ or Alt+↓ in query
   history. ([#26138](https://github.com/trinodb/trino/issues/26138))
 
 ## Delta Lake connector

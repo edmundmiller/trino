@@ -6,7 +6,6 @@ description: Snowflake documentation
 
 <img src="../_static/img/snowflake.png" class="connector-logo">
 
-
 The Snowflake connector allows querying and creating tables in an
 external [Snowflake](https://www.snowflake.com/) account. This can be used to join data between
 different systems like Snowflake and Hive, or between two different
@@ -20,7 +19,7 @@ mount the Snowflake connector as the `snowflake` catalog.
 Create the file with the following contents, replacing the
 connection properties as appropriate for your setup:
 
-```none
+```text
 connector.name=snowflake
 connection-url=jdbc:snowflake://<account>.snowflakecomputing.com
 connection-user=root
@@ -35,7 +34,7 @@ The Snowflake connector uses Apache Arrow as the serialization format when
 reading from Snowflake. Add the following required, additional JVM argument
 to the [](jvm-config):
 
-```none
+```text
 --add-opens=java.base/java.nio=ALL-UNNAMED
 --sun-misc-unsafe-memory-access=allow
 ```
@@ -54,8 +53,6 @@ multiple instances of the Snowflake connector.
 <!-- Fragment not found: jdbc-domain-compaction-threshold.fragment -->
 
 <!-- Fragment not found: jdbc-case-insensitive-matching.fragment -->
-
-% snowflake-type-mapping:
 
 ## Type mapping
 
@@ -93,7 +90,6 @@ this table:
 | `DATETIME` | `TIMESTAMP` | Alias for `TIMESTAMP_NTZ`. See Snowflake [Date & Time Data Types](https://docs.snowflake.com/en/sql-reference/data-types-datetime) for more information. |
 | `TIMESTAMP` | `TIMESTAMP` | Alias for one of the `TIMESTAMP` variations (`TIMESTAMP_NTZ` by default). This connector always sets `TIMESTAMP_NTZ` as the variant. |
 
-
 No other types are supported.
 
 ### Trino type to Snowflake type mapping
@@ -120,7 +116,6 @@ this table:
 | `DATE` | `DATE` |  |
 | `TIME` | `TIME` |  |
 | `TIMESTAMP` | `TIMESTAMP_NTZ` |  |
-
 
 No other types are supported.
 
@@ -188,7 +183,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

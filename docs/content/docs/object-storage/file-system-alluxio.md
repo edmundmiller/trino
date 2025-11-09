@@ -24,7 +24,6 @@ support in your catalog properties file:
 | Property | Description |
 |---|---|
 
-
 ## Alluxio client configuration
 
 The Alluxio cluster connection is configured in the `alluxio-site.properties`

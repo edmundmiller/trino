@@ -22,7 +22,6 @@ configuration of the chosen group provider must be included in the same file.
 |---|---|
 | `group-provider.name` | Name of the group provider to use. Supported values are: * `file`: [See configuration](file-group-provider) * `ldap`: [See configuration](ldap-group-provider) |
 
-
 ## Integration with access control
 
 Groups resolved by the group provider are passed to Trino’s system access
@@ -51,7 +50,6 @@ The following configuration properties are available:
 | Property name | Description |
 |---|---|
 | `file.group-file` | Path of the group file. |
-
 
 ### Group file format
 
@@ -97,7 +95,6 @@ group-provider.name=ldap
 | `ldap.user-search-filter` | LDAP filter to find user entries; `{0}` is replaced with the Trino username. For example, `(cn={0})` |
 | `ldap.group-name-attribute` | Attribute to extract group name from group entry. For example, `cn`. |
 
-
 Group resolution behavior is controlled by the `ldap.use-group-filter` property.
 With search-based group resolution, Trino searches for group entries that
 include the user DN. This requires the following properties:
@@ -109,7 +106,6 @@ include the user DN. This requires the following properties:
 | `ldap.group-base-dn` | Base distinguished name for groups. For example, `dc=example,dc=com`. |
 | `ldap.group-search-filter` | Search filter for group documents. For example, `(cn=trino_*)`. |
 
-
 In case of attribute-based group resolution, Trino reads the group list
 directly from a user attribute. This requires the following property:
 
@@ -117,7 +113,6 @@ directly from a user attribute. This requires the following property:
 
 | Property name | Description |
 |---|---|
-
 
 ### Example configurations
 

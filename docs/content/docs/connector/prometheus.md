@@ -6,7 +6,6 @@ description: Prometheus documentation
 
 <img src="../_static/img/prometheus.png" class="connector-logo">
 
-
 The Prometheus connector allows reading
 [Prometheus](https://prometheus.io/)
 metrics as tables in Trino.
@@ -60,7 +59,6 @@ The following configuration properties are available:
 | `prometheus.read-timeout` | How much time a query to Prometheus has before timing out. | `10s` |
 | `prometheus.case-insensitive-name-matching` | Match Prometheus metric names case insensitively. | `false` |
 
-
 ## Not exhausting your Trino available heap
 
 The `prometheus.query.chunk.size.duration` and `prometheus.max.query.range.duration` are values to protect Trino from
@@ -98,14 +96,12 @@ connector [modifies some types <type-mapping-overview>](#modifies some types <ty
 The connector returns fixed columns that have a defined mapping to Trino types
 according to the following table:
 
-
 #### Prometheus column to Trino type mapping
 
 | Prometheus column | Trino type |
 |---|---|
 | `labels ` | `MAP(VARCHAR,VARCHAR) ` |
 | `TIMESTAMP ` | `TIMESTAMP(3) WITH TIMEZONE ` |
-
 
 No other types are supported.
 

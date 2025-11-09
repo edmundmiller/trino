@@ -7,7 +7,6 @@ description: Singlestore documentation
 
 <img src="../_static/img/singlestore.png" class="connector-logo">
 
-
 The SingleStore (formerly known as MemSQL) connector allows querying and
 creating tables in an external SingleStore database.
 
@@ -153,7 +152,6 @@ this table:
 | `DATETIME` | `TIMESTAMP(0)` |  |
 | `DATETIME(6)` | `TIMESTAMP(6)` |  |
 
-
 No other types are supported.
 
 ### Trino to Singlestore type mapping
@@ -184,7 +182,6 @@ this table:
 | `TIME(6)` | `TIME(6)` |  |
 | `TIMESTAMP(0)` | `DATETIME` |  |
 | `TIMESTAMP(6)` | `DATETIME(6)` |  |
-
 
 No other types are supported.
 
@@ -242,7 +239,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 (singlestore-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -289,7 +285,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ## Performance
 

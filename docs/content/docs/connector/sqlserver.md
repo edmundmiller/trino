@@ -7,7 +7,6 @@ description: Sqlserver documentation
 
 <img src="../_static/img/sqlserver.png" class="connector-logo">
 
-
 The SQL Server connector allows querying and creating tables in an external
 [Microsoft SQL Server](https://www.microsoft.com/sql-server/) database. This
 can be used to join data between different systems like SQL Server and Hive, or
@@ -92,14 +91,12 @@ behavior of the connector and the issues queries to the database.
 | Property name | Description |
 |---|---|
 
-
 <!-- Fragment not found: jdbc-case-insensitive-matching.fragment -->
 
 ### Fault-tolerant execution support
 
 The connector supports [/admin/fault-tolerant-execution](/docs//admin/fault-tolerant-execution) of query
 processing. Read and write operations are both supported with any retry policy.
-
 
 ## Querying SQL Server
 
@@ -173,7 +170,6 @@ The connector maps SQL Server types to the corresponding Trino types following t
 | `DATETIME2[(n)]` | `TIMESTAMP(n)` | `0 <= n <= 7` |
 | `SMALLDATETIME` | `TIMESTAMP(0)` |  |
 
-
 ### Trino type to SQL Server type mapping
 
 The connector maps Trino types to the corresponding SQL Server types following this table:
@@ -195,7 +191,6 @@ The connector maps Trino types to the corresponding SQL Server types following t
 | `VARBINARY` | `VARBINARY(max)` |  |
 | `DATE` | `DATE` |  |
 | `TIME(n)` | `TIME(n)` | `0 <= n <= 7` |
-
 
 Complete list of [SQL Server data types](https://msdn.microsoft.com/library/ms187752.aspx).
 
@@ -237,7 +232,6 @@ following features:
 - [](sqlserver-procedures)
 - [](sqlserver-table-functions)
 
-
 (sqlserver-insert)=
 <!-- Fragment not found: non-transactional-insert.fragment -->
 
@@ -266,7 +260,6 @@ column table, the following statement is not supported:
 ```sql
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
-
 
 (sqlserver-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
@@ -314,7 +307,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 
@@ -485,7 +477,6 @@ their default values:
 | Property name | Description | Default |
 |---|---|---|
 | `sqlserver.bulk-copy-for-write.enabled` | Use the SQL Server bulk copy API for writes. The corresponding catalog session property is `bulk_copy_for_write`. | `false` |
-
 
 Limitations:
 

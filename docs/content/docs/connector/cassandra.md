@@ -6,7 +6,6 @@ description: Cassandra documentation
 
 <img src="../_static/img/cassandra.png" class="connector-logo">
 
-
 The Cassandra connector allows querying data stored in
 [Apache Cassandra](https://cassandra.apache.org/).
 
@@ -165,7 +164,6 @@ the following table:
 | `INET` | `IPADDRESS` |  |
 | `UUID` | `UUID` |  |
 
-
 No other types are supported.
 
 ### Trino type to Cassandra type mapping
@@ -188,7 +186,6 @@ the following table:
 | `DATE` | `DATE` |  |
 | `TIMESTAMP(3) WITH TIME ZONE` | `TIMESTAMP` |  |
 | `IPADDRESS` | `INET` |  |
-
 
 No other types are supported.
 
@@ -263,7 +260,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

@@ -6,7 +6,6 @@ description: Delta Lake documentation
 
 <img src="../_static/img/delta-lake.png" class="connector-logo">
 
-
 The Delta Lake connector allows querying data stored in the [Delta Lake](https://delta.io) format, including [Databricks Delta Lake](https://docs.databricks.com/delta/index.html). The connector can natively
 read the Delta Lake transaction log and thus detect when external systems change
 data.
@@ -109,7 +108,6 @@ values. Typical usage does not require you to configure them.
 | `delta.deletion-vectors-enabled` | Set to `true` for enabling deletion vectors by default when creating new tables. | `false` |
 | `delta.metadata.parallelism` | Number of threads used for retrieving metadata. Currently, only table loading  is parallelized. | `8` |
 
-
 ### Catalog session properties
 
 The following table describes [catalog session properties
@@ -126,12 +124,10 @@ The following table describes [catalog session properties
 | `parquet_writer_page_value_count` | The maximum value count of pages created by the Parquet writer. | `60000` |
 | `parquet_writer_batch_size` | Maximum number of rows processed by the Parquet writer in a batch. | `10000` |
 
-
 ### Fault-tolerant execution support
 
 The connector supports [/admin/fault-tolerant-execution](/docs//admin/fault-tolerant-execution) of query
 processing. Read and write operations are both supported with any retry policy.
-
 
 ## Type mapping
 
@@ -171,7 +167,6 @@ this table:
 | `ARRAY` | `ARRAY` |
 | `MAP` | `MAP` |
 
-
 No other types are supported.
 
 ### Trino to Delta Lake type mapping
@@ -199,7 +194,6 @@ this table:
 | `ARRAY` | `ARRAY` |
 | `MAP` | `MAP` |
 
-
 No other types are supported.
 
 ## Delta Lake table features
@@ -223,7 +217,6 @@ features](https://github.com/delta-io/delta/blob/master/PROTOCOL.md#table-featur
 | Type widening | Readers only |
 | Vacuum protocol check | Readers and writers |
 
-
 No other features are supported.
 
 ## Security
@@ -245,7 +238,6 @@ security values in the following table:
 | `ALLOW_ALL` (default value) | No authorization checks are enforced. |
 | `SYSTEM` | The connector relies on system-level access control. |
 | `READ_ONLY` | Operations that read data or metadata, such as [](/sql/select) are permitted. No operations that write data or metadata, such as [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed. |
-
 
 ## SQL support
 
@@ -554,7 +546,6 @@ ALTER TABLE test_table EXECUTE optimize
 WHERE CAST(timestamp_tz AS DATE) > DATE '2021-12-31'
 ```
 
-
 Use a `WHERE` clause with [metadata columns](delta-lake-special-columns) to filter
 which files are optimized.
 
@@ -596,7 +587,6 @@ The following table properties are available for use:
 | `checkpoint_interval` | Set the checkpoint interval in number of table writes. |
 | `change_data_feed_enabled` | Enables storing change data feed entries. |
 | `column_mapping_mode` | Column mapping mode. Possible values are: * `ID` * `NAME` * `NONE` Defaults to `NONE`. |
-
 
 The following example uses all available table properties:
 
@@ -671,7 +661,6 @@ The output of the query has the following history columns:
 | `isolation_level` | `VARCHAR` | The level of isolation used to perform the operation |
 | `is_blind_append` | `BOOLEAN` | Whether or not the operation appended data |
 
-
 ##### `$partitions` table
 
 The `$partitions` table provides a detailed overview of the partitions of the
@@ -700,7 +689,6 @@ The output of the query has the following columns:
 | `partition` | `ROW(...)` | A row that contains the mapping of the partition column names to the partition column values. |
 | `file_count` | `BIGINT` | The number of files mapped in the partition. |
 | `total_size` | `BIGINT` | The size of all the files in the partition. |
-
 
 ##### `$properties` table
 
@@ -1040,7 +1028,6 @@ keep a backup of the original values if you change them.
 | `delta.max-split-size` | Sets the largest [](prop-type-data-size) for a single read section assigned to a worker after `max-initial-splits` have been processed. You can also use the corresponding catalog session property `<catalog-name>.max_split_size`. | `128MB` |
 | `delta.minimum-assigned-split-weight` | A decimal value in the range (0, 1] used as a minimum for weights assigned to each split. A low value might improve performance on tables with small files. A higher value might improve performance for queries with highly skewed aggregations or joins. | `0.05` |
 | `delta.projection-pushdown-enabled` | Read only projected fields from row columns while performing `SELECT` queries | `true` |
-
 
 ### File system cache
 

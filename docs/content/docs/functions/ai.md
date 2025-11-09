@@ -58,7 +58,6 @@ specify a model that is suitable for textual analysis.
 | `ai.anthropic.api-key` | API key value for Anthropic API access. Required with `ai.provider` set to `anthropic`. |
 | `ai.openai.endpoint` | URL for the OpenAI API or Ollama endpoint. Defaults to `https://api.openai.com`. Set to the URL endpoint for Ollama when using models via Ollama and add any string for the `ai.openai.api-key`. |
 
-
 The AI functions connect to the providers over HTTP. Configure the connection
 using the `ai` prefix with the [](/admin/properties-http-client).
 
@@ -135,8 +134,6 @@ as an override:
 | `ai.fix-grammar.model` | Optional override to use a different model for {func}`ai_fix_grammar`. |
 | `ai.generate.model` | Optional override to use a different model for {func}`ai_gen`. |
 | `ai.mask.model` | Optional override to use a different model for {func}`ai_mask`. |
-
-
 
 ## Functions
 

@@ -29,7 +29,6 @@ not limited to) Spark, Airflow, Flink.
 | `trino:// + {openlineage-event-listener.trino.uri.getHost()} + ":" + {openlineage-event-listener.trino.uri.getPort()}` | Job Facet Namespace (default, can be overridden) |
 | `{schema}.{table}` | Dataset Name |
 
-
 (trino-facets)=
   
 ### Available Trino Facets
@@ -118,7 +117,6 @@ event-listener.config-files=etc/openlineage-event-listener.properties,...
 | openlineage-event-listener.disabled-facets | Which [](trino-facets) should be not included in final OpenLineage event.  Allowed values: `trino_metadata`, `trino_query_context`, `trino_query_statistics`. | None. |
 | openlineage-event-listener.namespace | Custom namespace to be used for Job `namespace` attribute. If blank will default to Dataset Namespace. | None. |
 
-
 ### Supported Transport Types
 
 - `CONSOLE` - sends OpenLineage JSON event to Trino coordinator standard output.
@@ -134,7 +132,6 @@ event-listener.config-files=etc/openlineage-event-listener.properties,...
 | openlineage-event-listener.transport.timeout | [Timeout](prop-type-duration) when making HTTP Requests. | `5000ms` |
 | openlineage-event-listener.transport.headers | List of custom HTTP headers to be sent along with the events. See [](openlineage-event-listener-custom-headers) for more details. | Empty |
 | openlineage-event-listener.transport.url-params | List of custom url params to be added to final HTTP Request. See [](openlineage-event-listener-custom-url-params) for more details. | Empty |
-
 
 (openlineage-event-listener-custom-headers)=
 

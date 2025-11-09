@@ -6,7 +6,6 @@ description: Loki documentation
 
 <img src="../_static/img/loki.png" class="connector-logo">
 
-
 The Loki connector allows querying log data stored in [Grafana
 Loki](https://grafana.com/oss/loki/). This document describes how to configure a
 catalog with the Loki connector to run SQL queries against Loki.
@@ -40,7 +39,6 @@ The following table contains a list of all available configuration properties.
 |---|---|
 | `loki.uri` | The URI endpoint for the Loki server that Trino cluster nodes use to access the Loki APIs. |
 
-
 ## Type mapping
 
 Because Trino and Loki each support types that the other does not, this
@@ -63,7 +61,6 @@ These are separately mapped to Trino types:
 | `timestamp` | `TIMESTAMP WITH TIME ZONE` |
 | `values` for [log queries](https://grafana.com/docs/loki/latest/query/log_queries/) | `VARCHAR` |
 | `values` for [metrics queries](https://grafana.com/docs/loki/latest/query/metric_queries/) | `DOUBLE` |
-
 
 No other types are supported.
 

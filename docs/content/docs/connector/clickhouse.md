@@ -7,7 +7,6 @@ description: Clickhouse documentation
 
 <img src="../_static/img/clickhouse.png" class="connector-logo">
 
-
 The ClickHouse connector allows querying tables in an external
 [ClickHouse](https://clickhouse.com/) server. This can be used to
 query data in the databases on that server, or combine it with other data
@@ -30,7 +29,7 @@ that specifies the ClickHouse connector by setting the `connector.name` to
 For example, create the file `etc/catalog/example.properties`. Replace the
 connection properties as appropriate for your setup:
 
-```none
+```text
 connector.name=clickhouse
 connection-url=jdbc:clickhouse://host1:8123/
 connection-user=exampleuser
@@ -190,7 +189,6 @@ to the following table:
 | `Enum8` | `VARCHAR` |  |
 | `Enum16` | `VARCHAR` |  |
 
-
 No other types are supported.
 
 ### Trino type to ClickHouse type mapping
@@ -215,7 +213,6 @@ to the following table:
 | `VARBINARY` | `String` | Enabling `clickhouse.map-string-as-varchar` config property changes the mapping to `VARCHAR` |
 | `DATE` | `Date` |  |
 | `TIMESTAMP(0)` | `DateTime` |  |
-
 
 No other types are supported.
 
@@ -282,7 +279,6 @@ Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
 
-
 ### Table functions
 
 The connector provides specific [table functions ](/docs//functions/table) to
@@ -334,7 +330,6 @@ The connector supports pushdown for a number of operations:
 - {func}`max`
 - {func}`min`
 - {func}`sum`
-
 
 <!-- Fragment not found: pushdown-correctness-behavior.fragment -->
 

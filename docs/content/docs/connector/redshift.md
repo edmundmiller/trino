@@ -7,7 +7,6 @@ description: Redshift documentation
 
 <img src="../_static/img/redshift.png" class="connector-logo">
 
-
 The Redshift connector allows querying and creating tables in an
 external [Amazon Redshift](https://aws.amazon.com/redshift/) cluster. This can be used to join data between
 different systems like Redshift and Hive, or between two different
@@ -169,7 +168,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 (redshift-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -219,7 +217,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 
@@ -278,7 +275,6 @@ The Redshift cluster and the configured S3 bucket must use the same AWS region.
 | Property value | Description |
 |---|---|
 | `redshift.unload-location` | A writeable location in Amazon S3 in the same AWS region as the Redshift cluster. Used for temporary storage during query processing using the `UNLOAD` command from Redshift. To ensure cleanup even for failed automated removal, configure a life cycle policy to auto clean up the bucket regularly. |
-
 
 Use the `unload_enabled` [catalog session property](/docs/sql/set-session) to
 deactivate the parallel read during a client session for a specific query, and

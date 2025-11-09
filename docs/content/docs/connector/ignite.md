@@ -7,7 +7,6 @@ description: Ignite documentation
 
 <img src="../_static/img/ignite.png" class="connector-logo">
 
-
 The Ignite connector allows querying an [Apache Ignite](https://ignite.apache.org/)
 database from Trino.
 
@@ -91,7 +90,6 @@ The following are supported Ignite table properties from [https://ignite.apache.
 | Property name | Required | Description |
 |---|---|---|
 
-
 ### `primary_key`
 
 This is a list of columns to be used as the table's primary key. If not specified, a `VARCHAR` primary key column named `DUMMY_ID` is generated,
@@ -114,7 +112,6 @@ The following are supported Ignite SQL data types from [https://ignite.apache.or
 | `CHAR` | `CHAR` | `hello`, `Trino`, etc. |
 | `VARCHAR` | `VARCHAR` | `hello`, `Trino`, etc. |
 | `DATE` | `DATE` | `1972-01-01`, `2021-07-15`, etc. |
-
 
 ## SQL support
 
@@ -163,7 +160,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 ### Non-transactional MERGE
 
 The connector supports adding, updating, and deleting rows using [MERGE
@@ -174,8 +170,6 @@ tables.
 
 In rare cases, exceptions may occur during the merge operation, potentially
 resulting in a partial update.
-
-
 
 (ignite-alter-table)=
 <!-- Fragment not found: alter-table-limitation.fragment -->
@@ -221,7 +215,6 @@ Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
 
-
 ### Pushdown
 
 The connector supports pushdown for a number of operations:
@@ -237,6 +230,5 @@ The connector supports pushdown for a number of operations:
 - {func}`max`
 - {func}`min`
 - {func}`sum`
-
 
 <!-- Fragment not found: no-pushdown-text-type.fragment -->

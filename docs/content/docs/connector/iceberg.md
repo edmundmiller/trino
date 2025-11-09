@@ -6,7 +6,6 @@ description: Iceberg documentation
 
 <img src="../_static/img/iceberg.png" class="connector-logo">
 
-
 Apache Iceberg is an open table format for huge analytic datasets. The Iceberg
 connector allows querying data stored in files written in Iceberg format, as
 defined in the [Iceberg Table Spec](https://iceberg.apache.org/spec/). The
@@ -114,12 +113,10 @@ implementation is used:
 | `iceberg.metadata.parallelism` | Number of threads used for retrieving metadata. Currently, only table loading  is parallelized. | `8` |
 | `iceberg.file-delete-threads` | Number of threads to use for deleting files when running `expire_snapshots` procedure. | Double the number of processors on the coordinator node. |
 
-
 ### Fault-tolerant execution support
 
 The connector supports [/admin/fault-tolerant-execution](/docs//admin/fault-tolerant-execution) of query
 processing. Read and write operations are both supported with any retry policy.
-
 
 ## File system access configuration
 
@@ -177,7 +174,6 @@ the following table:
 | `STRUCT(...)` | `ROW(...)` |
 | `LIST(e)` | `ARRAY(e)` |
 
-
 No other types are supported.
 
 ### Trino to Iceberg type mapping
@@ -205,7 +201,6 @@ the following table:
 | `ROW(...)` | `STRUCT(...)` |
 | `ARRAY(e)` | `LIST(e)` |
 
-
 No other types are supported.
 
 ## Security
@@ -232,7 +227,6 @@ be one of the following values:
 | `ALLOW_ALL` | No authorization checks are enforced. |
 | `SYSTEM` | The connector relies on system-level access control. |
 | `READ_ONLY` | Operations that read data or metadata, such as [](/sql/select) are permitted. No operations that write data or metadata, such as [](/sql/create-table), [](/sql/insert), or [](/sql/delete) are allowed. |
-
 
 ## SQL support
 
@@ -745,7 +739,6 @@ The output of the query has the following metrics:
 | `active_files_count` | The count of files belonging to snapshots that have not been expired. |
 | `scanned_files_count` | The count of files scanned from the file system. |
 
-
 ##### drop_extended_stats
 
 The `drop_extended_stats` command removes all extended statistics information
@@ -794,7 +787,6 @@ Table properties supply or set metadata for the underlying tables. This is key
 for [/sql/create-table-as](/docs//sql/create-table-as) statements. Table properties are passed to the
 connector using a [WITH ](/docs//sql/create-table-as) clause.
 
-
 #### Iceberg table properties
 
 | Property name | Description |
@@ -811,7 +803,6 @@ connector using a [WITH ](/docs//sql/create-table-as) clause.
 | `parquet_bloom_filter_columns` | Comma-separated list of columns to use for Parquet bloom filter. It improves the performance of queries using Equality and IN predicates when reading Parquet files. Requires Parquet format. Defaults to `[]`. |
 | `object_store_layout_enabled` | Whether Iceberg's [object store file layout](https://iceberg.apache.org/docs/latest/aws/#object-store-file-layout) is enabled.  Defaults to `false`. |
 | `data_location` | Optionally specifies the file system location URI for the table's data files |
-
 
 The table definition below specifies to use Parquet files, partitioning by columns
 `c1` and `c2`, and a file system location of
@@ -916,7 +907,6 @@ The output of the query has the following columns:
 | `snapshot_id` | `BIGINT` | The identifier of the snapshot. |
 | `parent_id` | `BIGINT` | The identifier of the parent snapshot. |
 
-
 ##### `$metadata_log_entries` table
 
 The `$metadata_log_entries` table provides a view of metadata log entries
@@ -946,8 +936,6 @@ The output of the query has the following columns:
 | `file` | `VARCHAR` | The location of the metadata file. |
 | `latest_snapshot_id` | `BIGINT` | The identifier of the latest snapshot when the metadata was updated. |
 | `latest_schema_id` | `INTEGER` | The identifier of the latest schema when the metadata was updated. |
-
-
 
 ##### `$snapshots` table
 
@@ -980,7 +968,6 @@ The output of the query has the following columns:
 | `parent_id` | `BIGINT` | The identifier for the parent snapshot. |
 | `operation` | `VARCHAR` | The type of operation performed on the Iceberg table. The supported operation types in Iceberg are: * `append` when new data is appended. * `replace` when files are removed and replaced without changing the data in the table. * `overwrite` when new data is added to overwrite existing data. * `delete` when data is deleted from the table and no new data is added. |
 | `manifest_list` | `VARCHAR` | The list of Avro manifest files containing the detailed information about the snapshot changes. |
-
 
 ##### `$manifests` and `$all_manifests` tables
 
@@ -1019,7 +1006,6 @@ The output of the query has the following columns:
 | `deleted_data_files_count` | `INTEGER` | The number of data files with status `DELETED` in the manifest file. |
 | `deleted_rows_count` | `BIGINT` | The total number of rows in all data files with status `DELETED` in the manifest file. |
 
-
 ##### `$partitions` table
 
 The `$partitions` table provides a detailed overview of the partitions of the
@@ -1049,7 +1035,6 @@ The output of the query has the following columns:
 | `record_count` | `BIGINT` | The number of records in the partition. |
 | `file_count` | `BIGINT` | The number of files mapped in the partition. |
 | `total_size` | `BIGINT` | The size of all the files in the partition. |
-
 
 ##### `$files` table
 
@@ -1093,7 +1078,6 @@ The output of the query has the following columns:
 | `equality_ids` | `array(INTEGER)` | The set of field IDs used for equality comparison in equality delete files. |
 | `sort_order_id` | `INTEGER` | ID representing sort order for this file. |
 
-
 ##### `$entries` and `$all_entries` tables
 
 The `$entries` and `$all_entries` tables provide the table's manifest entries
@@ -1127,7 +1111,6 @@ The metadata tables include the following columns:
 | `file_sequence_number` | `BIGINT` | File sequence number indicating when the file was added. Inherited when null and status is 1. |
 | `data_file` | `ROW` | Metadata including file path, file format, file size and other information. |
 
-
 ##### `$refs` table
 
 The `$refs` table provides information about Iceberg references including
@@ -1158,7 +1141,6 @@ The output of the query has the following columns:
 | `snapshot_id` | `BIGINT` | The snapshot ID of the reference. |
 | `max_reference_age_in_ms` | `BIGINT` | The maximum age of the reference before it could be expired. |
 | `min_snapshots_to_keep` | `INTEGER` | For branch only, the minimum number of snapshots to keep in a branch. |
-
 
 #### Metadata columns
 
@@ -1274,7 +1256,6 @@ Identity transforms are simply the column name. Other transforms are:
 | `day(ts)` | A partition is created for each day of each year. The partition value is the integer difference in days between `ts` and January 1 1970. |
 | `hour(ts)` | A partition is created hour of each day. The partition value is a timestamp with the minutes and seconds set to zero. |
 | `bucket(x, nbuckets)` | The data is hashed into the specified number of buckets. The partition value is an integer hash of `x`, with a value between 0 and `nbuckets - 1` inclusive. |
-
 
 In this example, the table is partitioned by the month of `order_date`, a hash
 of `account_number` (with 10 buckets), and `country`:

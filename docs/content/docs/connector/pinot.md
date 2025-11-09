@@ -6,7 +6,6 @@ description: Pinot documentation
 
 <img src="../_static/img/pinot.png" class="connector-logo">
 
-
 The Pinot connector allows Trino to query data stored in
 [Apache Pinot™](https://pinot.apache.org/).
 
@@ -167,7 +166,6 @@ according to the following table:
 | `LONG_ARRAY` | `VARCHAR` |
 | `FLOAT_ARRAY` | `VARCHAR` |
 | `DOUBLE_ARRAY` | `VARCHAR` |
-
 
 No other types are supported.
 

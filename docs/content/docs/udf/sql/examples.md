@@ -745,7 +745,6 @@ The preceding query produces the following output:
   1000000000000000000 | 888PB
 ```
 
-
 ## Charts
 
 Trino already has a built-in `bar()` [color function](/docs/functions/color), but it

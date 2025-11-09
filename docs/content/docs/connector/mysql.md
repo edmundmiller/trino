@@ -7,7 +7,6 @@ description: Mysql documentation
 
 <img src="../_static/img/mysql.png" class="connector-logo">
 
-
 The MySQL connector allows querying and creating tables in an external
 [MySQL](https://www.mysql.com/) instance. This can be used to join data between different
 systems like MySQL and Hive, or between two different MySQL instances.
@@ -117,7 +116,6 @@ The following are supported MySQL table properties:
 | Property name | Required | Description |
 |---|---|---|
 
-
 ## Type mapping
 
 Because Trino and MySQL each support types that the other does not, this
@@ -162,7 +160,6 @@ this table:
 | `TIME(n)` | `TIME(n)` |  |
 | `DATETIME(n)` | `TIMESTAMP(n)` |  |
 
-
 No other types are supported.
 
 ### Trino to MySQL type mapping
@@ -188,7 +185,6 @@ this table:
 | `DATE` | `DATE` |  |
 | `TIME(n)` | `TIME(n)` |  |
 | `TIMESTAMP(n)` | `DATETIME(n)` |  |
-
 
 No other types are supported.
 
@@ -294,7 +290,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 (mysql-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -308,8 +303,6 @@ tables.
 
 In rare cases, exceptions may occur during the merge operation, potentially
 resulting in a partial update.
-
-
 
 ### Procedures
 
@@ -351,7 +344,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

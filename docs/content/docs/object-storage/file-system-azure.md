@@ -29,7 +29,6 @@ system support:
 | `azure.max-http-requests` | Maximum [integer](prop-type-integer) number of concurrent HTTP requests to Azure from every node. Defaults to double the number of processors on the node. Minimum `1`. Use this property to reduce the number of requests when you encounter rate limiting issues. |
 | `azure.application-id` | Specify the application identifier appended to the `User-Agent` header for all requests sent to Azure Storage. Defaults to `Trino`. |
 
-
 ## User-assigned managed identity authentication
 
 Use the following properties to configure [user-assigned managed 
@@ -40,7 +39,6 @@ authentication to Azure Storage:
 |---|---|
 | `azure.auth-type` | Must be set to `DEFAULT`. |
 | `azure.user-assigned-managed-identity.client-id` | Specifies the client ID of user-assigned managed identity. |
-
 
 Only one of `azure.user-assigned-managed-identity.client-id` or `azure.user-assigned-managed-identity.resource-id` can be 
 specified.
@@ -54,7 +52,6 @@ Storage:
 |---|---|
 | `azure.auth-type` | Must be set to `ACCESS_KEY`. |
 
-
 ## OAuth 2.0 authentication
 
 Use the following properties to configure OAuth 2.0 authentication to Azure
@@ -66,7 +63,6 @@ Storage:
 | `azure.oauth.tenant-id` | Tenant ID for Azure authentication. |
 | `azure.oauth.endpoint` | The endpoint URL for OAuth 2.0 authentication. |
 | `azure.oauth.client-id` | The OAuth 2.0 service principal's client or application ID. |
-
 
 ## Access multiple storage accounts
 
@@ -89,7 +85,6 @@ storage accounts:
  use the **Client ID**, **Secret** and **Tenant ID** values from the
  application registration, to configure the catalog using properties from
  [](azure-oauth-authentication).
-
 
 ## Migration from legacy Azure Storage file system
 
@@ -114,7 +109,6 @@ make the following edits to your catalog configuration:
 | `hive.azure.abfs.oauth.endpoint` | `azure.oauth.endpoint` | Also see `azure.oauth.tenant-id` in [](azure-oauth-authentication). |
 | `hive.azure.abfs.oauth.client-id` | `azure.oauth.client-id` |  |
 | `hive.azure.abfs.oauth.secret` | `azure.oauth.secret` |  |
-
 
 4. Remove the following legacy configuration properties if they exist in your
    catalog configuration:

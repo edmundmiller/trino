@@ -7,7 +7,6 @@ description: Vertica documentation
 
 <img src="../_static/img/vertica.png" class="connector-logo">
 
-
 The Vertica connector allows querying a [Vertica database, also known as OpenText
 Analytics Database](https://www.opentext.com/products/analytics-database), as an
 external data source.
@@ -73,7 +72,6 @@ the following table:
 | `VARCHAR`, `LONG VARCHAR`, `VARCHAR(n)`, `LONG VARCHAR(n)` | `VARCHAR(n)` |  |
 | `VARBINARY`, `LONG VARBINARY`, `VARBINARY(n)`, `LONG VARBINARY(n)` | `VARBINARY(n)` |  |
 
-
 No other types are supported.
 
 Unsupported Vertica types can be converted to `VARCHAR` with the
@@ -104,7 +102,6 @@ the following table:
 | `CHAR` | `CHAR` |
 | `VARCHAR` | `VARCHAR` |
 | `VARBINARY` | `VARBINARY` |
-
 
 No other types are supported.
 

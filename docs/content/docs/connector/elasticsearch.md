@@ -6,7 +6,6 @@ description: Elasticsearch documentation
 
 <img src="../_static/img/elasticsearch.png" class="connector-logo">
 
-
 The Elasticsearch connector allows access to
 [Elasticsearch](https://www.elastic.co/products/elasticsearch) data from Trino.
 This document describes how to configure a catalog with the Elasticsearch
@@ -48,7 +47,6 @@ The following table details all general configuration properties:
 | `elasticsearch.max-retry-time` | The maximum [duration](prop-type-duration) across all retry attempts for a single request to Elasticsearch. | `30s` |
 | `elasticsearch.node-refresh-interval` | [Duration](prop-type-duration) between requests to refresh the list of available Elasticsearch nodes. | `1m` |
 
-
 ### Authentication
 
 The connection to Elasticsearch can use AWS or password authentication.
@@ -64,14 +62,12 @@ following options must be configured:
 | `elasticsearch.aws.secret-key` | AWS secret key to use to connect to the Elasticsearch domain. If not set, the default AWS credentials provider chain is used. |
 | `elasticsearch.aws.iam-role` | Optional ARN of an IAM role to assume to connect to Elasticsearch. Note that the configured IAM user must be able to assume this role. |
 
-
 To enable password authentication, the `elasticsearch.security` option must be set
 to `PASSWORD`. Additionally the following options must be configured:
 
 | Property name | Description |
 |---|---|
 | `elasticsearch.auth.user` | Username to use to connect to Elasticsearch. |
-
 
 ### Connection security with TLS
 
@@ -93,7 +89,6 @@ The available configuration values are listed in the following table:
 | `elasticsearch.tls.truststore-path` | The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks) trust store. |
 | `elasticsearch.tls.keystore-password` | The key password for the key store specified by `elasticsearch.tls.keystore-path`. |
 | `elasticsearch.tls.truststore-password` | The key password for the trust store specified by `elasticsearch.tls.truststore-path`. |
-
 
 ## Type mapping
 
@@ -119,7 +114,6 @@ according to the following table:
 | `KEYWORD` | `VARCHAR` |  |
 | `TEXT` | `VARCHAR` |  |
 | `DATE` | `TIMESTAMP` | For more information, see [](elasticsearch-date-types). |
-
 
 No other types are supported.
 
@@ -271,8 +265,6 @@ The following hidden columns are available:
 | `_id` | The Elasticsearch document ID. |
 | `_score` | The document score returned by the Elasticsearch query. |
 
-
-
 ## Full text queries
 
 Trino SQL queries can be combined with Elasticsearch queries by providing the [full text query]
@@ -376,7 +368,6 @@ following data types:
 | `integer` | `INTEGER` |
 | `long` | `BIGINT` |
 | `keyword` | `VARCHAR` |
-
 
 No other data types are supported for predicate push down.
 

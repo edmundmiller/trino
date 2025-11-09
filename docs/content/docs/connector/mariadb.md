@@ -7,7 +7,6 @@ description: Mariadb documentation
 
 <img src="../_static/img/mariadb.png" class="connector-logo">
 
-
 The MariaDB connector allows querying and creating tables in an external MariaDB
 database.
 
@@ -84,8 +83,6 @@ SELECT * FROM example.web.clicks;
 If you used a different name for your catalog properties file, use
 that catalog name instead of `example` in the above examples.
 
-% mariadb-type-mapping:
-
 ## Type mapping
 
 Because Trino and MariaDB each support types that the other does not, this
@@ -130,7 +127,6 @@ to the following table:
 | `TIME(n)` | `TIME(n)` |  |
 | `TIMESTAMP(n)` | `TIMESTAMP(n)` | MariaDB stores the current timestamp by default. Enable [explicit_defaults_for_timestamp](https://mariadb.com/docs/reference/mdb/system-variables/explicit_defaults_for_timestamp/) to avoid implicit default values and use `NULL` as the default value. |
 
-
 No other types are supported.
 
 ### Trino type mapping to MariaDB type mapping
@@ -158,7 +154,6 @@ to the following table:
 | `VARBINARY` | `MEDIUMBLOB` |  |
 | `DATE` | `DATE` |  |
 | `TIME(n)` | `TIME(n)` |  |
-
 
 No other types are supported.
 
@@ -215,7 +210,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 (mariadb-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -259,7 +253,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

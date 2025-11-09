@@ -6,7 +6,6 @@ description: Hudi documentation
 
 <img src="../_static/img/hudi.png" class="connector-logo">
 
-
 The Hudi connector enables querying [Hudi](https://hudi.apache.org/docs/overview/) tables.
 
 ## Requirements
@@ -59,7 +58,6 @@ Additionally, following configuration properties can be set depending on the use
 | `hudi.max-outstanding-splits` | Maximum outstanding splits in a batch enqueued for processing. | `1000` |
 | `hudi.per-transaction-metastore-cache-maximum-size` | Maximum number of metastore data objects per transaction in the Hive metastore cache. | `2000` |
 | `hudi.query-partition-filter-required` | Set to `true` to force a query to use a partition column in the filter condition. The equivalent catalog session property is `query_partition_filter_required`. Enabling this property causes query failures if the partition column used in the filter condition doesn't effectively reduce the number of data files read. Example: Complex filter expressions such as `id = 1 OR part_key = '100'` or `CAST(part_key AS INTEGER) % 2 = 0` are not recognized as partition filters, and queries using such expressions fail if the property is set to `true`. | `false` |
-
 
 ## File system access configuration
 
@@ -137,7 +135,6 @@ table displays a support matrix of tables types and query types for the connecto
 | Table type | Supported query type |
 |---|---|
 | Copy on write | Snapshot queries |
-
 
 #### Metadata tables
 

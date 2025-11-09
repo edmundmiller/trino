@@ -44,7 +44,6 @@ are also available. They are discussed later in this topic.
 | `hive.user-metastore-cache-ttl` | [Duration](prop-type-duration) of how long cached metastore statistics, which are user specific in user impersonation scenarios, are considered valid. | `0s` |
 | `hive.user-metastore-cache-maximum-size` | Maximum number of metastore data objects in the Hive metastore cache, which are user specific in user impersonation scenarios. | `1000` |
 
-
 ## Thrift metastore configuration properties
 
 In order to use a Hive Thrift metastore, you must configure the metastore with
@@ -82,7 +81,6 @@ properties:
 | `hive.metastore.thrift.client.max-backoff-delay` | Maximum delay between metastore request retries. | `1s` |
 | `hive.metastore.thrift.txn-lock-max-wait` | Maximum time to wait to acquire hive transaction lock. | `10m` |
 
-
 ### Iceberg-specific Hive catalog configuration properties
 
 When using the Hive catalog, the Iceberg connector supports the same
@@ -93,7 +91,6 @@ as previously described with the following additional property:
 
 | Property name | Description | Default |
 |---|---|---|
-
 
 > **Warning:** Setting `iceberg.hive-catalog.locking-enabled=false` will cause the catalog to
 commit to tables without using Hive locks. This should only be set to false if all
@@ -110,7 +107,7 @@ following conditions are met:
 ### Thrift metastore authentication
 
 In a Kerberized Hadoop cluster, Trino connects to the Hive metastore Thrift
-service using {abbr}`SASL (Simple Authentication and Security Layer)` and
+service using SASL (Simple Authentication and Security Layer) and
 authenticates using Kerberos. Kerberos authentication for the metastore is
 configured in the connector's properties file using the following optional
 properties:
@@ -123,7 +120,6 @@ properties:
 | `hive.metastore.thrift.impersonation.enabled` | Enable Hive metastore end user impersonation. See [](hive-security-metastore-impersonation) for more information. | `false` |
 | `hive.metastore.service.principal` | The Kerberos principal of the Hive metastore service. The coordinator uses this to authenticate the Hive metastore. The `_HOST` placeholder can be used in this property value. When connecting to the Hive metastore, the Hive connector substitutes in the hostname of the **metastore** server it is connecting to. This is useful if the metastore runs on multiple hosts. Example: `hive/hive-server-host@EXAMPLE.COM` or `hive/_HOST@EXAMPLE.COM`. |  |
 | `hive.metastore.client.principal` | The Kerberos principal that Trino uses when connecting to the Hive metastore service. Example: `trino/trino-server-node@EXAMPLE.COM` or `trino/_HOST@EXAMPLE.COM`. The `_HOST` placeholder can be used in this property value. When connecting to the Hive metastore, the Hive connector substitutes in the hostname of the **worker** node Trino is running on. This is useful if each worker node has its own Kerberos principal. Unless [](hive-security-metastore-impersonation) is enabled, the principal specified by `hive.metastore.client.principal` must have sufficient privileges to remove files and directories within the `hive/warehouse` directory. **Warning:** If the principal does have sufficient permissions, only the metadata is removed, and the data continues to consume disk space. This occurs because the Hive metastore is responsible for deleting the internal table data. When the metastore is configured to use Kerberos authentication, all the HDFS operations performed by the metastore are impersonated. Errors deleting data are silently ignored. |  |
-
 
 The following sections describe the configuration properties and values needed
 for the various authentication configurations needed to use the Hive metastore
@@ -191,7 +187,6 @@ properties:
 | `hive.metastore.glue.external-id` | External ID for the IAM role trust policy when connecting to the Glue Catalog. |  |
 | `hive.metastore.glue.partitions-segments` | Number of segments for partitioned Glue tables. | `5` |
 
-
 ### Iceberg-specific Glue catalog configuration properties
 
 When using the Glue catalog, the Iceberg connector supports the same
@@ -202,7 +197,6 @@ described with the following additional property:
 
 | Property name | Description | Default |
 |---|---|---|
-
 
 ## Iceberg-specific metastores
 
@@ -242,7 +236,6 @@ following properties:
 | `iceberg.rest-catalog.view-endpoints-enabled` | Enable view endpoints. Defaults to `true`. |
 | `iceberg.rest-catalog.signing-name` | AWS SigV4 signing service name. Defaults to `execute-api`. |
 | `iceberg.rest-catalog.case-insensitive-name-matching` | Match namespace, table, and view names case insensitively. Defaults to `false`. |
-
 
 The following example shows a minimal catalog configuration using an Iceberg
 REST metadata catalog:
@@ -291,7 +284,6 @@ directory.
 | `iceberg.jdbc-catalog.default-warehouse-dir` | The default warehouse directory to use for JDBC. |
 | `iceberg.jdbc-catalog.schema-version` | JDBC catalog schema version. Valid values are `V0` or `V1`. Defaults to `V1`. |
 
-
 > **Warning:** The JDBC catalog may have compatibility issues if Iceberg introduces breaking
 changes in the future. Consider the [REST catalog
 <iceberg-rest-catalog>](#REST catalog
@@ -336,7 +328,6 @@ properties:
 | `iceberg.nessie-catalog.authentication.type` | The authentication type to use. Available value is `BEARER`. Defaults to no authentication. |
 | `iceberg.nessie-catalog.authentication.token` | The token to use with `BEARER` authentication. Example: `SXVLUXUhIExFQ0tFUiEK` |
 
-
 ```text
 connector.name=iceberg
 iceberg.catalog.type=nessie
@@ -361,7 +352,6 @@ properties:
 | `iceberg.snowflake-catalog.user` | Snowflake user (required). |
 | `iceberg.snowflake-catalog.password` | Snowflake password (required). |
 | `iceberg.snowflake-catalog.database` | Snowflake database name (required). |
-
 
 ```text
 connector.name=iceberg

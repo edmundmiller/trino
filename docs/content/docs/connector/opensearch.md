@@ -6,7 +6,6 @@ description: Opensearch documentation
 
 <img src="../_static/img/opensearch.png" class="connector-logo">
 
-
 The OpenSearch connector allows access to [OpenSearch](https://opensearch.org/)
 data from Trino. This document describes how to configure a catalog with the
 OpenSearch connector to run SQL queries against OpenSearch.
@@ -48,7 +47,6 @@ The following table details all general configuration properties:
 | `opensearch.node-refresh-interval` | [Duration](prop-type-duration) between requests to refresh the list of available OpenSearch nodes. | `1m` |
 | `opensearch.ignore-publish-address` | Disable using the address published by the OpenSearch API to connect for queries. Some deployments map OpenSearch ports to a random public port and enabling this property can help in these cases. | `false` |
 
-
 ### Authentication
 
 The connection to OpenSearch can use AWS or password authentication.
@@ -65,14 +63,12 @@ following options must be configured:
 | `opensearch.aws.iam-role` | Optional ARN of an IAM role to assume to connect to OpenSearch. Note that the configured IAM user must be able to assume this role. |
 | `opensearch.aws.external-id` | Optional external ID to pass while assuming an AWS IAM role. |
 
-
 To enable password authentication, the `opensearch.security` option must be set
 to `PASSWORD`. Additionally the following options must be configured:
 
 | Property name | Description |
 |---|---|
 | `opensearch.auth.user` | Username to use to connect to OpenSearch. |
-
 
 ### Connection security with TLS
 
@@ -94,7 +90,6 @@ The available configuration values are listed in the following table:
 | `opensearch.tls.truststore-path` | The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks) trust store. |
 | `opensearch.tls.keystore-password` | The password for the key store specified by `opensearch.tls.keystore-path`. |
 | `opensearch.tls.truststore-password` | The password for the trust store specified by `opensearch.tls.truststore-path`. |
-
 
 ## Type mapping
 
@@ -120,7 +115,6 @@ according to the following table:
 | `KEYWORD` | `VARCHAR` |  |
 | `TEXT` | `VARCHAR` |  |
 | `DATE` | `TIMESTAMP` | For more information, see [](opensearch-date-types). |
-
 
 No other types are supported.
 
@@ -274,7 +268,6 @@ The following hidden columns are available:
 | `_id` | The OpenSearch document ID. |
 | `_score` | The document score returned by the OpenSearch query. |
 
-
 ## SQL support
 
 The connector provides [globally available](sql-globally-available) and
@@ -368,7 +361,6 @@ following data types:
 | `integer` | `INTEGER` |
 | `long` | `BIGINT` |
 | `keyword` | `VARCHAR` |
-
 
 No other data types are supported for predicate push down.
 

@@ -6,7 +6,6 @@ description: Googlesheets documentation
 
 <img src="../_static/img/google-sheets.png" class="connector-logo">
 
-
 The Google Sheets connector allows reading and writing [Google Sheets](https://www.google.com/sheets/about/) spreadsheets as tables in Trino.
 
 ## Configuration
@@ -131,7 +130,6 @@ following this table:
 
 | Google Sheets type | Trino type |
 |---|---|
-
 
 No other types are supported.
 

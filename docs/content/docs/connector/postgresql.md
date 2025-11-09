@@ -7,7 +7,6 @@ description: Postgresql documentation
 
 <img src="../_static/img/postgresql.png" class="connector-logo">
 
-
 The PostgreSQL connector allows querying and creating tables in an
 external [PostgreSQL](https://www.postgresql.org/) database. This can be used to join data between
 different systems like PostgreSQL and Hive, or between different
@@ -122,7 +121,6 @@ each direction.
 The connector maps PostgreSQL types to the corresponding Trino types following
 this table:
 
-
 #### PostgreSQL type to Trino type mapping
 
 | PostgreSQL type | Trino type | Notes |
@@ -150,7 +148,6 @@ this table:
 | `VECTOR` | `ARRAY(REAL)` |  |
 | `HSTORE` | `MAP(VARCHAR, VARCHAR)` |  |
 | `ARRAY` | Disabled, `ARRAY`, or `JSON` | See [](postgresql-array-type-handling) for more information. |
-
 
 No other types are supported.
 
@@ -281,7 +278,6 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
-
 (postgresql-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -295,8 +291,6 @@ tables.
 
 In rare cases, exceptions may occur during the merge operation, potentially
 resulting in a partial update.
-
-
 
 (postgresql-alter-table)=
 <!-- Fragment not found: alter-table-limitation.fragment -->
@@ -344,7 +338,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

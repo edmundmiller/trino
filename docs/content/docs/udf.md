@@ -10,4 +10,3 @@ value, similar to [built-in functions](/docs/functions).
 
 More details are available in the following sections:
 
-

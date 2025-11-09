@@ -7,7 +7,6 @@ description: Exasol documentation
 
 <img src="../_static/img/exasol.png" class="connector-logo">
 
-
 The Exasol connector allows querying an [Exasol](https://www.exasol.com/) database.
 
 ## Requirements
@@ -76,7 +75,6 @@ Trino data type mapping:
 | `CHAR(n)` | `CHAR(n)` |  |
 | `VARCHAR(n)` | `VARCHAR(n)` |  |
 | `DATE` | `DATE` |  |
-
 
 No other types are supported.
 
@@ -152,7 +150,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

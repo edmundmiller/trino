@@ -64,8 +64,6 @@ The same UDF can also be declared as [](udf-catalog).
 
 Refer to the [](/udf/python/examples) for more complex use cases and examples.
 
-
-
 ## Python language details
 
 The Trino Python UDF integrations uses Python 3.13.0 in a sandboxed environment.
@@ -149,7 +147,6 @@ types for input and output values of a Python UDF:
 | `INTERVAL DAY TO SECOND` | `datetime.timedelta` |
 | `JSON` | `str` |
 | `UUID` | `uuid.UUID` |
-
 
 ### Time and timestamp
 

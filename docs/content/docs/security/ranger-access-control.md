@@ -40,7 +40,6 @@ The following table lists the configuration properties for the Ranger access con
 | `ranger.service.name` | Name of the service on Ranger with the policies to enforce. |
 | `ranger.plugin.config.resource` | Comma-separated list of Ranger plugin configuration files. Relative paths are resolved dynamically by searching on the classpath. |
 
-
 ### ranger-trino-security.xml
 
 ```xml

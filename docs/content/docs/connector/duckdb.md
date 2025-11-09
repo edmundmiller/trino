@@ -6,7 +6,6 @@ description: Duckdb documentation
 
 <img src="../_static/img/duckdb.png" class="connector-logo">
 
-
 The DuckDB connector allows querying and creating tables in an external
 [DuckDB](https://duckdb.org/) instance. This can be used to join data between
 different systems like DuckDB and Hive, or between two different
@@ -28,7 +27,7 @@ For example, to access a database as the `example` catalog, create the file
 `etc/catalog/example.properties`. Replace the connection properties as
 appropriate for your setup:
 
-```none
+```text
 connector.name=duckdb
 connection-url=jdbc:duckdb:<path>
 ```
@@ -90,7 +89,6 @@ this table:
 | `DECIMAL` | `DECIMAL` | Default precision and scale are (18,3). |
 | `VARCHAR` | `VARCHAR` |  |
 
-
 No other types are supported.
 
 ### Trino type to DuckDB type mapping
@@ -112,7 +110,6 @@ this table:
 | `DECIMAL` | `DECIMAL` |  |
 | `CHAR` | `VARCHAR` |  |
 | `VARCHAR` | `VARCHAR` |  |
-
 
 No other types are supported.
 
@@ -176,7 +173,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 

@@ -19,7 +19,6 @@ with ORC files performed by supported object storage connectors:
 | `orc.time-zone` | Sets the default time zone for legacy ORC files that did not declare a time zone. | JVM default |
 | `orc.bloom-filters.enabled` | Enable bloom filters for predicate pushdown. | `false` |
 
-
 [](file-compression) is automatically performed and some details can be
 configured.
 
@@ -52,7 +51,6 @@ with Parquet files performed by supported object storage connectors:
 | `parquet.max-read-block-row-count` | Sets the maximum number of rows read in a batch. The equivalent catalog session property is named `parquet_max_read_block_row_count` and supported by the Delta Lake, Hive, Iceberg and Hudi connectors. | `8192` |
 | `parquet.small-file-threshold` | [Data size](prop-type-data-size) below which a Parquet file is read entirely. The equivalent catalog session property is named `parquet_small_file_threshold`. | `3MB` |
 | `parquet.experimental.vectorized-decoding.enabled` | Enable using Java Vector API (SIMD) for faster decoding of parquet files. The equivalent catalog session property is `parquet_vectorized_decoding_enabled`. | `true` |
-
 
 [](file-compression) is automatically performed and some details can be
 configured.

@@ -40,7 +40,6 @@ system support.
 | `fs.native-gcs.enabled` | Activate the [native implementation for Google Cloud Storage support](/docs/object-storage/file-system-gcs). Defaults to `false`. |
 | `fs.native-s3.enabled` | Activate the [native implementation for S3 storage support](/docs/object-storage/file-system-s3). Defaults to `false`. |
 
-
 ## Native file system support
 
 Trino includes optimized implementations to access the following systems, and
@@ -82,5 +81,4 @@ storage:
 * [](/object-storage/file-system-alluxio)
 * [](/object-storage/metastores)
 * [](/object-storage/file-formats)
-
 

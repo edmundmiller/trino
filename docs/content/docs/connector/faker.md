@@ -49,7 +49,6 @@ The following table details all general configuration properties:
 | `faker.locale` | Default locale for generating character-based data, specified as an IETF BCP 47 language tag string. Defaults to `en`. |
 | `faker.sequence-detection-enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
 
-
 The following table details all supported schema properties. If they're not
 set, values from corresponding configuration properties are used.
 
@@ -60,7 +59,6 @@ set, values from corresponding configuration properties are used.
 | `null_probability` | Default probability of a value created as `null` in any column that allows them, in any table of this schema. |
 | `default_limit` | Default number of rows in a table. |
 | `sequence_detection_enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
-
 
 The following table details all supported table properties. If they're not set,
 values from corresponding schema properties are used.
@@ -73,7 +71,6 @@ values from corresponding schema properties are used.
 | `default_limit` | Default number of rows in the table. |
 | `sequence_detection_enabled` | If true, when creating a table using existing data, columns with the number of distinct values close to the number of rows are treated as sequences. Defaults to `true`. |
 
-
 The following table details all supported column properties.
 
 #### Faker column properties
@@ -85,7 +82,6 @@ The following table details all supported column properties.
 | `min` | Minimum generated value (inclusive). Cannot be set for character-based type columns. |
 | `max` | Maximum generated value (inclusive). Cannot be set for character-based type columns. |
 | `allowed_values` | List of allowed values. Cannot be set together with the `min`, or `max` properties. |
-
 
 ### Character types
 
@@ -293,7 +289,6 @@ the `min`, `max`, and `null_probability` column properties, based on statistics
 collected by scanning existing data read by Trino from the data source. The
 connector uses these statistics to be able to generate data that is more similar
 to the original data set, without using any of that data:
-
 
 ```sql
 CREATE TABLE generator.default.customer AS

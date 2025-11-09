@@ -73,7 +73,6 @@ The materialized views table contains the following information about all
 | `last_fresh_time` | Date and time of the last refresh of the materialized view. |
 | `comment` | User supplied text about the materialized view. |
 
-
 ### `metadata.materialized_view_properties`
 
 The materialized view properties table contains the list of available properties

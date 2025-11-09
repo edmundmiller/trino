@@ -19,7 +19,6 @@ encouraged. Find collaborators and discussions in ongoing pull requests and the
 The Preview Web UI is available by default, but can be disabled in
 [](config-properties) with the following configuration:
 
-
 ```properties
 web-ui.preview.enabled=false
 ```

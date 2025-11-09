@@ -6,7 +6,6 @@ description: Bigquery documentation
 
 <img src="../_static/img/bigquery.png" class="connector-logo">
 
-
 The BigQuery connector allows querying the data stored in [BigQuery](https://cloud.google.com/bigquery/). This can be used to join data between
 different systems like BigQuery and Hive. The connector uses the [BigQuery
 Storage API](https://cloud.google.com/bigquery/docs/reference/storage/) to
@@ -101,14 +100,13 @@ in different scenarios:
 | `bigquery.credentials-key` and `bigquery.project-id` | The project ID from the credentials key is used for billing. | `bigquery.project-id` is used for querying data. |
 | `bigquery.credentials-key` and `bigquery.parent-project-id` | `bigquery.parent-project-id` is used for billing. | The project ID from the credentials key is used for querying data. |
 
-
 ### Arrow serialization support
 
 This is a feature which introduces support for using Apache Arrow
 as the serialization format when reading from BigQuery. Add the following
 required, additional JVM argument to the [](jvm-config):
 
-```none
+```text
 --add-opens=java.base/java.nio=ALL-UNNAMED
 --sun-misc-unsafe-memory-access=allow
 ```
@@ -172,12 +170,10 @@ a few caveats:
 | `bigquery.rpc-proxy.keystore-password` | Password of the keystore specified by `bigquery.rpc-proxy.keystore-path`. |  |
 | `bigquery.rpc-proxy.truststore-path` | Truststore containing certificates of the proxy server if connecting through a proxy. |  |
 
-
 ### Fault-tolerant execution support
 
 The connector supports [/admin/fault-tolerant-execution](/docs//admin/fault-tolerant-execution) of query
 processing. Read and write operations are both supported with any retry policy.
-
 
 ## Type mapping
 
@@ -211,7 +207,6 @@ to the following table:
 | `JSON` | `JSON` |  |
 | `ARRAY` | `ARRAY` |  |
 
-
 No other types are supported.
 
 ### Trino type to BigQuery type mapping
@@ -230,7 +225,6 @@ to the following table:
 | `BIGINT` | `INT64` | `INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, and `BYTEINT` are aliases for `INT64` in BigQuery. |
 | `DECIMAL(P,S)` | `NUMERIC` | The default precision and scale of `NUMERIC` is `(38, 9)`. |
 | `VARCHAR` | `STRING` |  |
-
 
 No other types are supported.
 
@@ -329,7 +323,6 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
-
 
 ### Table functions
 
