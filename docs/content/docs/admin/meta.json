@@ -1,0 +1,16 @@
+{
+  "title": "Admin",
+  "pages": [
+    "event-listeners-kafka",
+    "event-listeners-mysql",
+    "event-listeners-openlineage",
+    "logging",
+    "openmetrics",
+    "opentelemetry",
+    "preview-web-interface",
+    "properties-catalog",
+    "properties-client-protocol",
+    "properties-http-server",
+    "properties-sql-environment"
+  ]
+}

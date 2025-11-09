@@ -1,0 +1,16 @@
+{
+  "title": "Sql",
+  "pages": [
+    "alter-branch",
+    "create-branch",
+    "create-catalog",
+    "create-function",
+    "drop-branch",
+    "drop-catalog",
+    "drop-function",
+    "reset-session-authorization",
+    "set-session-authorization",
+    "show-branches",
+    "show-create-function"
+  ]
+}

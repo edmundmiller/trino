@@ -1,4 +1,17 @@
 {
   "title": "Documentation",
-  "pages": ["index", "quick-start", "overview"]
+  "pages": [
+    "index",
+    "quick-start",
+    "overview",
+    "admin",
+    "connector",
+    "functions",
+    "installation",
+    "sql",
+    "security",
+    "object-storage",
+    "udf",
+    "release"
+  ]
 }

@@ -1,0 +1,14 @@
+{
+  "title": "Object Storage",
+  "pages": [
+    "file-formats",
+    "file-system-alluxio",
+    "file-system-azure",
+    "file-system-cache",
+    "file-system-gcs",
+    "file-system-hdfs",
+    "file-system-local",
+    "file-system-s3",
+    "metastores"
+  ]
+}

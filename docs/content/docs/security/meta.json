@@ -1,0 +1,8 @@
+{
+  "title": "Security",
+  "pages": [
+    "group-mapping",
+    "opa-access-control",
+    "ranger-access-control"
+  ]
+}
