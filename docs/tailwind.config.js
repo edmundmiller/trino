@@ -6,4 +6,17 @@ export default {
     './content/**/*.{md,mdx}',
     './mdx-components.{ts,tsx}',
   ],
+  theme: {
+    extend: {
+      colors: {
+        trino: {
+          pink: '#dd00a1',
+          cyan: '#1EDCFF',
+          gold: '#F8B600',
+          'dark-blue': '#000033',
+          'dark-bg': '#252830',
+        },
+      },
+    },
+  },
 };

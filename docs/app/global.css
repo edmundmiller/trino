@@ -1,60 +1,124 @@
 @import 'tailwindcss';
-@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/ocean.css';
 @import 'fumadocs-ui/css/preset.css';
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
 /* Trino Brand Theme */
 :root {
-  /* Primary brand colors */
-  --color-fd-primary: 221 0 161; /* Trino Pink #dd00a1 */
-  --color-fd-primary-foreground: 255 255 255;
+  /* Primary brand colors - Trino Pink */
+  --color-fd-primary: hsl(322, 100%, 43%); /* #dd00a1 */
+  --color-fd-primary-foreground: hsl(0, 0%, 100%);
 
-  /* Secondary/accent colors */
-  --color-fd-secondary: 30 220 255; /* Trino Cyan #1EDCFF */
-  --color-fd-secondary-foreground: 0 0 51;
+  /* Secondary/accent colors - Trino Cyan */
+  --color-fd-secondary: hsl(190, 100%, 56%); /* #1EDCFF */
+  --color-fd-secondary-foreground: hsl(240, 100%, 10%);
 
   /* Background colors */
-  --color-fd-background: 255 255 255;
-  --color-fd-foreground: 10 10 10;
-  --color-fd-muted: 245 245 245;
-  --color-fd-muted-foreground: 115 115 115;
+  --color-fd-background: hsl(0, 0%, 100%);
+  --color-fd-foreground: hsl(0, 0%, 4%);
+  --color-fd-muted: hsl(0, 0%, 96%);
+  --color-fd-muted-foreground: hsl(0, 0%, 45%);
 
   /* Card colors */
-  --color-fd-card: 255 255 255;
-  --color-fd-card-foreground: 10 10 10;
+  --color-fd-card: hsl(0, 0%, 100%);
+  --color-fd-card-foreground: hsl(0, 0%, 4%);
+
+  /* Popover colors */
+  --color-fd-popover: hsl(0, 0%, 100%);
+  --color-fd-popover-foreground: hsl(0, 0%, 4%);
 
   /* Border colors */
-  --color-fd-border: 229 229 229;
+  --color-fd-border: hsl(0, 0%, 90%);
+  --color-fd-ring: hsl(322, 100%, 43%); /* Trino Pink */
 
-  /* Accent colors */
-  --color-fd-accent: 248 182 0; /* Trino Gold #F8B600 */
-  --color-fd-accent-foreground: 0 0 51;
+  /* Accent colors - Trino Gold */
+  --color-fd-accent: hsl(43, 100%, 49%); /* #F8B600 */
+  --color-fd-accent-foreground: hsl(240, 100%, 10%);
 }
 
 .dark {
-  /* Primary brand colors for dark mode */
-  --color-fd-primary: 221 0 161; /* Trino Pink #dd00a1 */
-  --color-fd-primary-foreground: 255 255 255;
+  /* Primary brand colors - Trino Pink */
+  --color-fd-primary: hsl(322, 100%, 43%); /* #dd00a1 */
+  --color-fd-primary-foreground: hsl(0, 0%, 100%);
 
-  /* Secondary/accent colors */
-  --color-fd-secondary: 30 220 255; /* Trino Cyan #1EDCFF */
-  --color-fd-secondary-foreground: 0 0 51;
+  /* Secondary/accent colors - Trino Cyan */
+  --color-fd-secondary: hsl(190, 100%, 56%); /* #1EDCFF */
+  --color-fd-secondary-foreground: hsl(240, 100%, 10%);
 
   /* Background colors - using Trino's dark theme */
-  --color-fd-background: 0 0 51; /* Trino Dark Blue #000033 */
-  --color-fd-foreground: 255 255 255;
-  --color-fd-muted: 37 40 48; /* Trino UI Dark #252830 */
-  --color-fd-muted-foreground: 163 163 163;
+  --color-fd-background: hsl(240, 100%, 10%); /* #000033 */
+  --color-fd-foreground: hsl(0, 0%, 100%);
+  --color-fd-muted: hsl(225, 11%, 17%); /* #252830 */
+  --color-fd-muted-foreground: hsl(0, 0%, 64%);
 
   /* Card colors */
-  --color-fd-card: 27 27 27; /* Trino UI Dark #1b1b1b */
-  --color-fd-card-foreground: 255 255 255;
+  --color-fd-card: hsl(0, 0%, 11%); /* #1b1b1b */
+  --color-fd-card-foreground: hsl(0, 0%, 100%);
+
+  /* Popover colors */
+  --color-fd-popover: hsl(0, 0%, 11%);
+  --color-fd-popover-foreground: hsl(0, 0%, 100%);
 
   /* Border colors */
-  --color-fd-border: 38 38 38;
+  --color-fd-border: hsl(0, 0%, 15%);
+  --color-fd-ring: hsl(322, 100%, 43%); /* Trino Pink */
 
-  /* Accent colors */
-  --color-fd-accent: 248 182 0; /* Trino Gold #F8B600 */
-  --color-fd-accent-foreground: 0 0 51;
+  /* Accent colors - Trino Gold */
+  --color-fd-accent: hsl(43, 100%, 49%); /* #F8B600 */
+  --color-fd-accent-foreground: hsl(240, 100%, 10%);
+}
+
+/* Additional Trino Branding Styles */
+
+/* Style headings with Trino colors */
+article h1,
+article h2,
+article h3 {
+  color: #dd00a1 !important; /* Trino Pink */
+}
+
+.dark article h1,
+.dark article h2,
+.dark article h3 {
+  color: #1EDCFF !important; /* Trino Cyan */
+}
+
+/* Style links in content */
+article a {
+  color: #dd00a1; /* Trino Pink */
+  text-decoration: underline;
+  text-decoration-color: rgba(221, 0, 161, 0.3);
+  text-underline-offset: 2px;
+}
+
+.dark article a {
+  color: #1EDCFF; /* Trino Cyan */
+  text-decoration-color: rgba(30, 220, 255, 0.3);
+}
+
+article a:hover {
+  color: #F8B600; /* Trino Gold */
+  text-decoration-color: #F8B600;
+}
+
+/* Navigation border accent */
+nav[data-transparent="false"] {
+  border-bottom: 2px solid #1EDCFF !important;
+}
+
+/* Sidebar active link */
+aside a[data-active="true"] {
+  color: #dd00a1 !important;
+  border-left-color: #dd00a1 !important;
+}
+
+.dark aside a[data-active="true"] {
+  color: #1EDCFF !important;
+  border-left-color: #1EDCFF !important;
+}
+
+/* Code blocks accent */
+pre {
+  border-left: 3px solid #F8B600;
 }
