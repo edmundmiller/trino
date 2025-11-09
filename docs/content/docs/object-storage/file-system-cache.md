@@ -94,52 +94,17 @@ also when hosted in public cloud provider systems.
 Use the properties from the following table in your catalog properties files to
 enable and configure caching for the specific catalogs.
 
-:::{list-table} File system cache configuration properties
-:widths: 25, 75
-:header-rows: 1
+#### File system cache configuration properties
 
-* - Property
-  - Description
-* - `fs.cache.enabled`
-  - Enable object storage caching. Defaults to no caching with the value `false`.
-* - `fs.cache.directories`
-  - Required, comma-separated list of absolute paths to directories to use for
-    caching. All directories must exist on the coordinator and all workers.
-    Trino must have read and write permissions for files and nested directories.
-    A valid example with only one directory is `/tmp/trino-cache`.
+| Property | Description |
+|---|---|
+| `fs.cache.enabled` | Enable object storage caching. Defaults to no caching with the value `false`. |
+| `fs.cache.directories` | Required, comma-separated list of absolute paths to directories to use for caching. All directories must exist on the coordinator and all workers. Trino must have read and write permissions for files and nested directories. A valid example with only one directory is `/tmp/trino-cache`. Directories must be specific for each catalog with caching enabled. When enabling caching in multiple catalogs, you must use different directories and set the values for `fs.cache.max-sizes` or `fs.cache.max-disk-usage-percentages` accordingly. |
+| `fs.cache.max-sizes` | Comma-separated list of maximum [data sizes](prop-type-data-size) for each caching directory. Order of values must be identical to the directories list. Configuring either `fs.cache.max-sizes` or `fs.cache.max-disk-usage-percentages` is required. |
+| `fs.cache.max-disk-usage-percentages` | Comma-separated list of maximum percentage values of the used disk for each directory. Each value is an integer between 1 and 100. Order of values must be identical to the directories list. If multiple directories use the same disk, ensure that total percentages per drive remains below 100 percent. Configuring either `fs.cache.max-sizes` or `fs.cache.max-disk-usage-percentages` is required. |
+| `fs.cache.ttl` | The maximum [duration](prop-type-duration) for objects to remain in the cache before eviction. Defaults to `7d`. The minimum value of `0s` means that caching is effectively turned off. |
+| `fs.cache.preferred-hosts-count` | The number of preferred nodes for caching files. Defaults to 2. Processing identifies and subsequently prefers using specific nodes. If the preferred nodes identified for caching a split are unavailable or too busy, then an available node is chosen at random from the cluster. More information in [](fs-cache-distributed). |
 
-    Directories must be specific for each catalog with caching enabled. When
-    enabling caching in multiple catalogs, you must use different directories
-    and set the values for `fs.cache.max-sizes` or
-    `fs.cache.max-disk-usage-percentages` accordingly.
-* - `fs.cache.max-sizes`
-  - Comma-separated list of maximum [data sizes](prop-type-data-size) for each
-    caching directory. Order of values must be identical to the directories
-    list. Configuring either `fs.cache.max-sizes` or
-    `fs.cache.max-disk-usage-percentages` is required.
-* - `fs.cache.max-disk-usage-percentages`
-  - Comma-separated list of maximum percentage values of the used disk for each
-    directory. Each value is an integer between 1 and 100. Order of values must
-    be identical to the directories list. If multiple directories use the same
-    disk, ensure that total percentages per drive remains below 100 percent.
-    Configuring either `fs.cache.max-sizes` or
-    `fs.cache.max-disk-usage-percentages` is required.
-* - `fs.cache.ttl`
-  -  The maximum [duration](prop-type-duration) for objects to remain in the cache
-     before eviction. Defaults to `7d`. The minimum value of `0s` means that caching
-     is effectively turned off.
-* - `fs.cache.preferred-hosts-count`
-  - The number of preferred nodes for caching files. Defaults to 2. Processing
-    identifies and subsequently prefers using specific nodes. If the preferred
-    nodes identified for caching a split are unavailable or too busy, then an
-    available node is chosen at random from the cluster. More information in
-    [](fs-cache-distributed).
-* - `fs.cache.page-size`
-  - The page [data size](prop-type-data-size) used for caching data. Each transfer of files
-    uses at least this amount of data. Defaults to `1MB`. Values must be between
-    `64kB` and `15MB`. Larger value potentially result in too much data transfer
-    smaller values are less efficient since they result in more individual downloads.
-:::
 
 ## Monitoring
 

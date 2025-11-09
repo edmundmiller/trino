@@ -6,6 +6,7 @@ description: Googlesheets documentation
 
 <img src="../_static/img/google-sheets.png" class="connector-logo">
 
+
 The Google Sheets connector allows reading and writing [Google Sheets](https://www.google.com/sheets/about/) spreadsheets as tables in Trino.
 
 ## Configuration
@@ -126,15 +127,11 @@ connector [modifies some types <type-mapping-overview>](#modifies some types <ty
 The connector maps Google Sheets types to the corresponding Trino types
 following this table:
 
-:::{list-table} Google Sheets type to Trino type mapping
-:widths: 30, 20
-:header-rows: 1
+#### Google Sheets type to Trino type mapping
 
-* - Google Sheets type
-  - Trino type
-* - `TEXT`
-  - `VARCHAR`
-:::
+| Google Sheets type | Trino type |
+|---|---|
+
 
 No other types are supported.
 

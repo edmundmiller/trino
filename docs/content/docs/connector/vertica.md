@@ -7,6 +7,7 @@ description: Vertica documentation
 
 <img src="../_static/img/vertica.png" class="connector-logo">
 
+
 The Vertica connector allows querying a [Vertica database, also known as OpenText
 Analytics Database](https://www.opentext.com/products/analytics-database), as an
 external data source.
@@ -60,39 +61,18 @@ direction.
 The connector maps Vertica types to the corresponding Trino types according to
 the following table:
 
-:::{list-table} Vertica to Trino type mapping
-:widths: 35, 25, 40
-:header-rows: 1
+#### Vertica to Trino type mapping
 
-* - Vertica type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  - Vertica treats TINYINT, SMALLINT, INTEGER, and BIGINT as synonyms for the
-    same 64-bit BIGINT data type
-* - `DOUBLE PRECISION (FLOAT)`
-  - `DOUBLE`
-  - Vertica treats FLOAT and REAL as the same 64-bit IEEE FLOAT
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-  -
-* - `CHAR, CHAR(n)`
-  - `CHAR, CHAR(n)`
-  -
-* - `VARCHAR`, `LONG VARCHAR`, `VARCHAR(n)`, `LONG VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `VARBINARY`, `LONG VARBINARY`, `VARBINARY(n)`, `LONG VARBINARY(n)`
-  - `VARBINARY(n)`
-  -
-* - `DATE`
-  - `DATE`
-  -
-:::
+| Vertica type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `BIGINT` | `BIGINT` | Vertica treats TINYINT, SMALLINT, INTEGER, and BIGINT as synonyms for the same 64-bit BIGINT data type |
+| `DOUBLE PRECISION (FLOAT)` | `DOUBLE` | Vertica treats FLOAT and REAL as the same 64-bit IEEE FLOAT |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` |  |
+| `CHAR, CHAR(n)` | `CHAR, CHAR(n)` |  |
+| `VARCHAR`, `LONG VARCHAR`, `VARCHAR(n)`, `LONG VARCHAR(n)` | `VARCHAR(n)` |  |
+| `VARBINARY`, `LONG VARBINARY`, `VARBINARY(n)`, `LONG VARBINARY(n)` | `VARBINARY(n)` |  |
+
 
 No other types are supported.
 
@@ -109,37 +89,22 @@ SET SESSION vertica.unsupported_type_handling='CONVERT_TO_VARCHAR';
 The connector maps Trino types to the corresponding Vertica types according to
 the following table:
 
-:::{list-table} Trino to Vertica type mapping
-:widths: 50, 50
-:header-rows: 1
+#### Trino to Vertica type mapping
 
-* - Trino type
-  - Vertica type
-* - `BOOLEAN`
-  - `BOOLEAN`
-* - `TINYINT`
-  - `BIGINT`
-* - `SMALLINT`
-  - `BIGINT`
-* - `INTEGER`
-  - `BIGINT`
-* - `BIGINT`
-  - `BIGINT`
-* - `REAL`
-  - `DOUBLE PRECISION`
-* - `DOUBLE`
-  - `DOUBLE PRECISION`
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-* - `CHAR`
-  - `CHAR`
-* - `VARCHAR`
-  - `VARCHAR`
-* - `VARBINARY`
-  - `VARBINARY`
-* - `DATE`
-  - `DATE`
-:::
+| Trino type | Vertica type |
+|---|---|
+| `BOOLEAN` | `BOOLEAN` |
+| `TINYINT` | `BIGINT` |
+| `SMALLINT` | `BIGINT` |
+| `INTEGER` | `BIGINT` |
+| `BIGINT` | `BIGINT` |
+| `REAL` | `DOUBLE PRECISION` |
+| `DOUBLE` | `DOUBLE PRECISION` |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` |
+| `CHAR` | `CHAR` |
+| `VARCHAR` | `VARCHAR` |
+| `VARBINARY` | `VARBINARY` |
+
 
 No other types are supported.
 

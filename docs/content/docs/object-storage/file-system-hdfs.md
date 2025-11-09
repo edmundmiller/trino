@@ -17,108 +17,36 @@ Apache Hadoop HDFS 2.x and 3.x are supported.
 
 Use the following properties to configure general aspects of HDFS support:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
+| Property | Description |
+|---|---|
+| `fs.hadoop.enabled` | Activate the support for HDFS access. Defaults to `false`. Set to `true` to use HDFS and enable all other properties. |
+| `hive.config.resources` | An optional, comma-separated list of HDFS configuration files. These files must exist on the machines running Trino. For basic setups, Trino configures the HDFS client automatically and does not require any configuration files. In some cases, such as when using federated HDFS or NameNode high availability, it is necessary to specify additional HDFS client options to access your HDFS cluster in the HDFS XML configuration files and reference them with this parameter: ```text hive.config.resources=/etc/hadoop/conf/core-site.xml ``` Only specify additional configuration files if necessary for your setup, and reduce the configuration files to have the minimum set of required properties. Additional properties may cause problems. |
+| `hive.fs.new-directory-permissions` | Controls the permissions set on new directories created for schemas and tables. Value must either be `skip` or an octal number, with a leading 0. If set to `skip`, permissions of newly created directories are not set by Trino. Defaults to `0777`. |
+| `hive.fs.new-file-inherit-ownership` | Flag to determine if new files inherit the ownership information from the directory. Defaults to `false`. |
+| `hive.dfs.verify-checksum` | Flag to determine if file checksums must be verified. Defaults to `false`. |
+| `hive.dfs.ipc-ping-interval` | [Duration](prop-type-duration) between IPC pings from Trino to HDFS. Defaults to `10s`. |
+| `hive.dfs-timeout` | Timeout [duration](prop-type-duration) for access operations on HDFS. Defaults to `60s`. |
+| `hive.dfs.connect.timeout` | Timeout [duration](prop-type-duration) for connection operations to HDFS. Defaults to `500ms`. |
+| `hive.dfs.connect.max-retries` | Maximum number of retries for HDFS connection attempts. Defaults to `5`. |
+| `hive.dfs.key-provider.cache-ttl` | Caching time [duration](prop-type-duration) for the key provider. Defaults to `30min`. |
+| `hive.dfs.domain-socket-path` | Path to the UNIX domain socket for the DataNode. The path must exist on each node. For example, `/var/lib/hadoop-hdfs/dn_socket`. |
+| `hive.hdfs.socks-proxy` | URL for a SOCKS proxy to use for accessing HDFS. For example, `hdfs-master:1180`. |
+| `hive.hdfs.wire-encryption.enabled` | Enable HDFS wire encryption. In a Kerberized Hadoop cluster that uses HDFS wire encryption, this must be set to `true` to enable Trino to access HDFS. Note that using wire encryption may impact query execution performance. Defaults to `false`. |
+| `hive.fs.cache.max-size` | Maximum number of cached file system objects in the HDFS cache. Defaults to `1000`. |
 
-* - Property
-  - Description
-* - `fs.hadoop.enabled`
-  - Activate the support for HDFS access. Defaults to `false`. Set to `true` to
-    use HDFS and enable all other properties.
-* - `hive.config.resources`
-  - An optional, comma-separated list of HDFS configuration files. These files
-    must exist on the machines running Trino. For basic setups, Trino configures
-    the HDFS client automatically and does not require any configuration files.
-    In some cases, such as when using federated HDFS or NameNode high
-    availability, it is necessary to specify additional HDFS client options to
-    access your HDFS cluster in the HDFS XML configuration files and reference
-    them with this parameter:
-
-    ```text
-    hive.config.resources=/etc/hadoop/conf/core-site.xml
-    ```
-
-    Only specify additional configuration files if necessary for your setup, and
-    reduce the configuration files to have the minimum set of required
-    properties. Additional properties may cause problems.
-* - `hive.fs.new-directory-permissions`
-  - Controls the permissions set on new directories created for schemas and
-    tables. Value must either be `skip` or an octal number, with a leading 0. If
-    set to `skip`, permissions of newly created directories are not set by
-    Trino. Defaults to `0777`.
-* - `hive.fs.new-file-inherit-ownership`
-  - Flag to determine if new files inherit the ownership information from the
-    directory. Defaults to `false`.
-* - `hive.dfs.verify-checksum`
-  - Flag to determine if file checksums must be verified. Defaults to `false`.
-* - `hive.dfs.ipc-ping-interval`
-  - [Duration](prop-type-duration) between IPC pings from Trino to HDFS.
-    Defaults to `10s`.
-* - `hive.dfs-timeout`
-  - Timeout [duration](prop-type-duration) for access operations on HDFS.
-    Defaults to `60s`.
-* - `hive.dfs.connect.timeout`
-  - Timeout [duration](prop-type-duration) for connection operations to HDFS.
-    Defaults to `500ms`.
-* - `hive.dfs.connect.max-retries`
-  - Maximum number of retries for HDFS connection attempts. Defaults to `5`.
-* - `hive.dfs.key-provider.cache-ttl`
-  - Caching time [duration](prop-type-duration) for the key provider. Defaults
-    to `30min`.
-* - `hive.dfs.domain-socket-path`
-  - Path to the UNIX domain socket for the DataNode. The path must exist on each
-    node. For example, `/var/lib/hadoop-hdfs/dn_socket`.
-* - `hive.hdfs.socks-proxy`
-  - URL for a SOCKS proxy to use for accessing HDFS. For example,
-    `hdfs-master:1180`.
-* - `hive.hdfs.wire-encryption.enabled`
-  - Enable HDFS wire encryption. In a Kerberized Hadoop cluster that uses HDFS
-    wire encryption, this must be set to `true` to enable Trino to access HDFS.
-    Note that using wire encryption may impact query execution performance.
-    Defaults to `false`.
-* - `hive.fs.cache.max-size`
-  - Maximum number of cached file system objects in the HDFS cache. Defaults to
-    `1000`.
-* - `hive.dfs.replication`
-  - Integer value to set the HDFS replication factor. By default, no value is
-    set.
-:::
 
 ## Security
 
 HDFS support includes capabilities for user impersonation and Kerberos
 authentication. The following properties are available:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
+| Property value | Description |
+|---|---|
+| `hive.hdfs.authentication.type` | Configure the authentication to use no authentication (`NONE`) or Kerberos authentication (`KERBEROS`). Defaults to `NONE`. |
+| `hive.hdfs.impersonation.enabled` | Enable HDFS end-user impersonation. Defaults to `false`. See details in [](hdfs-security-impersonation). |
+| `hive.hdfs.trino.principal` | The Kerberos principal Trino uses when connecting to HDFS. Example: `trino-hdfs-superuser/trino-server-node@EXAMPLE.COM` or `trino-hdfs-superuser/_HOST@EXAMPLE.COM`. The `_HOST` placeholder can be used in this property value. When connecting to HDFS, the Hive connector substitutes in the hostname of the **worker** node Trino is running on. This is useful if each worker node has its own Kerberos principal. |
+| `hive.hdfs.trino.keytab` | The path to the keytab file that contains a key for the principal specified by `hive.hdfs.trino.principal`. This file must be readable by the operating system user running Trino. |
 
-* - Property value
-  - Description
-* - `hive.hdfs.authentication.type`
-  - Configure the authentication to use no authentication (`NONE`) or Kerberos
-    authentication (`KERBEROS`). Defaults to `NONE`.
-* - `hive.hdfs.impersonation.enabled`
-  - Enable HDFS end-user impersonation. Defaults to `false`. See details in
-    [](hdfs-security-impersonation).
-* - `hive.hdfs.trino.principal`
-  - The Kerberos principal Trino uses when connecting to HDFS. Example:
-    `trino-hdfs-superuser/trino-server-node@EXAMPLE.COM` or
-    `trino-hdfs-superuser/_HOST@EXAMPLE.COM`.
-
-    The `_HOST` placeholder can be used in this property value. When connecting
-    to HDFS, the Hive connector substitutes in the hostname of the **worker**
-    node Trino is running on. This is useful if each worker node has its own
-    Kerberos principal.
-* - `hive.hdfs.trino.keytab`
-  - The path to the keytab file that contains a key for the principal specified
-    by `hive.hdfs.trino.principal`. This file must be readable by the operating
-    system user running Trino.
-* - `hive.hdfs.trino.credential-cache.location`
-  - The location of the credential-cache with the credentials for the principal
-    to use to access HDFS. Alternative to `hive.hdfs.trino.keytab`.
-:::
 
 The default security configuration does not use authentication when connecting
 to a Hadoop cluster (`hive.hdfs.authentication.type=NONE`). All queries are
@@ -148,14 +76,14 @@ user and this user has access to the Hive warehouse.
 HDFS impersonation is enabled by adding `hive.hdfs.impersonation.enabled=true`
 to the catalog properties file. With this configuration HDFS, Trino can
 impersonate the end user who is running the query. This can be used with HDFS
-permissions and ACLs (Access Control Lists) to provide additional
+permissions and {abbr}`ACLs (Access Control Lists)` to provide additional
 security for data. HDFS permissions and ACLs are explained in the [HDFS
 Permissions
 Guide](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsPermissionsGuide.html).
 
 To use impersonation, the Hadoop cluster must be configured to allow the user or
 principal that Trino is running as to impersonate the users who log in to Trino.
-Impersonation in Hadoop is configured in the file core-site.xml. A
+Impersonation in Hadoop is configured in the file {file}`core-site.xml`. A
 complete description of the configuration options is available in the [Hadoop
 documentation](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/Superusers.html#Configurations).
 
@@ -173,6 +101,7 @@ on the Hadoop cluster:
 - The Hadoop Distributed File System (HDFS), see examples in
   [](hive-security-kerberos) or [](hive-security-kerberos-impersonation)
 
+
 Both setups require that Kerberos is configured on each Trino node. Access to
 the Trino coordinator must be secured, for example using Kerberos or password
 authentication, when using Kerberos authentication to Hadoop services. Failure
@@ -189,8 +118,8 @@ file. For example, `-Djava.security.krb5.conf=/example/path/krb5.conf`.
 #### Keytab files
 
 Keytab files are needed for Kerberos authentication and contain encryption keys
-that are used to authenticate principals to the Kerberos KDC (Key
-Distribution Center). These encryption keys must be stored securely; you must
+that are used to authenticate principals to the Kerberos {abbr}`KDC (Key
+Distribution Center)`. These encryption keys must be stored securely; you must
 take the same precautions to protect them that you take to protect ssh private
 keys.
 

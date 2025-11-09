@@ -6,6 +6,7 @@ description: Pinot documentation
 
 <img src="../_static/img/pinot.png" class="connector-logo">
 
+
 The Pinot connector allows Trino to query data stored in
 [Apache Pinot™](https://pinot.apache.org/).
 
@@ -150,39 +151,23 @@ connector [maps some types <type-mapping-overview>](#maps some types <type-mappi
 The connector maps Pinot types to the corresponding Trino types
 according to the following table:
 
-:::{list-table} Pinot type to Trino type mapping
-:widths: 75,60
-:header-rows: 1
+#### Pinot type to Trino type mapping
 
-* - Pinot type
-  - Trino type
-* - `INT`
-  - `INTEGER`
-* - `LONG`
-  - `BIGINT`
-* - `FLOAT`
-  - `REAL`
-* - `DOUBLE`
-  - `DOUBLE`
-* - `STRING`
-  - `VARCHAR`
-* - `BYTES`
-  - `VARBINARY`
-* - `JSON`
-  - `JSON`
-* - `TIMESTAMP`
-  - `TIMESTAMP`
-* - `INT_ARRAY`
-  - `VARCHAR`
-* - `LONG_ARRAY`
-  - `VARCHAR`
-* - `FLOAT_ARRAY`
-  - `VARCHAR`
-* - `DOUBLE_ARRAY`
-  - `VARCHAR`
-* - `STRING_ARRAY`
-  - `VARCHAR`
-:::
+| Pinot type | Trino type |
+|---|---|
+| `INT` | `INTEGER` |
+| `LONG` | `BIGINT` |
+| `FLOAT` | `REAL` |
+| `DOUBLE` | `DOUBLE` |
+| `STRING` | `VARCHAR` |
+| `BYTES` | `VARBINARY` |
+| `JSON` | `JSON` |
+| `TIMESTAMP` | `TIMESTAMP` |
+| `INT_ARRAY` | `VARCHAR` |
+| `LONG_ARRAY` | `VARCHAR` |
+| `FLOAT_ARRAY` | `VARCHAR` |
+| `DOUBLE_ARRAY` | `VARCHAR` |
+
 
 No other types are supported.
 

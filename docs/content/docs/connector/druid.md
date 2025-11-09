@@ -7,6 +7,7 @@ description: Druid documentation
 
 <img src="../_static/img/druid.png" class="connector-logo">
 
+
 The Druid connector allows querying an [Apache Druid](https://druid.apache.org/)
 database from Trino.
 
@@ -70,29 +71,15 @@ connector [modifies some types <type-mapping-overview>](#modifies some types <ty
 The connector maps Druid types to the corresponding Trino types according to the
 following table:
 
-:::{list-table} Druid type to Trino type mapping
-:widths: 30, 30, 50
-:header-rows: 1
+#### Druid type to Trino type mapping
 
-* - Druid type
-  - Trino type
-  - Notes
-* - `STRING`
-  - `VARCHAR`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `LONG`
-  - `BIGINT`
-  - Except for the special `_time` column, which is mapped to `TIMESTAMP`.
-* - `TIMESTAMP`
-  - `TIMESTAMP`
-  - Only applicable to the special `_time` column.
-:::
+| Druid type | Trino type | Notes |
+|---|---|---|
+| `STRING` | `VARCHAR` |  |
+| `FLOAT` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `LONG` | `BIGINT` | Except for the special `_time` column, which is mapped to `TIMESTAMP`. |
+
 
 No other data types are supported.
 
@@ -153,6 +140,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

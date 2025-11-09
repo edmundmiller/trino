@@ -6,6 +6,7 @@ description: Duckdb documentation
 
 <img src="../_static/img/duckdb.png" class="connector-logo">
 
+
 The DuckDB connector allows querying and creating tables in an external
 [DuckDB](https://duckdb.org/) instance. This can be used to join data between
 different systems like DuckDB and Hive, or between two different
@@ -27,7 +28,7 @@ For example, to access a database as the `example` catalog, create the file
 `etc/catalog/example.properties`. Replace the connection properties as
 appropriate for your setup:
 
-```text
+```none
 connector.name=duckdb
 connection-url=jdbc:duckdb:<path>
 ```
@@ -75,44 +76,20 @@ List of [DuckDB data types](https://duckdb.org/docs/sql/data_types/overview.html
 The connector maps DuckDB types to the corresponding Trino types following
 this table:
 
-:::{list-table} DuckDB type to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### DuckDB type to Trino type mapping
 
-* - DuckDB type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  - 
-* - `SMALLINT`
-  - `SMALLINT`
-  - 
-* - `INTEGER`
-  - `INTEGER`
-  - 
-* - `BIGINT`
-  - `BIGINT`
-  - 
-* - `FLOAT`
-  - `REAL`
-  - 
-* - `DOUBLE`
-  - `DOUBLE`
-  - 
-* - `DECIMAL`
-  - `DECIMAL`
-  - Default precision and scale are (18,3).
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `DATE`
-  -
-:::
+| DuckDB type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `FLOAT` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DECIMAL` | Default precision and scale are (18,3). |
+| `VARCHAR` | `VARCHAR` |  |
+
 
 No other types are supported.
 
@@ -121,47 +98,21 @@ No other types are supported.
 The connector maps Trino types to the corresponding DuckDB types following
 this table:
 
-:::{list-table} Trino type to DuckDB type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino type to DuckDB type mapping
 
-* - Trino type
-  - DuckDB type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL`
-  - `DECIMAL`
-  -
-* - `CHAR`
-  - `VARCHAR`
-  -
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `DATE`
-  -
-:::
+| Trino type | DuckDB type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DECIMAL` |  |
+| `CHAR` | `VARCHAR` |  |
+| `VARCHAR` | `VARCHAR` |  |
+
 
 No other types are supported.
 
@@ -225,6 +176,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

@@ -32,26 +32,14 @@ select and configure one of the following properties to determine the support
 for different file systems in the catalog. Each catalog can only use one file
 system support.
 
-:::{list-table} File system support properties
-:widths: 35, 65
-:header-rows: 1
+#### File system support properties
 
-* - Property
-  - Description
-* - `fs.native-azure.enabled`
-  - Activate the [native implementation for Azure Storage
-    support](/docs/object-storage/file-system-azure). Defaults to `false`.
-* - `fs.native-gcs.enabled`
-  - Activate the [native implementation for Google Cloud Storage
-    support](/docs/object-storage/file-system-gcs). Defaults to `false`.
-* - `fs.native-s3.enabled`
-  - Activate the [native implementation for S3 storage
-    support](/docs/object-storage/file-system-s3). Defaults to `false`.
-* - `fs.hadoop.enabled`
-  - Activate [support for HDFS](/docs/object-storage/file-system-hdfs) and [legacy
-    support for other file systems](file-system-legacy) using the HDFS
-    libraries. Defaults to `false`.
-:::
+| Property | Description |
+|---|---|
+| `fs.native-azure.enabled` | Activate the [native implementation for Azure Storage support](/docs/object-storage/file-system-azure). Defaults to `false`. |
+| `fs.native-gcs.enabled` | Activate the [native implementation for Google Cloud Storage support](/docs/object-storage/file-system-gcs). Defaults to `false`. |
+| `fs.native-s3.enabled` | Activate the [native implementation for S3 storage support](/docs/object-storage/file-system-s3). Defaults to `false`. |
+
 
 ## Native file system support
 
@@ -94,4 +82,5 @@ storage:
 * [](/object-storage/file-system-alluxio)
 * [](/object-storage/metastores)
 * [](/object-storage/file-formats)
+
 

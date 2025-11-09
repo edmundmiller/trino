@@ -6,6 +6,7 @@ description: Bigquery documentation
 
 <img src="../_static/img/bigquery.png" class="connector-logo">
 
+
 The BigQuery connector allows querying the data stored in [BigQuery](https://cloud.google.com/bigquery/). This can be used to join data between
 different systems like BigQuery and Hive. The connector uses the [BigQuery
 Storage API](https://cloud.google.com/bigquery/docs/reference/storage/) to
@@ -92,27 +93,14 @@ flexibility in selecting both the project to query and the project to bill for
 BigQuery operations. The following table explains how project IDs are resolved
 in different scenarios:
 
-:::{list-table} Billing and data project ID resolution
-:widths: 30, 33, 33
-:header-rows: 1
+#### Billing and data project ID resolution
 
-* - Configured properties
-  - Billing project
-  - Data project
-* - Only `bigquery.credentials-key`
-  - The project ID from the credentials key is used for billing.
-  - The project ID from the credentials key is used for querying data.
-* - `bigquery.credentials-key` and `bigquery.project-id`
-  - The project ID from the credentials key is used for billing.
-  - `bigquery.project-id` is used for querying data.
-* - `bigquery.credentials-key` and `bigquery.parent-project-id`
-  - `bigquery.parent-project-id` is used for billing.
-  - The project ID from the credentials key is used for querying data.
-* - `bigquery.credentials-key` and `bigquery.parent-project-id`
-    and `bigquery.project-id`
-  - `bigquery.parent-project-id` is used for billing.
-  - `bigquery.project-id` is used for querying data.
-:::
+| Configured properties | Billing project | Data project |
+|---|---|---|
+| Only `bigquery.credentials-key` | The project ID from the credentials key is used for billing. | The project ID from the credentials key is used for querying data. |
+| `bigquery.credentials-key` and `bigquery.project-id` | The project ID from the credentials key is used for billing. | `bigquery.project-id` is used for querying data. |
+| `bigquery.credentials-key` and `bigquery.parent-project-id` | `bigquery.parent-project-id` is used for billing. | The project ID from the credentials key is used for querying data. |
+
 
 ### Arrow serialization support
 
@@ -120,7 +108,7 @@ This is a feature which introduces support for using Apache Arrow
 as the serialization format when reading from BigQuery. Add the following
 required, additional JVM argument to the [](jvm-config):
 
-```text
+```none
 --add-opens=java.base/java.nio=ALL-UNNAMED
 --sun-misc-unsafe-memory-access=allow
 ```
@@ -144,164 +132,52 @@ a few caveats:
 
 ### Configuration properties
 
-:::{list-table} BigQuery configuration properties
-:widths: 30, 55, 15
-:header-rows: 1
+#### BigQuery configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `bigquery.project-id`
-  - The project ID of the Google Cloud account used to store the data,
-    see also [](bigquery-project-id-resolution)
-  - Taken from the service account or from `bigquery.parent-project-id`, if set
-* - `bigquery.parent-project-id`
-  - The project ID Google Cloud Project to bill for the export,
-    see also [](bigquery-project-id-resolution)
-  - Taken from the service account
-* - `bigquery.views-enabled`
-  - Enables the connector to read from views and not only tables. Read
-    [this section](bigquery-reading-from-views) before enabling this feature.
-  - `false`
-* - `bigquery.view-expire-duration`
-  - Expire duration for the materialized view.
-  - `24h`
-* - `bigquery.view-materialization-project`
-  - The project where the materialized view is going to be created.
-  - The view's project
-* - `bigquery.view-materialization-dataset`
-  - The dataset where the materialized view is going to be created.
-  - The view's project
-* - `bigquery.skip-view-materialization`
-  - Use REST API to access views instead of Storage API. BigQuery `BIGNUMERIC`
-    and `TIMESTAMP` types are unsupported.
-  - `false`
-* - `bigquery.view-materialization-with-filter`
-  - Use filter conditions when materializing views.
-  - `false`
-* - `bigquery.views-cache-ttl`
-  - Duration for which the materialization of a view will be cached and reused.
-    Set to `0ms` to disable the cache.
-  - `15m`
-* - `bigquery.metadata.cache-ttl`
-  - Duration for which metadata retrieved from BigQuery is cached and reused.
-    Set to `0ms` to disable the cache.
-  - `0ms`
-* - `bigquery.max-read-rows-retries`
-  - The number of retries in case of retryable server issues.
-  - `3`
-* - `bigquery.credentials-key`
-  - The base64 encoded credentials key.
-  - None. See the [requirements](bigquery-requirements) section
-* - `bigquery.credentials-file`
-  - The path to the JSON credentials file.
-  - None. See the [requirements](bigquery-requirements) section
-* - `bigquery.case-insensitive-name-matching`
-  - Match dataset and table names case-insensitively.
-  - `false`
-* - `bigquery.case-insensitive-name-matching.cache-ttl`
-  - [Duration](prop-type-duration) for which case insensitive schema and table
-    names are cached. Set to `0ms` to disable the cache.
-  - `0ms`
-* - `bigquery.query-results-cache.enabled`
-  - Enable [query results cache](https://cloud.google.com/bigquery/docs/cached-results).
-  - `false`
-* - `bigquery.arrow-serialization.enabled`
-  - Enable using Apache Arrow serialization when reading data from BigQuery.
-    Read this [section](bigquery-arrow-serialization-support) before using this feature.
-  - `true`
-* - `bigquery.arrow-serialization.max-allocation`
-  - The maximum amount of memory the Apache Arrow buffer allocator is allowed to use.
-  - `100MB`
-* - `bigquery.max-parallelism`
-  - The max number of partitions to split the data into. Reduce this number if
-    the default parallelism (number of workers x 3) is too high.
-  -
-* - `bigquery.channel-pool.initial-size`
-  - The initial size of the connection pool, also known as a channel pool,
-    used for gRPC communication.
-  - `1`
-* - `bigquery.channel-pool.min-size`
-  - The minimum number of connections in the connection pool, also known as a
-    channel pool, used for gRPC communication.
-  - `1`
-* - `bigquery.channel-pool.max-size`
-  - The maximum number of connections in the connection pool, also known as a
-    channel pool, used for gRPC communication.
-  - `1`
-* - `bigquery.channel-pool.min-rpc-per-channel`
-  - Threshold to start scaling down the channel pool.
-    When the average of outstanding RPCs in a single minute drop below this
-    threshold, channels are removed from the pool.
-  - `0`
-* - `bigquery.channel-pool.max-rpc-per-channel`
-  - Threshold to start scaling up the channel pool.
-    When the average of outstanding RPCs in a single minute surpass this
-    threshold, channels are added to the pool.
-  - `2147483647`
-* - `bigquery.rpc-retries`
-  - The maximum number of retry attempts to perform for the RPC calls.
-    If this value is set to `0`, the value from 
-    `bigquery.rpc-timeout` is used. 
-    Retry is deactivated when both `bigquery.rpc-retries` and
-    `bigquery.rpc-timeout` are `0`.
-    If this value is positive, and the number of attempts exceeds
-    `bigquery.rpc-retries` limit, retries stop even if
-    the total retry time is still lower than `bigquery.rpc-timeout`.
-  - `0`
-* - `bigquery.rpc-timeout`
-  - Timeout [duration](prop-type-duration) on when the retries for the
-    RPC call should be given up completely. The higher the timeout, the
-    more retries can be attempted. If this value is `0s`, then
-    `bigquery.rpc-retries` is used to determine retries.
-    Retry is deactivated when `bigquery.rpc-retries` and 
-    `bigquery.rpc-timeout` are both `0`. 
-    If this value is positive, and the retry duration has reached the timeout
-    value, retries stop even if the number of attempts is lower than 
-    the `bigquery.rpc-retries` value.
-  - `0s`
-* - `bigquery.rpc-retry-delay`
-  - The delay [duration](prop-type-duration) before the first retry attempt
-    for RPC calls.
-  - `0s`
-* - `bigquery.rpc-retry-delay-multiplier`
-  - Controls the change in delay before the next retry.
-    The retry delay of the previous call is multiplied by the
-    `bigquery.rpc-retry-delay-multiplier` to calculate the retry delay
-    for the next RPC call.
-  - `1.0`
-* - `bigquery.rpc-proxy.enabled`
-  - Use a proxy for communication with BigQuery.
-  - `false`
-* - `bigquery.rpc-proxy.uri`
-  - Proxy URI to use if connecting through a proxy.
-  -
-* - `bigquery.rpc-proxy.username`
-  - Proxy username to use if connecting through a proxy.
-  -
-* - `bigquery.rpc-proxy.password`
-  - Proxy password to use if connecting through a proxy.
-  -
-* - `bigquery.rpc-proxy.keystore-path`
-  - Keystore containing client certificates to present to proxy if connecting
-    through a proxy. Only required if proxy uses mutual TLS.
-  -
-* - `bigquery.rpc-proxy.keystore-password`
-  - Password of the keystore specified by `bigquery.rpc-proxy.keystore-path`.
-  -
-* - `bigquery.rpc-proxy.truststore-path`
-  - Truststore containing certificates of the proxy server if connecting
-    through a proxy.
-  -
-* - `bigquery.rpc-proxy.truststore-password`
-  - Password of the truststore specified by `bigquery.rpc-proxy.truststore-path`.
-  -
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `bigquery.project-id` | The project ID of the Google Cloud account used to store the data, see also [](bigquery-project-id-resolution) | Taken from the service account or from `bigquery.parent-project-id`, if set |
+| `bigquery.parent-project-id` | The project ID Google Cloud Project to bill for the export, see also [](bigquery-project-id-resolution) | Taken from the service account |
+| `bigquery.views-enabled` | Enables the connector to read from views and not only tables. Read [this section](bigquery-reading-from-views) before enabling this feature. | `false` |
+| `bigquery.view-expire-duration` | Expire duration for the materialized view. | `24h` |
+| `bigquery.view-materialization-project` | The project where the materialized view is going to be created. | The view's project |
+| `bigquery.view-materialization-dataset` | The dataset where the materialized view is going to be created. | The view's project |
+| `bigquery.skip-view-materialization` | Use REST API to access views instead of Storage API. BigQuery `BIGNUMERIC` and `TIMESTAMP` types are unsupported. | `false` |
+| `bigquery.view-materialization-with-filter` | Use filter conditions when materializing views. | `false` |
+| `bigquery.views-cache-ttl` | Duration for which the materialization of a view will be cached and reused. Set to `0ms` to disable the cache. | `15m` |
+| `bigquery.metadata.cache-ttl` | Duration for which metadata retrieved from BigQuery is cached and reused. Set to `0ms` to disable the cache. | `0ms` |
+| `bigquery.max-read-rows-retries` | The number of retries in case of retryable server issues. | `3` |
+| `bigquery.credentials-key` | The base64 encoded credentials key. | None. See the [requirements](bigquery-requirements) section |
+| `bigquery.credentials-file` | The path to the JSON credentials file. | None. See the [requirements](bigquery-requirements) section |
+| `bigquery.case-insensitive-name-matching` | Match dataset and table names case-insensitively. | `false` |
+| `bigquery.case-insensitive-name-matching.cache-ttl` | [Duration](prop-type-duration) for which case insensitive schema and table names are cached. Set to `0ms` to disable the cache. | `0ms` |
+| `bigquery.query-results-cache.enabled` | Enable [query results cache](https://cloud.google.com/bigquery/docs/cached-results). | `false` |
+| `bigquery.arrow-serialization.enabled` | Enable using Apache Arrow serialization when reading data from BigQuery. Read this [section](bigquery-arrow-serialization-support) before using this feature. | `true` |
+| `bigquery.arrow-serialization.max-allocation` | The maximum amount of memory the Apache Arrow buffer allocator is allowed to use. | `100MB` |
+| `bigquery.max-parallelism` | The max number of partitions to split the data into. Reduce this number if the default parallelism (number of workers x 3) is too high. |  |
+| `bigquery.channel-pool.initial-size` | The initial size of the connection pool, also known as a channel pool, used for gRPC communication. | `1` |
+| `bigquery.channel-pool.min-size` | The minimum number of connections in the connection pool, also known as a channel pool, used for gRPC communication. | `1` |
+| `bigquery.channel-pool.max-size` | The maximum number of connections in the connection pool, also known as a channel pool, used for gRPC communication. | `1` |
+| `bigquery.channel-pool.min-rpc-per-channel` | Threshold to start scaling down the channel pool. When the average of outstanding RPCs in a single minute drop below this threshold, channels are removed from the pool. | `0` |
+| `bigquery.channel-pool.max-rpc-per-channel` | Threshold to start scaling up the channel pool. When the average of outstanding RPCs in a single minute surpass this threshold, channels are added to the pool. | `2147483647` |
+| `bigquery.rpc-retries` | The maximum number of retry attempts to perform for the RPC calls. If this value is set to `0`, the value from `bigquery.rpc-timeout` is used. Retry is deactivated when both `bigquery.rpc-retries` and `bigquery.rpc-timeout` are `0`. If this value is positive, and the number of attempts exceeds `bigquery.rpc-retries` limit, retries stop even if the total retry time is still lower than `bigquery.rpc-timeout`. | `0` |
+| `bigquery.rpc-timeout` | Timeout [duration](prop-type-duration) on when the retries for the RPC call should be given up completely. The higher the timeout, the more retries can be attempted. If this value is `0s`, then `bigquery.rpc-retries` is used to determine retries. Retry is deactivated when `bigquery.rpc-retries` and `bigquery.rpc-timeout` are both `0`. If this value is positive, and the retry duration has reached the timeout value, retries stop even if the number of attempts is lower than the `bigquery.rpc-retries` value. | `0s` |
+| `bigquery.rpc-retry-delay` | The delay [duration](prop-type-duration) before the first retry attempt for RPC calls. | `0s` |
+| `bigquery.rpc-retry-delay-multiplier` | Controls the change in delay before the next retry. The retry delay of the previous call is multiplied by the `bigquery.rpc-retry-delay-multiplier` to calculate the retry delay for the next RPC call. | `1.0` |
+| `bigquery.rpc-proxy.enabled` | Use a proxy for communication with BigQuery. | `false` |
+| `bigquery.rpc-proxy.uri` | Proxy URI to use if connecting through a proxy. |  |
+| `bigquery.rpc-proxy.username` | Proxy username to use if connecting through a proxy. |  |
+| `bigquery.rpc-proxy.password` | Proxy password to use if connecting through a proxy. |  |
+| `bigquery.rpc-proxy.keystore-path` | Keystore containing client certificates to present to proxy if connecting through a proxy. Only required if proxy uses mutual TLS. |  |
+| `bigquery.rpc-proxy.keystore-password` | Password of the keystore specified by `bigquery.rpc-proxy.keystore-path`. |  |
+| `bigquery.rpc-proxy.truststore-path` | Truststore containing certificates of the proxy server if connecting through a proxy. |  |
+
 
 ### Fault-tolerant execution support
 
 The connector supports [/admin/fault-tolerant-execution](/docs//admin/fault-tolerant-execution) of query
 processing. Read and write operations are both supported with any retry policy.
+
 
 ## Type mapping
 
@@ -316,63 +192,25 @@ each direction.
 The connector maps BigQuery types to the corresponding Trino types according
 to the following table:
 
-:::{list-table} BigQuery type to Trino type mapping
-:widths: 30, 30, 50
-:header-rows: 1
+#### BigQuery type to Trino type mapping
 
-* - BigQuery type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `INT64`
-  - `BIGINT`
-  - `INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, and `BYTEINT` are aliases
-    for `INT64` in BigQuery.
-* - `FLOAT64`
-  - `DOUBLE`
-  -
-* - `NUMERIC`
-  - `DECIMAL(P,S)`
-  - The default precision and scale of `NUMERIC` is `(38, 9)`.
-* - `BIGNUMERIC`
-  - `DECIMAL(P,S)`
-  - Precision > 38 is not supported. The default precision and scale of
-    `BIGNUMERIC` is `(77, 38)`.
-* - `DATE`
-  - `DATE`
-  -
-* - `DATETIME`
-  - `TIMESTAMP(6)`
-  -
-* - `STRING`
-  - `VARCHAR`
-  -
-* - `BYTES`
-  - `VARBINARY`
-  -
-* - `TIME`
-  - `TIME(6)`
-  -
-* - `TIMESTAMP`
-  - `TIMESTAMP(6) WITH TIME ZONE`
-  - Time zone is UTC
-* - `GEOGRAPHY`
-  - `VARCHAR`
-  - In [Well-known text
-    (WKT)](https://wikipedia.org/wiki/Well-known_text_representation_of_geometry)
-    format
-* - `JSON`
-  - `JSON`
-  -
-* - `ARRAY`
-  - `ARRAY`
-  -
-* - `RECORD`
-  - `ROW`
-  -
-:::
+| BigQuery type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `INT64` | `BIGINT` | `INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, and `BYTEINT` are aliases for `INT64` in BigQuery. |
+| `FLOAT64` | `DOUBLE` |  |
+| `NUMERIC` | `DECIMAL(P,S)` | The default precision and scale of `NUMERIC` is `(38, 9)`. |
+| `BIGNUMERIC` | `DECIMAL(P,S)` | Precision > 38 is not supported. The default precision and scale of `BIGNUMERIC` is `(77, 38)`. |
+| `DATE` | `DATE` |  |
+| `DATETIME` | `TIMESTAMP(6)` |  |
+| `STRING` | `VARCHAR` |  |
+| `BYTES` | `VARBINARY` |  |
+| `TIME` | `TIME(6)` |  |
+| `TIMESTAMP` | `TIMESTAMP(6) WITH TIME ZONE` | Time zone is UTC |
+| `GEOGRAPHY` | `VARCHAR` | In [Well-known text (WKT)](https://wikipedia.org/wiki/Well-known_text_representation_of_geometry) format |
+| `JSON` | `JSON` |  |
+| `ARRAY` | `ARRAY` |  |
+
 
 No other types are supported.
 
@@ -381,39 +219,18 @@ No other types are supported.
 The connector maps Trino types to the corresponding BigQuery types according
 to the following table:
 
-:::{list-table} Trino type to BigQuery type mapping
-:widths: 30, 30, 50
-:header-rows: 1
+#### Trino type to BigQuery type mapping
 
-* - Trino type
-  - BigQuery type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `VARBINARY`
-  - `BYTES`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `DOUBLE`
-  - `FLOAT`
-  -
-* - `BIGINT`
-  - `INT64`
-  - `INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, and
-    `BYTEINT` are aliases for `INT64` in BigQuery.
-* - `DECIMAL(P,S)`
-  - `NUMERIC`
-  - The default precision and scale of `NUMERIC` is `(38, 9)`.
-* - `VARCHAR`
-  - `STRING`
-  -
-* - `TIMESTAMP(6)`
-  - `DATETIME`
-  -
-:::
+| Trino type | BigQuery type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `VARBINARY` | `BYTES` |  |
+| `DATE` | `DATE` |  |
+| `DOUBLE` | `FLOAT` |  |
+| `BIGINT` | `INT64` | `INT`, `SMALLINT`, `INTEGER`, `BIGINT`, `TINYINT`, and `BYTEINT` are aliases for `INT64` in BigQuery. |
+| `DECIMAL(P,S)` | `NUMERIC` | The default precision and scale of `NUMERIC` is `(38, 9)`. |
+| `VARCHAR` | `STRING` |  |
+
 
 No other types are supported.
 
@@ -514,6 +331,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

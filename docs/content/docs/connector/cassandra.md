@@ -6,6 +6,7 @@ description: Cassandra documentation
 
 <img src="../_static/img/cassandra.png" class="connector-logo">
 
+
 The Cassandra connector allows querying data stored in
 [Apache Cassandra](https://cassandra.apache.org/).
 
@@ -138,86 +139,34 @@ each direction.
 The connector maps Cassandra types to the corresponding Trino types according to
 the following table:
 
-:::{list-table} Cassandra type to Trino type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### Cassandra type to Trino type mapping
 
-* - Cassandra type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INT`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL`
-  - `DOUBLE`
-  -
-* - `ASCII`
-  - `VARCHAR`
-  - US-ASCII character string
-* - `TEXT`
-  - `VARCHAR`
-  - UTF-8 encoded string
-* - `VARCHAR`
-  - `VARCHAR`
-  - UTF-8 encoded string
-* - `VARINT`
-  - `VARCHAR`
-  - Arbitrary-precision integer
-* - `BLOB`
-  - `VARBINARY`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME`
-  - `TIME(9)`
-  -
-* - `TIMESTAMP`
-  - `TIMESTAMP(3) WITH TIME ZONE`
-  -
-* - `LIST<?>`
-  - `VARCHAR`
-  -
-* - `MAP<?, ?>`
-  - `VARCHAR`
-  -
-* - `SET<?>`
-  - `VARCHAR`
-  -
-* - `TUPLE`
-  - `ROW` with anonymous fields
-  -
-* - `UDT`
-  - `ROW` with field names
-  -
-* - `INET`
-  - `IPADDRESS`
-  -
-* - `UUID`
-  - `UUID`
-  -
-* - `TIMEUUID`
-  - `UUID`
-  -
-:::
+| Cassandra type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INT` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `FLOAT` | `REAL` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `DOUBLE` |  |
+| `ASCII` | `VARCHAR` | US-ASCII character string |
+| `TEXT` | `VARCHAR` | UTF-8 encoded string |
+| `VARCHAR` | `VARCHAR` | UTF-8 encoded string |
+| `VARINT` | `VARCHAR` | Arbitrary-precision integer |
+| `BLOB` | `VARBINARY` |  |
+| `DATE` | `DATE` |  |
+| `TIME` | `TIME(9)` |  |
+| `TIMESTAMP` | `TIMESTAMP(3) WITH TIME ZONE` |  |
+| `LIST<?>` | `VARCHAR` |  |
+| `MAP<?, ?>` | `VARCHAR` |  |
+| `SET<?>` | `VARCHAR` |  |
+| `TUPLE` | `ROW` with anonymous fields |  |
+| `UDT` | `ROW` with field names |  |
+| `INET` | `IPADDRESS` |  |
+| `UUID` | `UUID` |  |
+
 
 No other types are supported.
 
@@ -226,51 +175,22 @@ No other types are supported.
 The connector maps Trino types to the corresponding Cassandra types according to
 the following table:
 
-:::{list-table} Trino type to Cassandra type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### Trino type to Cassandra type mapping
 
-* - Trino type
-  - Cassandra type
-  - Notes
+| Trino type | Cassandra type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INT` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `FLOAT` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `VARCHAR` | `TEXT` |  |
+| `DATE` | `DATE` |  |
+| `TIMESTAMP(3) WITH TIME ZONE` | `TIMESTAMP` |  |
+| `IPADDRESS` | `INET` |  |
 
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INT`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `FLOAT`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `VARCHAR`
-  - `TEXT`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIMESTAMP(3) WITH TIME ZONE`
-  - `TIMESTAMP`
-  -
-* - `IPADDRESS`
-  - `INET`
-  -
-* - `UUID`
-  - `UUID`
-  -
-:::
 
 No other types are supported.
 
@@ -345,6 +265,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

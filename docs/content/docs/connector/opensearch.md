@@ -6,6 +6,7 @@ description: Opensearch documentation
 
 <img src="../_static/img/opensearch.png" class="connector-logo">
 
+
 The OpenSearch connector allows access to [OpenSearch](https://opensearch.org/)
 data from Trino. This document describes how to configure a catalog with the
 OpenSearch connector to run SQL queries against OpenSearch.
@@ -30,65 +31,23 @@ opensearch.default-schema-name=default
 
 The following table details all general configuration properties:
 
-:::{list-table} OpenSearch configuration properties
-:widths: 35, 55, 10
-:header-rows: 1
+#### OpenSearch configuration properties
 
-* - Property name
-  - Description
-  - Default
-* - `opensearch.host`
-  - The comma-separated list of host names of the OpenSearch cluster. This
-    property is required.
-  -
-* - `opensearch.port`
-  - Port to use to connect to OpenSearch.
-  - `9200`
-* - `opensearch.default-schema-name`
-  - The schema that contains all tables defined without a qualifying schema
-    name.
-  - `default`
-* - `opensearch.scroll-size`
-  - Sets the maximum number of hits that can be returned with each [OpenSearch
-    scroll request](https://opensearch.org/docs/latest/api-reference/scroll/).
-  - `1000`
-* - `opensearch.scroll-timeout`
-  - [Duration](prop-type-duration) for OpenSearch to keep the search context
-    alive for scroll requests.
-  - `1m`
-* - `opensearch.request-timeout`
-  - Timeout [duration](prop-type-duration) for all OpenSearch requests.
-  - `10s`
-* - `opensearch.connect-timeout`
-  - Timeout [duration](prop-type-duration) for all OpenSearch connection
-    attempts.
-  - `1s`
-* - `opensearch.backoff-init-delay`
-  - The minimum [duration](prop-type-duration) between backpressure retry
-    attempts for a single request to OpenSearch. Setting it too low can
-    overwhelm an already struggling cluster.
-  - `500ms`
-* - `opensearch.backoff-max-delay`
-  - The maximum [duration](prop-type-duration) between backpressure retry
-    attempts for a single request.
-  - `20s`
-* - `opensearch.max-retry-time`
-  - The maximum [duration](prop-type-duration) across all retry attempts for a
-    single request.
-  - `30s`
-* - `opensearch.node-refresh-interval`
-  - [Duration](prop-type-duration) between requests to refresh the list of
-    available OpenSearch nodes.
-  - `1m`
-* - `opensearch.ignore-publish-address`
-  - Disable using the address published by the OpenSearch API to connect for
-    queries. Some deployments map OpenSearch ports to a random public port and
-    enabling this property can help in these cases.
-  - `false`
-* - `opensearch.projection-pushdown-enabled`
-  - Read only projected fields from row columns while performing `SELECT` queries
-  - `true`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `opensearch.host` | The comma-separated list of host names of the OpenSearch cluster. This property is required. |  |
+| `opensearch.port` | Port to use to connect to OpenSearch. | `9200` |
+| `opensearch.default-schema-name` | The schema that contains all tables defined without a qualifying schema name. | `default` |
+| `opensearch.scroll-size` | Sets the maximum number of hits that can be returned with each [OpenSearch scroll request](https://opensearch.org/docs/latest/api-reference/scroll/). | `1000` |
+| `opensearch.scroll-timeout` | [Duration](prop-type-duration) for OpenSearch to keep the search context alive for scroll requests. | `1m` |
+| `opensearch.request-timeout` | Timeout [duration](prop-type-duration) for all OpenSearch requests. | `10s` |
+| `opensearch.connect-timeout` | Timeout [duration](prop-type-duration) for all OpenSearch connection attempts. | `1s` |
+| `opensearch.backoff-init-delay` | The minimum [duration](prop-type-duration) between backpressure retry attempts for a single request to OpenSearch. Setting it too low can overwhelm an already struggling cluster. | `500ms` |
+| `opensearch.backoff-max-delay` | The maximum [duration](prop-type-duration) between backpressure retry attempts for a single request. | `20s` |
+| `opensearch.max-retry-time` | The maximum [duration](prop-type-duration) across all retry attempts for a single request. | `30s` |
+| `opensearch.node-refresh-interval` | [Duration](prop-type-duration) between requests to refresh the list of available OpenSearch nodes. | `1m` |
+| `opensearch.ignore-publish-address` | Disable using the address published by the OpenSearch API to connect for queries. Some deployments map OpenSearch ports to a random public port and enabling this property can help in these cases. | `false` |
+
 
 ### Authentication
 
@@ -98,43 +57,22 @@ To enable AWS authentication and authorization using IAM policies, the
 `opensearch.security` option must be set to `AWS`. Additionally, the
 following options must be configured:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
+| Property name | Description |
+|---|---|
+| `opensearch.aws.region` | AWS region of the OpenSearch endpoint. This option is required. |
+| `opensearch.aws.access-key` | AWS access key to use to connect to the OpenSearch domain. If not set, the default AWS credentials provider chain is used. |
+| `opensearch.aws.secret-key` | AWS secret key to use to connect to the OpenSearch domain. If not set, the default AWS credentials provider chain is used. |
+| `opensearch.aws.iam-role` | Optional ARN of an IAM role to assume to connect to OpenSearch. Note that the configured IAM user must be able to assume this role. |
+| `opensearch.aws.external-id` | Optional external ID to pass while assuming an AWS IAM role. |
 
-* - Property name
-  - Description
-* - `opensearch.aws.region`
-  - AWS region of the OpenSearch endpoint. This option is required.
-* - `opensearch.aws.access-key`
-  - AWS access key to use to connect to the OpenSearch domain. If not set, the
-    default AWS credentials provider chain is used.
-* - `opensearch.aws.secret-key`
-  - AWS secret key to use to connect to the OpenSearch domain. If not set, the
-    default AWS credentials provider chain is used.
-* - `opensearch.aws.iam-role`
-  - Optional ARN of an IAM role to assume to connect to OpenSearch. Note that
-    the configured IAM user must be able to assume this role.
-* - `opensearch.aws.external-id`
-  - Optional external ID to pass while assuming an AWS IAM role.
-* - `opensearch.aws.deployment-type`
-  - AWS OpenSearch deployment type. Possible values are `PROVISIONED` & `SERVERLESS`. This option is required.
-:::
 
 To enable password authentication, the `opensearch.security` option must be set
 to `PASSWORD`. Additionally the following options must be configured:
 
-:::{list-table}
-:widths: 45, 55
-:header-rows: 1
+| Property name | Description |
+|---|---|
+| `opensearch.auth.user` | Username to use to connect to OpenSearch. |
 
-* - Property name
-  - Description
-* - `opensearch.auth.user`
-  - Username to use to connect to OpenSearch.
-* - `opensearch.auth.password`
-  - Password to use to connect to OpenSearch.
-:::
 
 ### Connection security with TLS
 
@@ -147,30 +85,16 @@ supports key stores and trust stores in P12 (PKCS) or Java Key Store (JKS) forma
 
 The available configuration values are listed in the following table:
 
-:::{list-table} TLS configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### TLS configuration properties
 
-* - Property name
-  - Description
-* - `opensearch.tls.enabled`
-  - Enable TLS security. Defaults to `false`.
-* - `opensearch.tls.keystore-path`
-  - The path to the P12 (PKCS) or [JKS](/docs/security/inspect-jks)
-    key store.
-* - `opensearch.tls.truststore-path`
-  - The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks)
-    trust store.
-* - `opensearch.tls.keystore-password`
-  - The password for the key store specified by
-    `opensearch.tls.keystore-path`.
-* - `opensearch.tls.truststore-password`
-  - The password for the trust store specified by
-    `opensearch.tls.truststore-path`.
-* - `opensearch.tls.verify-hostnames`
-  - Flag to determine if the hostnames in the certificates must be verified.
-    Defaults to `true`.
-:::
+| Property name | Description |
+|---|---|
+| `opensearch.tls.enabled` | Enable TLS security. Defaults to `false`. |
+| `opensearch.tls.keystore-path` | The path to the P12 (PKCS) or [JKS](/docs/security/inspect-jks) key store. |
+| `opensearch.tls.truststore-path` | The path to P12 (PKCS) or [JKS](/docs/security/inspect-jks) trust store. |
+| `opensearch.tls.keystore-password` | The password for the key store specified by `opensearch.tls.keystore-path`. |
+| `opensearch.tls.truststore-password` | The password for the trust store specified by `opensearch.tls.truststore-path`. |
+
 
 ## Type mapping
 
@@ -182,47 +106,21 @@ connector [maps some types](type-mapping-overview) when reading data.
 The connector maps OpenSearch types to the corresponding Trino types
 according to the following table:
 
-:::{list-table} OpenSearch type to Trino type mapping
-:widths: 30, 30, 50
-:header-rows: 1
+#### OpenSearch type to Trino type mapping
 
-* - OpenSearch type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `BYTE`
-  - `TINYINT`
-  -
-* - `SHORT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `LONG`
-  - `BIGINT`
-  -
-* - `KEYWORD`
-  - `VARCHAR`
-  -
-* - `TEXT`
-  - `VARCHAR`
-  -
-* - `DATE`
-  - `TIMESTAMP`
-  - For more information, see [](opensearch-date-types).
-* - `IPADDRESS`
-  - `IP`
-  -
-:::
+| OpenSearch type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `FLOAT` | `REAL` |  |
+| `BYTE` | `TINYINT` |  |
+| `SHORT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `LONG` | `BIGINT` |  |
+| `KEYWORD` | `VARCHAR` |  |
+| `TEXT` | `VARCHAR` |  |
+| `DATE` | `TIMESTAMP` | For more information, see [](opensearch-date-types). |
+
 
 No other types are supported.
 
@@ -375,19 +273,11 @@ It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the 
 
 The following hidden columns are available:
 
-:::{list-table}
-:widths: 25, 75
-:header-rows: 1
+| Column | Description |
+|---|---|
+| `_id` | The OpenSearch document ID. |
+| `_score` | The document score returned by the OpenSearch query. |
 
-* - Column
-  - Description
-* - `_id`
-  - The OpenSearch document ID.
-* - `_score`
-  - The document score returned by the OpenSearch query.
-* - `_source`
-  - The source of the original document.
-:::
 
 ## SQL support
 
@@ -472,31 +362,17 @@ query processing in parallel.
 The connector supports [predicate push down](predicate-pushdown) for the
 following data types:
 
-:::{list-table}
-:widths: 50, 50
-:header-rows: 1
+| OpenSearch | Trino |
+|---|---|
+| `boolean` | `BOOLEAN` |
+| `double` | `DOUBLE` |
+| `float` | `REAL` |
+| `byte` | `TINYINT` |
+| `short` | `SMALLINT` |
+| `integer` | `INTEGER` |
+| `long` | `BIGINT` |
+| `keyword` | `VARCHAR` |
 
-* - OpenSearch
-  - Trino
-* - `boolean`
-  - `BOOLEAN`
-* - `double`
-  - `DOUBLE`
-* - `float`
-  - `REAL`
-* - `byte`
-  - `TINYINT`
-* - `short`
-  - `SMALLINT`
-* - `integer`
-  - `INTEGER`
-* - `long`
-  - `BIGINT`
-* - `keyword`
-  - `VARCHAR`
-* - `date`
-  - `TIMESTAMP`
-:::
 
 No other data types are supported for predicate push down.
 

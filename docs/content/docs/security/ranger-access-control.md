@@ -33,21 +33,13 @@ systems, follow the instructions about [](multiple-access-control).
 
 The following table lists the configuration properties for the Ranger access control:
 
-:::{list-table} Ranger access control configuration properties
-:widths: 30, 70
-:header-rows: 1
+#### Ranger access control configuration properties
 
-* - Name
-  - Description
-* - `ranger.service.name`
-  - Name of the service on Ranger with the policies to enforce.
-* - `ranger.plugin.config.resource`
-  - Comma-separated list of Ranger plugin configuration files. Relative paths
-    are resolved dynamically by searching on the classpath.
-* - `ranger.hadoop.config.resource`
-  - Comma-separated list of Hadoop configuration files. Relative paths are
-    resolved dynamically by searching on the classpath. 
-:::
+| Name | Description |
+|---|---|
+| `ranger.service.name` | Name of the service on Ranger with the policies to enforce. |
+| `ranger.plugin.config.resource` | Comma-separated list of Ranger plugin configuration files. Relative paths are resolved dynamically by searching on the classpath. |
+
 
 ### ranger-trino-security.xml
 

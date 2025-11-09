@@ -91,6 +91,10 @@ This property is optional; the default is `1`.
 
 The following IDL describes the `TrinoThriftService` that must be implemented:
 
+```{literalinclude} /include/TrinoThriftService.thrift
+:language: thrift
+```
+
 ## Type mapping
 
 The Thrift service defines data type support and mappings to Trino data types.

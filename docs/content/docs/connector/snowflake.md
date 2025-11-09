@@ -6,6 +6,7 @@ description: Snowflake documentation
 
 <img src="../_static/img/snowflake.png" class="connector-logo">
 
+
 The Snowflake connector allows querying and creating tables in an
 external [Snowflake](https://www.snowflake.com/) account. This can be used to join data between
 different systems like Snowflake and Hive, or between two different
@@ -19,7 +20,7 @@ mount the Snowflake connector as the `snowflake` catalog.
 Create the file with the following contents, replacing the
 connection properties as appropriate for your setup:
 
-```text
+```none
 connector.name=snowflake
 connection-url=jdbc:snowflake://<account>.snowflakecomputing.com
 connection-user=root
@@ -34,7 +35,7 @@ The Snowflake connector uses Apache Arrow as the serialization format when
 reading from Snowflake. Add the following required, additional JVM argument
 to the [](jvm-config):
 
-```text
+```none
 --add-opens=java.base/java.nio=ALL-UNNAMED
 --sun-misc-unsafe-memory-access=allow
 ```
@@ -54,6 +55,8 @@ multiple instances of the Snowflake connector.
 
 <!-- Fragment not found: jdbc-case-insensitive-matching.fragment -->
 
+% snowflake-type-mapping:
+
 ## Type mapping
 
 Because Trino and Snowflake each support types that the other does not, this
@@ -69,84 +72,27 @@ List of [Snowflake data types](https://docs.snowflake.com/en/sql-reference/intro
 The connector maps Snowflake types to the corresponding Trino types following
 this table:
 
-:::{list-table} Snowflake type to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Snowflake type to Trino type mapping
 
-* - Snowflake type
-  - Trino type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `INT`, `INTEGER`, `BIGINT`, `SMALLINT`, `TINYINT`, `BYTEINT`
-  - `DECIMAL(38,0)`
-  - Synonymous with `NUMBER(38,0)`. See Snowflake
-    [data types for fixed point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-fixed-point-numbers)
-    for more information.
-* - `FLOAT`, `FLOAT4`, `FLOAT8`
-  - `DOUBLE`
-  - The names `FLOAT`, `FLOAT4`, and `FLOAT8` are for compatibility with other systems; Snowflake treats all three as
-    64-bit floating-point numbers. See Snowflake
-    [data types for floating point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-floating-point-numbers)
-    for more information.
-* - `DOUBLE`, `DOUBLE PRECISION`, `REAL`
-  - `DOUBLE`
-  - Synonymous with `FLOAT`. See Snowflake
-    [data types for floating point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-floating-point-numbers)
-    for more information.
-* - `NUMBER`
-  - `DECIMAL`
-  - Default precision and scale are (38,0).
-* - `DECIMAL`, `NUMERIC`
-  - `DECIMAL`
-  - Synonymous with `NUMBER`. See Snowflake
-    [data types for fixed point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-fixed-point-numbers)
-    for more information.
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `CHAR`, `CHARACTER`
-  - `VARCHAR`
-  - Synonymous with `VARCHAR` except default length is `VARCHAR(1)`. See Snowflake
-    [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text)
-    for more information.
-* - `STRING`, `TEXT`
-  - `VARCHAR`
-  - Synonymous with `VARCHAR`. See Snowflake
-    [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text)
-    for more information.
-* - `BINARY`
-  - `VARBINARY`
-  -
-* - `VARBINARY`
-  - `VARBINARY`
-  - Synonymous with `BINARY`. See Snowflake
-    [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text)
-    for more information.
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME`
-  - `TIME`
-  -
-* - `TIMESTAMP_NTZ`
-  - `TIMESTAMP`
-  - TIMESTAMP with no time zone; time zone, if provided, is not stored. See Snowflake
-    [Date & Time Data Types](https://docs.snowflake.com/en/sql-reference/data-types-datetime)
-    for more information.
-* - `DATETIME`
-  - `TIMESTAMP`
-  - Alias for `TIMESTAMP_NTZ`. See Snowflake
-    [Date & Time Data Types](https://docs.snowflake.com/en/sql-reference/data-types-datetime)
-    for more information.
-* - `TIMESTAMP`
-  - `TIMESTAMP`
-  - Alias for one of the `TIMESTAMP` variations (`TIMESTAMP_NTZ` by default). This connector always sets `TIMESTAMP_NTZ` as the variant.
-* - `TIMESTAMP_TZ`
-  - `TIMESTAMP WITH TIME ZONE`
-  - TIMESTAMP with time zone.
-:::
+| Snowflake type | Trino type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `INT`, `INTEGER`, `BIGINT`, `SMALLINT`, `TINYINT`, `BYTEINT` | `DECIMAL(38,0)` | Synonymous with `NUMBER(38,0)`. See Snowflake [data types for fixed point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-fixed-point-numbers) for more information. |
+| `FLOAT`, `FLOAT4`, `FLOAT8` | `DOUBLE` | The names `FLOAT`, `FLOAT4`, and `FLOAT8` are for compatibility with other systems; Snowflake treats all three as 64-bit floating-point numbers. See Snowflake [data types for floating point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-floating-point-numbers) for more information. |
+| `DOUBLE`, `DOUBLE PRECISION`, `REAL` | `DOUBLE` | Synonymous with `FLOAT`. See Snowflake [data types for floating point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-floating-point-numbers) for more information. |
+| `NUMBER` | `DECIMAL` | Default precision and scale are (38,0). |
+| `DECIMAL`, `NUMERIC` | `DECIMAL` | Synonymous with `NUMBER`. See Snowflake [data types for fixed point numbers](https://docs.snowflake.com/en/sql-reference/data-types-numeric#data-types-for-fixed-point-numbers) for more information. |
+| `VARCHAR` | `VARCHAR` |  |
+| `CHAR`, `CHARACTER` | `VARCHAR` | Synonymous with `VARCHAR` except default length is `VARCHAR(1)`. See Snowflake [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text) for more information. |
+| `STRING`, `TEXT` | `VARCHAR` | Synonymous with `VARCHAR`. See Snowflake [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text) for more information. |
+| `BINARY` | `VARBINARY` |  |
+| `VARBINARY` | `VARBINARY` | Synonymous with `BINARY`. See Snowflake [String & Binary Data Types](https://docs.snowflake.com/en/sql-reference/data-types-text) for more information. |
+| `DATE` | `DATE` |  |
+| `TIME` | `TIME` |  |
+| `TIMESTAMP_NTZ` | `TIMESTAMP` | TIMESTAMP with no time zone; time zone, if provided, is not stored. See Snowflake [Date & Time Data Types](https://docs.snowflake.com/en/sql-reference/data-types-datetime) for more information. |
+| `DATETIME` | `TIMESTAMP` | Alias for `TIMESTAMP_NTZ`. See Snowflake [Date & Time Data Types](https://docs.snowflake.com/en/sql-reference/data-types-datetime) for more information. |
+| `TIMESTAMP` | `TIMESTAMP` | Alias for one of the `TIMESTAMP` variations (`TIMESTAMP_NTZ` by default). This connector always sets `TIMESTAMP_NTZ` as the variant. |
+
 
 No other types are supported.
 
@@ -155,62 +101,26 @@ No other types are supported.
 The connector maps Trino types to the corresponding Snowflake types following
 this table:
 
-:::{list-table} Trino type to Snowflake type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino type to Snowflake type mapping
 
-* - Trino type
-  - Snowflake type
-  - Notes
-* - `BOOLEAN`
-  - `BOOLEAN`
-  -
-* - `TINYINT`
-  - `NUMBER(3, 0)`
-  -
-* - `SMALLINT`
-  - `NUMBER(5, 0)`
-  -
-* - `INTEGER`
-  - `NUMBER(10, 0)`
-  -
-* - `BIGINT`
-  - `NUMBER(19, 0)`
-  -
-* - `REAL`
-  - `DOUBLE`
-  -
-* - `DOUBLE`
-  - `DOUBLE`
-  -
-* - `DECIMAL`
-  - `NUMBER`
-  -
-* - `VARCHAR`
-  - `VARCHAR`
-  -
-* - `CHAR`
-  - `VARCHAR`
-  -
-* - `VARBINARY`
-  - `BINARY`
-  -
-* - `VARBINARY`
-  - `VARBINARY`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME`
-  - `TIME`
-  -
-* - `TIMESTAMP`
-  - `TIMESTAMP_NTZ`
-  -
-* - `TIMESTAMP WITH TIME ZONE`
-  - `TIMESTAMP_TZ`
-  -
-:::
+| Trino type | Snowflake type | Notes |
+|---|---|---|
+| `BOOLEAN` | `BOOLEAN` |  |
+| `TINYINT` | `NUMBER(3, 0)` |  |
+| `SMALLINT` | `NUMBER(5, 0)` |  |
+| `INTEGER` | `NUMBER(10, 0)` |  |
+| `BIGINT` | `NUMBER(19, 0)` |  |
+| `REAL` | `DOUBLE` |  |
+| `DOUBLE` | `DOUBLE` |  |
+| `DECIMAL` | `NUMBER` |  |
+| `VARCHAR` | `VARCHAR` |  |
+| `CHAR` | `VARCHAR` |  |
+| `VARBINARY` | `BINARY` |  |
+| `VARBINARY` | `VARBINARY` |  |
+| `DATE` | `DATE` |  |
+| `TIME` | `TIME` |  |
+| `TIMESTAMP` | `TIMESTAMP_NTZ` |  |
+
 
 No other types are supported.
 
@@ -278,6 +188,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

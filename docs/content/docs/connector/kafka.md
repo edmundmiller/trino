@@ -6,6 +6,9 @@ description: Kafka documentation
 
 <img src="../_static/img/kafka.png" class="connector-logo">
 
+
+
+
 This connector allows the use of [Apache Kafka](https://kafka.apache.org/)
 topics as tables in Trino. Each message is presented as a row in Trino.
 
@@ -399,41 +402,14 @@ schema registry. You must also configure the additional properties in the follow
 Inserts are not supported, and the only data format supported is AVRO.
 :::
 
-:::{list-table} Confluent table description supplier properties
-:widths: 30, 55, 15
-:header-rows: 1
+#### Confluent table description supplier properties
 
-* - Property name
-  - Description
-  - Default value
-* - `kafka.confluent-schema-registry-url`
-  - Comma-separated list of URL addresses for the Confluent schema registry.
-    For example, `http://schema-registry-1.example.org:8081,http://schema-registry-2.example.org:8081`
-  -
-* - `kafka.confluent-schema-registry-client-cache-size`
-  - The maximum number of subjects that can be stored in the local cache. The
-    cache stores the schemas locally by subjectId, and is provided by the
-    Confluent `CachingSchemaRegistry` client.
-  - 1000
-* - `kafka.empty-field-strategy`
-  - Avro allows empty struct fields, but this is not allowed in Trino. There are
-    three strategies for handling empty struct fields:
+| Property name | Description | Default value |
+|---|---|---|
+| `kafka.confluent-schema-registry-url` | Comma-separated list of URL addresses for the Confluent schema registry. For example, `http://schema-registry-1.example.org:8081,http://schema-registry-2.example.org:8081` |  |
+| `kafka.confluent-schema-registry-client-cache-size` | The maximum number of subjects that can be stored in the local cache. The cache stores the schemas locally by subjectId, and is provided by the Confluent `CachingSchemaRegistry` client. | 1000 |
+| `kafka.empty-field-strategy` | Avro allows empty struct fields, but this is not allowed in Trino. There are three strategies for handling empty struct fields: * `IGNORE` - Ignore structs with no fields. This propagates to parents. For example, an array of structs with no fields is ignored. * `FAIL` - Fail the query if a struct with no fields is defined. * `MARK` - Add a marker field named `$empty_field_marker`, which of type boolean with a null value. This may be desired if the struct represents a marker field. This can also be modified via the `empty_field_strategy` session property. | `IGNORE` |
 
-    * `IGNORE` - Ignore structs with no fields. This propagates to parents.
-        For example, an array of structs with no fields is ignored.
-    * `FAIL` - Fail the query if a struct with no fields is defined.
-    * `MARK` - Add a marker field named `$empty_field_marker`, which of type
-        boolean with a null value. This may be desired if the struct represents
-        a marker field.
-
-    This can also be modified via the `empty_field_strategy` session property.
-  - `IGNORE`
-* - `kafka.confluent-subjects-cache-refresh-interval`
-  - The interval used for refreshing the list of subjects and the definition
-    of the schema for the subject in the subject's cache.
-  - `1s`
-
-:::
 
 #### Confluent subject to table name mapping
 
@@ -1164,20 +1140,12 @@ The `dataFormat` and `formatHint` attributes are not supported and must be omitt
 
 Table below lists supported Trino types, which can be used in `type` and decoding scheme:
 
-:::{list-table}
-:header-rows: 1
+| Trino data type | Decoding rules |
+|---|---|
+| `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT` | Decoded using Java `Long.parseLong()` |
+| `DOUBLE` | Decoded using Java `Double.parseDouble()` |
+| `BOOLEAN` | "true" character sequence maps to `true`; Other character sequences map to `false` |
 
-* - Trino data type
-  - Decoding rules
-* - `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`
-  - Decoded using Java `Long.parseLong()`
-* - `DOUBLE`
-  - Decoded using Java `Double.parseDouble()`
-* - `BOOLEAN`
-  - "true" character sequence maps to `true`; Other character sequences map to `false`
-* - `VARCHAR`, `VARCHAR(x)`
-  - Used as is
-:::
 
 No other types are supported.
 
@@ -1201,24 +1169,14 @@ time-based types.
 The following table lists Trino data types, which can be used as in `type`, and matching field decoders,
 which can be specified via `dataFormat` attribute.
 
-:::{list-table}
-:header-rows: 1
+| Trino data type | Allowed `dataFormat` values |
+|---|---|
+| `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`, `DOUBLE`, `BOOLEAN`, `VARCHAR`, `VARCHAR(x)` | Default field decoder (omitted `dataFormat` attribute) |
+| `DATE` | `custom-date-time`, `iso8601` |
+| `TIME` | `custom-date-time`, `iso8601`, `milliseconds-since-epoch`, `seconds-since-epoch` |
+| `TIME WITH TIME ZONE` | `custom-date-time`, `iso8601` |
+| `TIMESTAMP` | `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch`, `seconds-since-epoch` |
 
-* - Trino data type
-  - Allowed `dataFormat` values
-* - `BIGINT`, `INTEGER`, `SMALLINT`, `TINYINT`, `DOUBLE`, `BOOLEAN`, `VARCHAR`, `VARCHAR(x)`
-  - Default field decoder (omitted `dataFormat` attribute)
-* - `DATE`
-  - `custom-date-time`, `iso8601`
-* - `TIME`
-  - `custom-date-time`, `iso8601`, `milliseconds-since-epoch`, `seconds-since-epoch`
-* - `TIME WITH TIME ZONE`
-  - `custom-date-time`, `iso8601`
-* - `TIMESTAMP`
-  - `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch`, `seconds-since-epoch`
-* - `TIMESTAMP WITH TIME ZONE`
-  - `custom-date-time`, `iso8601`, `rfc2822`, `milliseconds-since-epoch` `seconds-since-epoch`
-:::
 
 No other types are supported.
 

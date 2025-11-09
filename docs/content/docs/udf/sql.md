@@ -26,6 +26,8 @@ operators](/docs/functions) and other UDFs:
 * [](/udf/sql/set)
 * [](/udf/sql/while)
 
+
+
 A minimal example declares the UDF `doubleup` that returns the input integer
 value `x` multiplied by two. The example shows declaration as [](udf-inline) and
 invocation with the value 21 to yield the result 42:

@@ -7,6 +7,7 @@ description: Clickhouse documentation
 
 <img src="../_static/img/clickhouse.png" class="connector-logo">
 
+
 The ClickHouse connector allows querying tables in an external
 [ClickHouse](https://clickhouse.com/) server. This can be used to
 query data in the databases on that server, or combine it with other data
@@ -29,7 +30,7 @@ that specifies the ClickHouse connector by setting the `connector.name` to
 For example, create the file `etc/catalog/example.properties`. Replace the
 connection properties as appropriate for your setup:
 
-```text
+```none
 connector.name=clickhouse
 connection-url=jdbc:clickhouse://host1:8123/
 connection-user=exampleuser
@@ -166,79 +167,31 @@ each direction.
 The connector maps ClickHouse types to the corresponding Trino types according
 to the following table:
 
-:::{list-table} ClickHouse type to Trino type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### ClickHouse type to Trino type mapping
 
-* - ClickHouse type
-  - Trino type
-  - Notes
-* - `Bool`
-  - `BOOLEAN`
-  -
-* - `Int8`
-  - `TINYINT`
-  - `TINYINT` and `INT1` are aliases of `Int8`
-* - `Int16`
-  - `SMALLINT`
-  -  `SMALLINT` and `INT2` are aliases of `Int16`
-* - `Int32`
-  - `INTEGER`
-  - `INT`, `INT4`, and `INTEGER` are aliases of `Int32`
-* - `Int64`
-  - `BIGINT`
-  - `BIGINT` is an alias of `Int64`
-* - `UInt8`
-  - `SMALLINT`
-  -
-* - `UInt16`
-  - `INTEGER`
-  -
-* - `UInt32`
-  - `BIGINT`
-  -
-* - `UInt64`
-  - `DECIMAL(20,0)`
-  -
-* - `Float32`
-  - `REAL`
-  - `FLOAT` is an alias of `Float32`
-* - `Float64`
-  - `DOUBLE`
-  - `DOUBLE` is an alias of `Float64`
-* - `Decimal`
-  - `DECIMAL`
-  -
-* - `FixedString`
-  - `VARBINARY`
-  - Enabling `clickhouse.map-string-as-varchar` config property changes the
-    mapping to `VARCHAR`
-* - `String`
-  - `VARBINARY`
-  - Enabling `clickhouse.map-string-as-varchar` config property changes the
-    mapping to `VARCHAR`
-* - `Date`
-  - `DATE`
-  -
-* - `DateTime[(timezone)]`
-  - `TIMESTAMP(0) [WITH TIME ZONE]`
-  -
-* - `IPv4`
-  - `IPADDRESS`
-  -
-* - `IPv6`
-  - `IPADDRESS`
-  -
-* - `Enum8`
-  - `VARCHAR`
-  -
-* - `Enum16`
-  - `VARCHAR`
-  -
-* - `UUID`
-  - `UUID`
-  -
-:::
+| ClickHouse type | Trino type | Notes |
+|---|---|---|
+| `Bool` | `BOOLEAN` |  |
+| `Int8` | `TINYINT` | `TINYINT` and `INT1` are aliases of `Int8` |
+| `Int16` | `SMALLINT` | `SMALLINT` and `INT2` are aliases of `Int16` |
+| `Int32` | `INTEGER` | `INT`, `INT4`, and `INTEGER` are aliases of `Int32` |
+| `Int64` | `BIGINT` | `BIGINT` is an alias of `Int64` |
+| `UInt8` | `SMALLINT` |  |
+| `UInt16` | `INTEGER` |  |
+| `UInt32` | `BIGINT` |  |
+| `UInt64` | `DECIMAL(20,0)` |  |
+| `Float32` | `REAL` | `FLOAT` is an alias of `Float32` |
+| `Float64` | `DOUBLE` | `DOUBLE` is an alias of `Float64` |
+| `Decimal` | `DECIMAL` |  |
+| `FixedString` | `VARBINARY` | Enabling `clickhouse.map-string-as-varchar` config property changes the mapping to `VARCHAR` |
+| `String` | `VARBINARY` | Enabling `clickhouse.map-string-as-varchar` config property changes the mapping to `VARCHAR` |
+| `Date` | `DATE` |  |
+| `DateTime[(timezone)]` | `TIMESTAMP(0) [WITH TIME ZONE]` |  |
+| `IPv4` | `IPADDRESS` |  |
+| `IPv6` | `IPADDRESS` |  |
+| `Enum8` | `VARCHAR` |  |
+| `Enum16` | `VARCHAR` |  |
+
 
 No other types are supported.
 
@@ -247,57 +200,24 @@ No other types are supported.
 The connector maps Trino types to the corresponding ClickHouse types according
 to the following table:
 
-:::{list-table} Trino type to ClickHouse type mapping
-:widths: 30, 25, 50
-:header-rows: 1
+#### Trino type to ClickHouse type mapping
 
-* - Trino type
-  - ClickHouse type
-  - Notes
-* - `BOOLEAN`
-  - `Bool`
-  -
-* - `TINYINT`
-  - `Int8`
-  - `TINYINT` and `INT1` are aliases of `Int8`
-* - `SMALLINT`
-  - `Int16`
-  -  `SMALLINT` and `INT2` are aliases of `Int16`
-* - `INTEGER`
-  - `Int32`
-  - `INT`, `INT4`, and `INTEGER` are aliases of `Int32`
-* - `BIGINT`
-  - `Int64`
-  - `BIGINT` is an alias of `Int64`
-* - `REAL`
-  - `Float32`
-  - `FLOAT` is an alias of `Float32`
-* - `DOUBLE`
-  - `Float64`
-  - `DOUBLE` is an alias of `Float64`
-* - `DECIMAL(p,s)`
-  - `Decimal(p,s)`
-  -
-* - `VARCHAR`
-  - `String`
-  -
-* - `CHAR`
-  - `String`
-  -
-* - `VARBINARY`
-  - `String`
-  - Enabling `clickhouse.map-string-as-varchar` config property changes the
-    mapping to `VARCHAR`
-* - `DATE`
-  - `Date`
-  -
-* - `TIMESTAMP(0)`
-  - `DateTime`
-  -
-* - `UUID`
-  - `UUID`
-  -
-:::
+| Trino type | ClickHouse type | Notes |
+|---|---|---|
+| `BOOLEAN` | `Bool` |  |
+| `TINYINT` | `Int8` | `TINYINT` and `INT1` are aliases of `Int8` |
+| `SMALLINT` | `Int16` | `SMALLINT` and `INT2` are aliases of `Int16` |
+| `INTEGER` | `Int32` | `INT`, `INT4`, and `INTEGER` are aliases of `Int32` |
+| `BIGINT` | `Int64` | `BIGINT` is an alias of `Int64` |
+| `REAL` | `Float32` | `FLOAT` is an alias of `Float32` |
+| `DOUBLE` | `Float64` | `DOUBLE` is an alias of `Float64` |
+| `DECIMAL(p,s)` | `Decimal(p,s)` |  |
+| `VARCHAR` | `String` |  |
+| `CHAR` | `String` |  |
+| `VARBINARY` | `String` | Enabling `clickhouse.map-string-as-varchar` config property changes the mapping to `VARCHAR` |
+| `DATE` | `Date` |  |
+| `TIMESTAMP(0)` | `DateTime` |  |
+
 
 No other types are supported.
 
@@ -364,6 +284,7 @@ Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
 
+
 ### Table functions
 
 The connector provides specific [table functions ](/docs//functions/table) to
@@ -415,6 +336,7 @@ The connector supports pushdown for a number of operations:
 - {func}`max`
 - {func}`min`
 - {func}`sum`
+
 
 <!-- Fragment not found: pushdown-correctness-behavior.fragment -->
 

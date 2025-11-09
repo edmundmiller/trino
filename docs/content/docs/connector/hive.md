@@ -6,6 +6,7 @@ description: Hive documentation
 
 <img src="../_static/img/hive.png" class="connector-logo">
 
+
 The Hive connector allows querying data stored in an
 [Apache Hive](https://hive.apache.org/)
 data warehouse. Hive is a combination of three components:
@@ -70,6 +71,7 @@ You must configure a [metastore for metadata](/docs/object-storage/metastores).
 You must select and configure one of the [supported file
 systems](hive-file-system-configuration).
 
+
 ```properties
 connector.name=hive
 hive.metastore.uri=thrift://example.net:9083
@@ -103,232 +105,56 @@ The following table lists general configuration properties for the Hive
 connector. There are additional sets of configuration properties throughout the
 Hive connector documentation.
 
-:::{list-table} Hive general configuration properties
-:widths: 35, 50, 15
-:header-rows: 1
+#### Hive general configuration properties
 
-* - Property Name
-  - Description
-  - Default
+| Property Name | Description | Default |
+|---|---|---|
+| `hive.recursive-directories` | Enable reading data from subdirectories of table or partition locations. If disabled, subdirectories are ignored. This is equivalent to the `hive.mapred.supports.subdirectories` property in Hive. | `false` |
+| `hive.ignore-absent-partitions` | Ignore partitions when the file system location does not exist rather than failing the query. This skips data that may be expected to be part of the table. | `false` |
+| `hive.storage-format` | The default file format used when creating new tables. | `ORC` |
+| `hive.orc.use-column-names` | Access ORC columns by name. By default, columns in ORC files are accessed by their ordinal position in the Hive table definition. The equivalent catalog session property is `orc_use_column_names`. See also, [](orc-format-configuration) | `false` |
+| `hive.parquet.use-column-names` | Access Parquet columns by name by default. Set this property to `false` to access columns by their ordinal position in the Hive table definition. The equivalent catalog session property is `parquet_use_column_names`. See also, [](parquet-format-configuration) | `true` |
+| `hive.parquet.time-zone` | Time zone for Parquet read and write. | JVM default |
+| `hive.compression-codec` | The compression codec to use when writing files. Possible values are `NONE`, `SNAPPY`, `LZ4`, `ZSTD`, or `GZIP`. | `GZIP` |
+| `hive.force-local-scheduling` | Force splits to be scheduled on the same node as the Hadoop DataNode process serving the split data. This is useful for installations where Trino is collocated with every DataNode. | `false` |
+| `hive.respect-table-format` | Should new partitions be written using the existing table format or the default Trino format? | `true` |
+| `hive.immutable-partitions` | Can new data be inserted into existing partitions? If `true` then setting `hive.insert-existing-partitions-behavior` to `APPEND` is not allowed. This also affects the `insert_existing_partitions_behavior` session property in the same way. | `false` |
+| `hive.insert-existing-partitions-behavior` | What happens when data is inserted into an existing partition? Possible values are * `APPEND` - appends data to existing partitions * `OVERWRITE` - overwrites existing partitions * `ERROR` - modifying existing partitions is not allowed The equivalent catalog session property is `insert_existing_partitions_behavior`. | `APPEND` |
+| `hive.target-max-file-size` | Best effort maximum size of new files. | `1GB` |
+| `hive.create-empty-bucket-files` | Should empty files be created for buckets that have no data? | `false` |
+| `hive.validate-bucketing` | Enables validation that data is in the correct bucket when reading bucketed tables. | `true` |
+| `hive.partition-statistics-sample-size` | Specifies the number of partitions to analyze when computing table statistics. | 100 |
+| `hive.max-partitions-per-writers` | Maximum number of partitions per writer. | 100 |
+| `hive.max-partitions-for-eager-load` | The maximum number of partitions for a single table scan to load eagerly on the coordinator. Certain optimizations are not possible without eager loading. | 100,000 |
+| `hive.max-partitions-per-scan` | Maximum number of partitions for a single table scan. | 1,000,000 |
+| `hive.non-managed-table-writes-enabled` | Enable writes to non-managed (external) Hive tables. | `false` |
+| `hive.non-managed-table-creates-enabled` | Enable creating non-managed (external) Hive tables. | `true` |
+| `hive.collect-column-statistics-on-write` | Enables automatic column level statistics collection on write. See [](hive-table-statistics) for details. | `true` |
+| `hive.file-status-cache-tables` | Cache directory listing for specific tables. Examples: * `fruit.apple,fruit.orange` to cache listings only for tables `apple` and `orange` in schema `fruit` * `fruit.*,vegetable.*` to cache listings for all tables in schemas `fruit` and `vegetable` * `*` to cache listings for all tables in all schemas |  |
+| `hive.file-status-cache.excluded-tables` | Whereas `hive.file-status-cache-tables` is an inclusion list, this is an exclusion list for the cache.  * `fruit.apple,fruit.orange` to *NOT* cache listings only for tables `apple` and `orange` in schema `fruit` * `fruit.*,vegetable.*` to *NOT* cache listings for all tables in schemas `fruit` and `vegetable` |  |
+| `hive.file-status-cache.max-retained-size` | Maximum retained size of cached file status entries. | `1GB` |
+| `hive.file-status-cache-expire-time` | How long a cached directory listing is considered valid. | `1m` |
+| `hive.per-transaction-file-status-cache.max-retained-size` | Maximum retained size of all entries in per transaction file status cache. Retained size limit is shared across all running queries. | `100MB` |
+| `hive.rcfile.time-zone` | Adjusts binary encoded timestamp values to a specific time zone. For Hive 3.1+, this must be set to UTC. | JVM default |
+| `hive.timestamp-precision` | Specifies the precision to use for Hive columns of type `TIMESTAMP`. Possible values are `MILLISECONDS`, `MICROSECONDS` and `NANOSECONDS`. Values with higher precision than configured are rounded. The equivalent [catalog session property](/docs/sql/set-session) is `timestamp_precision` for session specific use. | `MILLISECONDS` |
+| `hive.temporary-staging-directory-enabled` | Controls whether the temporary staging directory configured at `hive.temporary-staging-directory-path` is used for write operations. Temporary staging directory is never used for writes to non-sorted tables on S3, encrypted HDFS or external location. Writes to sorted tables will utilize this path for staging temporary files during sorting operation. When disabled, the target storage will be used for staging while writing sorted tables which can be inefficient when writing to object stores like S3. | `true` |
+| `hive.temporary-staging-directory-path` | Controls the location of temporary staging directory that is used for write operations. The `${USER}` placeholder can be used to use a different location for each user. | `/tmp/presto-${USER}` |
+| `hive.hive-views.enabled` | Enable translation for [Hive views](hive-views). | `false` |
+| `hive.hive-views.legacy-translation` | Use the legacy algorithm to translate [Hive views](hive-views). You can use the `hive_views_legacy_translation` catalog session property for temporary, catalog specific use. | `false` |
+| `hive.parallel-partitioned-bucketed-writes` | Improve parallelism of partitioned and bucketed table writes. When disabled, the number of writing threads is limited to number of buckets. | `true` |
+| `hive.query-partition-filter-required` | Set to `true` to force a query to use a partition filter. You can use the `query_partition_filter_required` catalog session property for temporary, catalog specific use. | `false` |
+| `hive.query-partition-filter-required-schemas` | Allow specifying the list of schemas for which Trino will enforce that queries use a filter on partition keys for source tables. The list can be specified using the `hive.query-partition-filter-required-schemas`, or the `query_partition_filter_required_schemas` session property. The list is taken into consideration only if the `hive.query-partition-filter-required` configuration property or the `query_partition_filter_required` session property is set to `true`. | `[]` |
+| `hive.table-statistics-enabled` | Enables [](/optimizer/statistics). The equivalent [catalog session property](/docs/sql/set-session) is `statistics_enabled` for session specific use. Set to `false` to disable statistics. Disabling statistics means that [](/optimizer/cost-based-optimizations) can not make smart decisions about the query plan. | `true` |
+| `hive.auto-purge` | Set the default value for the auto_purge table property for managed tables. See the [](hive-table-properties) for more information on auto_purge. | `false` |
+| `hive.partition-projection-enabled` | Enables Athena partition projection support | `true` |
+| `hive.s3-glacier-filter` | Filter S3 objects based on their storage class and restored status if applicable. Possible values are * `READ_ALL` - read files from all S3 storage classes * `READ_NON_GLACIER` - read files from non S3 Glacier storage classes * `READ_NON_GLACIER_AND_RESTORED` - read files from non S3 Glacier storage classes and restored objects from Glacier storage class | `READ_ALL` |
+| `hive.max-partition-drops-per-query` | Maximum number of partitions to drop in a single query. | 100,000 |
+| `hive.metastore.partition-batch-size.max` | Maximum number of partitions processed in a single batch. | 100 |
+| `hive.single-statement-writes` | Enables auto-commit for all writes. This can be used to disallow multi-statement write transactions. | `false` |
+| `hive.metadata.parallelism` | Number of threads used for retrieving metadata. Currently, only table loading is parallelized. | `8` |
+| `hive.protobuf.descriptors.location` | Path to a directory where binary Protocol Buffer descriptor files are  stored to be used for reading tables stored in the `com.twitter.elephantbird.hive.serde.ProtobufDeserializer` format. |  |
+| `hive.protobuf.descriptors.cache.max-size` | Maximum size of the Protocol Buffer descriptors cache | `64` |
 
-* - `hive.recursive-directories`
-  - Enable reading data from subdirectories of table or partition locations. If
-    disabled, subdirectories are ignored. This is equivalent to the
-    `hive.mapred.supports.subdirectories` property in Hive.
-  - `false`
-* - `hive.ignore-absent-partitions`
-  - Ignore partitions when the file system location does not exist rather than
-    failing the query. This skips data that may be expected to be part of the
-    table.
-  - `false`
-* - `hive.storage-format`
-  - The default file format used when creating new tables.
-  - `ORC`
-* - `hive.orc.use-column-names`
-  - Access ORC columns by name. By default, columns in ORC files are accessed by
-    their ordinal position in the Hive table definition. The equivalent catalog
-    session property is `orc_use_column_names`. See also,
-    [](orc-format-configuration)
-  - `false`
-* - `hive.parquet.use-column-names`
-  - Access Parquet columns by name by default. Set this property to `false` to
-    access columns by their ordinal position in the Hive table definition. The
-    equivalent catalog session property is `parquet_use_column_names`. See also,
-    [](parquet-format-configuration)
-  - `true`
-* - `hive.parquet.time-zone`
-  - Time zone for Parquet read and write.
-  - JVM default
-* - `hive.compression-codec`
-  - The compression codec to use when writing files. Possible values are `NONE`,
-    `SNAPPY`, `LZ4`, `ZSTD`, or `GZIP`.
-  - `GZIP`
-* - `hive.force-local-scheduling`
-  - Force splits to be scheduled on the same node as the Hadoop DataNode process
-    serving the split data. This is useful for installations where Trino is
-    collocated with every DataNode.
-  - `false`
-* - `hive.respect-table-format`
-  - Should new partitions be written using the existing table format or the
-    default Trino format?
-  - `true`
-* - `hive.immutable-partitions`
-  - Can new data be inserted into existing partitions? If `true` then setting
-    `hive.insert-existing-partitions-behavior` to `APPEND` is not allowed. This
-    also affects the `insert_existing_partitions_behavior` session property in
-    the same way.
-  - `false`
-* - `hive.insert-existing-partitions-behavior`
-  - What happens when data is inserted into an existing partition? Possible
-    values are
-
-    * `APPEND` - appends data to existing partitions
-    * `OVERWRITE` - overwrites existing partitions
-    * `ERROR` - modifying existing partitions is not allowed
-
-    The equivalent catalog session property is `insert_existing_partitions_behavior`.
-  - `APPEND`
-* - `hive.target-max-file-size`
-  - Best effort maximum size of new files.
-  - `1GB`
-* - `hive.create-empty-bucket-files`
-  - Should empty files be created for buckets that have no data?
-  - `false`
-* - `hive.validate-bucketing`
-  - Enables validation that data is in the correct bucket when reading bucketed
-    tables.
-  - `true`
-* - `hive.partition-statistics-sample-size`
-  - Specifies the number of partitions to analyze when computing table
-    statistics.
-  - 100
-* - `hive.max-partitions-per-writers`
-  - Maximum number of partitions per writer.
-  - 100
-* - `hive.max-partitions-for-eager-load`
-  - The maximum number of partitions for a single table scan to load eagerly on
-    the coordinator. Certain optimizations are not possible without eager
-    loading.
-  - 100,000
-* - `hive.max-partitions-per-scan`
-  - Maximum number of partitions for a single table scan.
-  - 1,000,000
-* - `hive.non-managed-table-writes-enabled`
-  - Enable writes to non-managed (external) Hive tables.
-  - `false`
-* - `hive.non-managed-table-creates-enabled`
-  - Enable creating non-managed (external) Hive tables.
-  - `true`
-* - `hive.collect-column-statistics-on-write`
-  - Enables automatic column level statistics collection on write. See
-    [](hive-table-statistics) for details.
-  - `true`
-* - `hive.file-status-cache-tables`
-  - Cache directory listing for specific tables. Examples:
-
-    * `fruit.apple,fruit.orange` to cache listings only for tables
-      `apple` and `orange` in schema `fruit`
-    * `fruit.*,vegetable.*` to cache listings for all tables
-      in schemas `fruit` and `vegetable`
-    * `*` to cache listings for all tables in all schemas
-  -
-* - `hive.file-status-cache.excluded-tables`
-  - Whereas `hive.file-status-cache-tables` is an inclusion list, this is an exclusion list for the cache. 
-      * `fruit.apple,fruit.orange` to *NOT* cache listings only for tables
-        `apple` and `orange` in schema `fruit`
-      * `fruit.*,vegetable.*` to *NOT* cache listings for all tables
-        in schemas `fruit` and `vegetable`
-  -  
-* - `hive.file-status-cache.max-retained-size`
-  - Maximum retained size of cached file status entries.
-  - `1GB`
-* - `hive.file-status-cache-expire-time`
-  - How long a cached directory listing is considered valid.
-  - `1m`
-* - `hive.per-transaction-file-status-cache.max-retained-size`
-  - Maximum retained size of all entries in per transaction file status cache.
-    Retained size limit is shared across all running queries.
-  - `100MB`
-* - `hive.rcfile.time-zone`
-  - Adjusts binary encoded timestamp values to a specific time zone. For Hive
-    3.1+, this must be set to UTC.
-  - JVM default
-* - `hive.timestamp-precision`
-  - Specifies the precision to use for Hive columns of type `TIMESTAMP`.
-    Possible values are `MILLISECONDS`, `MICROSECONDS` and `NANOSECONDS`.
-    Values with higher precision than configured are rounded. The equivalent
-    [catalog session property](/docs/sql/set-session) is `timestamp_precision` for
-    session specific use.
-  - `MILLISECONDS`
-* - `hive.temporary-staging-directory-enabled`
-  - Controls whether the temporary staging directory configured at
-    `hive.temporary-staging-directory-path` is used for write operations.
-    Temporary staging directory is never used for writes to non-sorted tables on
-    S3, encrypted HDFS or external location. Writes to sorted tables will
-    utilize this path for staging temporary files during sorting operation. When
-    disabled, the target storage will be used for staging while writing sorted
-    tables which can be inefficient when writing to object stores like S3.
-  - `true`
-* - `hive.temporary-staging-directory-path`
-  - Controls the location of temporary staging directory that is used for write
-    operations. The `${USER}` placeholder can be used to use a different
-    location for each user.
-  - `/tmp/presto-${USER}`
-* - `hive.hive-views.enabled`
-  - Enable translation for [Hive views](hive-views).
-  - `false`
-* - `hive.hive-views.legacy-translation`
-  - Use the legacy algorithm to translate [Hive views](hive-views). You
-    can use the `hive_views_legacy_translation` catalog session property for
-    temporary, catalog specific use.
-  - `false`
-* - `hive.parallel-partitioned-bucketed-writes`
-  - Improve parallelism of partitioned and bucketed table writes. When disabled,
-    the number of writing threads is limited to number of buckets.
-  - `true`
-* - `hive.query-partition-filter-required`
-  - Set to `true` to force a query to use a partition filter. You can use the
-    `query_partition_filter_required` catalog session property for temporary,
-    catalog specific use.
-  - `false`
-* - `hive.query-partition-filter-required-schemas`
-  - Allow specifying the list of schemas for which Trino will enforce that
-    queries use a filter on partition keys for source tables. The list can be
-    specified using the `hive.query-partition-filter-required-schemas`,
-    or the `query_partition_filter_required_schemas` session property. The list
-    is taken into consideration only if the `hive.query-partition-filter-required`
-    configuration property or the `query_partition_filter_required` session
-    property is set to `true`.
-  - `[]`
-* - `hive.table-statistics-enabled`
-  - Enables [](/optimizer/statistics). The equivalent [catalog session
-    property](/docs/sql/set-session) is `statistics_enabled` for session specific
-    use. Set to `false` to disable statistics. Disabling statistics means that
-    [](/optimizer/cost-based-optimizations) can not make smart decisions about
-    the query plan.
-  - `true`
-* - `hive.auto-purge`
-  - Set the default value for the auto_purge table property for managed tables.
-    See the [](hive-table-properties) for more information on auto_purge.
-  - `false`
-* - `hive.partition-projection-enabled`
-  - Enables Athena partition projection support
-  - `true`
-* - `hive.s3-glacier-filter`
-  - Filter S3 objects based on their storage class and restored status if applicable. Possible
-    values are
-      * `READ_ALL` - read files from all S3 storage classes
-      * `READ_NON_GLACIER` - read files from non S3 Glacier storage classes
-      * `READ_NON_GLACIER_AND_RESTORED` - read files from non S3 Glacier storage classes and 
-        restored objects from Glacier storage class
-  - `READ_ALL`
-* - `hive.max-partition-drops-per-query`
-  - Maximum number of partitions to drop in a single query.
-  - 100,000
-* - `hive.metastore.partition-batch-size.max`
-  - Maximum number of partitions processed in a single batch.
-  - 100
-* - `hive.single-statement-writes`
-  - Enables auto-commit for all writes. This can be used to disallow
-    multi-statement write transactions.
-  - `false`
-* - `hive.metadata.parallelism`
-  - Number of threads used for retrieving metadata. Currently, only table loading
-    is parallelized.
-  - `8`
-* - `hive.protobuf.descriptors.location`
-  - Path to a directory where binary Protocol Buffer descriptor files are 
-    stored to be used for reading tables stored in the
-    `com.twitter.elephantbird.hive.serde.ProtobufDeserializer` format.
-  -
-* - `hive.protobuf.descriptors.cache.max-size`
-  - Maximum size of the Protocol Buffer descriptors cache
-  - `64`
-* - `hive.protobuf.descriptors.cache.refresh-interval`
-  - [Duration](prop-type-duration) after which loaded Protocol Buffer descriptors
-    should be reloaded from disk.
-  - `1d`
-:::
 
 ### File system access configuration
 
@@ -364,32 +190,14 @@ In addition, the following security-related features are supported.
 You can enable authorization checks by setting the `hive.security` property in
 the catalog properties file. This property must be one of the following values:
 
-:::{list-table} `hive.security` property values
-:widths: 30, 60
-:header-rows: 1
+#### `hive.security` property values
 
-* - Property value
-  - Description
-* - `allow-all` (default value)
-  - No authorization checks are enforced.
-* - `read-only`
-  - Operations that read data or metadata, such as `SELECT`, are permitted, but
-    none of the operations that write data or metadata, such as `CREATE`,
-    `INSERT` or `DELETE`, are allowed.
-* - `file`
-  - Authorization checks are enforced using a catalog-level access control
-    configuration file whose path is specified in the `security.config-file`
-    catalog configuration property. See [](catalog-file-based-access-control)
-    for details.
-* - `sql-standard`
-  - Users are permitted to perform the operations as long as they have the
-    required privileges as per the SQL standard. In this mode, Trino enforces
-    the authorization checks for queries based on the privileges defined in Hive
-    metastore. To alter these privileges, use the [](/sql/grant) and
-    [](/sql/revoke) commands.
+| Property value | Description |
+|---|---|
+| `allow-all` (default value) | No authorization checks are enforced. |
+| `read-only` | Operations that read data or metadata, such as `SELECT`, are permitted, but none of the operations that write data or metadata, such as `CREATE`, `INSERT` or `DELETE`, are allowed. |
+| `file` | Authorization checks are enforced using a catalog-level access control configuration file whose path is specified in the `security.config-file` catalog configuration property. See [](catalog-file-based-access-control) for details. |
 
-    See the [](hive-sql-standard-based-authorization) section for details.
-:::
 
 ### SQL standard based authorization
 
@@ -417,25 +225,13 @@ The Hive connector supports reading Parquet files encrypted with Parquet
 Modular Encryption (PME). Decryption keys can be provided via environment
 variables. Writing encrypted Parquet files is not supported.
 
-:::{list-table} Parquet encryption properties
-:widths: 35, 50, 15
-:header-rows: 1
+#### Parquet encryption properties
 
-* - Property name
-  - Description
-  - Default
-* - `pme.environment-key-retriever.enabled`
-  - Enable the key retriever that reads decryption keys from
-    environment variables.
-  - `false`
-* - `pme.aad-prefix`
-  - AAD prefix used when decoding Parquet files. Must match the prefix used
-    when the files were written, if applicable.
-  -
-* - `pme.check-footer-integrity`
-  - Validate signature for plaintext footer files.
-  - `true`
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `pme.environment-key-retriever.enabled` | Enable the key retriever that reads decryption keys from environment variables. | `false` |
+| `pme.aad-prefix` | AAD prefix used when decoding Parquet files. Must match the prefix used when the files were written, if applicable. |  |
+
 
 When `pme.environment-key-retriever.enabled` is set, provide keys with
 environment variables:
@@ -714,41 +510,23 @@ of preexisting partitions. The Hive connector supports this schema evolution by
 allowing the same conversions as Hive. The following table lists possible data
 type conversions.
 
-:::{list-table} Hive schema evolution type conversion
-:widths: 25, 75
-:header-rows: 1
+#### Hive schema evolution type conversion
 
-* - Data type
-  - Converted to
-* - `BOOLEAN`
-  - `VARCHAR`
-* - `VARCHAR`
-  - `BOOLEAN`, `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT`, `REAL`, `DOUBLE`, `TIMESTAMP`, `DATE`, `CHAR` as well as
-    narrowing conversions for `VARCHAR`
-* - `CHAR`
-  - `VARCHAR`, narrowing conversions for `CHAR`
-* - `TINYINT`
-  - `VARCHAR`, `SMALLINT`, `INTEGER`, `BIGINT`, `DOUBLE`, `DECIMAL`
-* - `SMALLINT`
-  - `VARCHAR`, `INTEGER`, `BIGINT`, `DOUBLE`, `DECIMAL`
-* - `INTEGER`
-  - `VARCHAR`, `BIGINT`, `DOUBLE`, `DECIMAL`
-* - `BIGINT`
-  - `VARCHAR`, `DOUBLE`, `DECIMAL`
-* - `REAL`
-  - `DOUBLE`, `DECIMAL`
-* - `DOUBLE`
-  - `FLOAT`, `DECIMAL`
-* - `DECIMAL`
-  - `DOUBLE`, `REAL`, `VARCHAR`, `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT`, as
-    well as narrowing and widening conversions for `DECIMAL`
-* - `DATE`
-  - `VARCHAR`
-* - `TIMESTAMP`
-  - `VARCHAR`, `DATE`
-* - `VARBINARY`
-  - `VARCHAR`
-:::
+| Data type | Converted to |
+|---|---|
+| `BOOLEAN` | `VARCHAR` |
+| `VARCHAR` | `BOOLEAN`, `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT`, `REAL`, `DOUBLE`, `TIMESTAMP`, `DATE`, `CHAR` as well as narrowing conversions for `VARCHAR` |
+| `CHAR` | `VARCHAR`, narrowing conversions for `CHAR` |
+| `TINYINT` | `VARCHAR`, `SMALLINT`, `INTEGER`, `BIGINT`, `DOUBLE`, `DECIMAL` |
+| `SMALLINT` | `VARCHAR`, `INTEGER`, `BIGINT`, `DOUBLE`, `DECIMAL` |
+| `INTEGER` | `VARCHAR`, `BIGINT`, `DOUBLE`, `DECIMAL` |
+| `BIGINT` | `VARCHAR`, `DOUBLE`, `DECIMAL` |
+| `REAL` | `DOUBLE`, `DECIMAL` |
+| `DOUBLE` | `FLOAT`, `DECIMAL` |
+| `DECIMAL` | `DOUBLE`, `REAL`, `VARCHAR`, `TINYINT`, `SMALLINT`, `INTEGER`, `BIGINT`, as well as narrowing and widening conversions for `DECIMAL` |
+| `DATE` | `VARCHAR` |
+| `TIMESTAMP` | `VARCHAR`, `DATE` |
+
 
 Any conversion failure results in null, which is the same behavior
 as Hive. For example, converting the string `'foo'` to a number,
@@ -867,6 +645,7 @@ ALTER TABLE test_table EXECUTE optimize
 WHERE CAST(timestamp_tz AS DATE) > DATE '2021-12-31'
 ```
 
+
 The `optimize` command is disabled by default, and can be enabled for a
 catalog with the `<catalog-name>.non_transactional_optimize_enabled`
 session property:
@@ -899,119 +678,35 @@ WITH (format='CSV',
       csv_escape = '"')
 ```
 
-:::{list-table} Hive connector table properties
-:widths: 20, 60, 20
-:header-rows: 1
+#### Hive connector table properties
 
-* - Property name
-  - Description
-  - Default
-* - `auto_purge`
-  - Indicates to the configured metastore to perform a purge when a table or
-    partition is deleted instead of a soft deletion using the trash.
-  -
-* - `avro_schema_url`
-  - The URI pointing to [](hive-avro-schema) for the table.
-  -
-* - `bucket_count`
-  - The number of buckets to group data into. Only valid if used with
-    `bucketed_by`.
-  - 0
-* - `bucketed_by`
-  - The bucketing column for the storage table. Only valid if used with
-    `bucket_count`.
-  - `[]`
-* - `bucketing_version`
-  - Specifies which Hive bucketing version to use. Valid values are `1` or `2`.
-  -
-* - `csv_escape`
-  - The CSV escape character. Requires CSV format.
-  -
-* - `csv_quote`
-  - The CSV quote character. Requires CSV format.
-  -
-* - `csv_separator`
-  - The CSV separator character. Requires CSV format. You can use other
-    separators such as `|` or use Unicode to configure invisible separators such
-    tabs with `U&'\0009'`.
-  - `,`
-* - `external_location`
-  - The URI for an external Hive table on S3, Azure Blob Storage, etc. See the
-    [](hive-examples) for more information.
-  -
-* - `format`
-  - The table file format. Valid values include `ORC`, `PARQUET`, `AVRO`,
-    `RCBINARY`, `RCTEXT`, `SEQUENCEFILE`, `JSON`, `OPENX_JSON`, `TEXTFILE`,
-    `CSV`, and `REGEX`. The catalog property `hive.storage-format` sets the
-    default value and can change it to a different default.
-  -
-* - `null_format`
-  - The serialization format for `NULL` value. Requires TextFile, RCText, or
-    SequenceFile format.
-  -
-* - `orc_bloom_filter_columns`
-  - Comma separated list of columns to use for ORC bloom filter. It improves the
-    performance of queries using equality predicates, such as `=`, `IN` and
-    small range predicates, when reading ORC files. Requires ORC format.
-  - `[]`
-* - `orc_bloom_filter_fpp`
-  - The ORC bloom filters false positive probability. Requires ORC format.
-  - 0.05
-* - `partitioned_by`
-  - The partitioning column for the storage table. The columns listed in the
-    `partitioned_by` clause must be the last columns as defined in the DDL.
-  - `[]`
-* - `parquet_bloom_filter_columns`
-  - Comma separated list of columns to use for Parquet bloom filter. It improves
-    the performance of queries using equality predicates, such as `=`, `IN` and
-    small range predicates, when reading Parquet files. Requires Parquet format.
-  - `[]`
-* - `skip_footer_line_count`
-  - The number of footer lines to ignore when parsing the file for data.
-    Requires TextFile or CSV format tables.
-  -
-* - `skip_header_line_count`
-  - The number of header lines to ignore when parsing the file for data.
-    Requires TextFile or CSV format tables.
-  -
-* - `sorted_by`
-  - The column to sort by to determine bucketing for row. Only valid if
-    `bucketed_by` and `bucket_count` are specified as well.
-  - `[]`
-* - `textfile_field_separator`
-  - Allows the use of custom field separators, such as '|', for TextFile
-    formatted tables.
-  -
-* - `textfile_field_separator_escape`
-  - Allows the use of a custom escape character for TextFile formatted tables.
-  -
-* - `transactional`
-  - Set this property to `true` to create an ORC ACID transactional table.
-    Requires ORC format. This property may be shown as true for insert-only
-    tables created using older versions of Hive.
-  -
-* - `partition_projection_enabled`
-  - Enables partition projection for selected table. Mapped from AWS Athena
-    table property
-    [projection.enabled](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-setting-up.html).
-  -
-* - `partition_projection_ignore`
-  - Ignore any partition projection properties stored in the metastore for the
-    selected table. This is a Trino-only property which allows you to work
-    around compatibility issues on a specific table, and if enabled, Trino
-    ignores all other configuration options related to partition projection.
-  -
-* - `partition_projection_location_template`
-  - Projected partition location template, such as `s3a://test/name=${name}/`.
-    Mapped from the AWS Athena table property
-    [storage.location.template](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-setting-up.html#partition-projection-specifying-custom-s3-storage-locations)
-  - `${table_location}/${partition_name}`
-* - `extra_properties`
-  - Additional properties added to a Hive table. The properties are not used by
-    Trino, and are available in the `$properties` metadata table. The properties
-    are not included in the output of `SHOW CREATE TABLE` statements.
-  -
-:::
+| Property name | Description | Default |
+|---|---|---|
+| `auto_purge` | Indicates to the configured metastore to perform a purge when a table or partition is deleted instead of a soft deletion using the trash. |  |
+| `avro_schema_url` | The URI pointing to [](hive-avro-schema) for the table. |  |
+| `bucket_count` | The number of buckets to group data into. Only valid if used with `bucketed_by`. | 0 |
+| `bucketed_by` | The bucketing column for the storage table. Only valid if used with `bucket_count`. | `[]` |
+| `bucketing_version` | Specifies which Hive bucketing version to use. Valid values are `1` or `2`. |  |
+| `csv_escape` | The CSV escape character. Requires CSV format. |  |
+| `csv_quote` | The CSV quote character. Requires CSV format. |  |
+| `csv_separator` | The CSV separator character. Requires CSV format. You can use other separators such as `|` or use Unicode to configure invisible separators such tabs with `U&'\0009'`. | `,` |
+| `external_location` | The URI for an external Hive table on S3, Azure Blob Storage, etc. See the [](hive-examples) for more information. |  |
+| `format` | The table file format. Valid values include `ORC`, `PARQUET`, `AVRO`, `RCBINARY`, `RCTEXT`, `SEQUENCEFILE`, `JSON`, `OPENX_JSON`, `TEXTFILE`, `CSV`, and `REGEX`. The catalog property `hive.storage-format` sets the default value and can change it to a different default. |  |
+| `null_format` | The serialization format for `NULL` value. Requires TextFile, RCText, or SequenceFile format. |  |
+| `orc_bloom_filter_columns` | Comma separated list of columns to use for ORC bloom filter. It improves the performance of queries using equality predicates, such as `=`, `IN` and small range predicates, when reading ORC files. Requires ORC format. | `[]` |
+| `orc_bloom_filter_fpp` | The ORC bloom filters false positive probability. Requires ORC format. | 0.05 |
+| `partitioned_by` | The partitioning column for the storage table. The columns listed in the `partitioned_by` clause must be the last columns as defined in the DDL. | `[]` |
+| `parquet_bloom_filter_columns` | Comma separated list of columns to use for Parquet bloom filter. It improves the performance of queries using equality predicates, such as `=`, `IN` and small range predicates, when reading Parquet files. Requires Parquet format. | `[]` |
+| `skip_footer_line_count` | The number of footer lines to ignore when parsing the file for data. Requires TextFile or CSV format tables. |  |
+| `skip_header_line_count` | The number of header lines to ignore when parsing the file for data. Requires TextFile or CSV format tables. |  |
+| `sorted_by` | The column to sort by to determine bucketing for row. Only valid if `bucketed_by` and `bucket_count` are specified as well. | `[]` |
+| `textfile_field_separator` | Allows the use of custom field separators, such as '|', for TextFile formatted tables. |  |
+| `textfile_field_separator_escape` | Allows the use of a custom escape character for TextFile formatted tables. |  |
+| `transactional` | Set this property to `true` to create an ORC ACID transactional table. Requires ORC format. This property may be shown as true for insert-only tables created using older versions of Hive. |  |
+| `partition_projection_enabled` | Enables partition projection for selected table. Mapped from AWS Athena table property [projection.enabled](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-setting-up.html). |  |
+| `partition_projection_ignore` | Ignore any partition projection properties stored in the metastore for the selected table. This is a Trino-only property which allows you to work around compatibility issues on a specific table, and if enabled, Trino ignores all other configuration options related to partition projection. |  |
+| `partition_projection_location_template` | Projected partition location template, such as `s3a://test/name=${name}/`. Mapped from the AWS Athena table property [storage.location.template](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-setting-up.html#partition-projection-specifying-custom-s3-storage-locations) | `${table_location}/${partition_name}` |
+
 
 #### Metadata tables
 
@@ -1060,64 +755,17 @@ SELECT * FROM example.web."page_views$partitions";
 
 #### Column properties
 
-:::{list-table} Hive connector column properties
-:widths: 20, 60, 20
-:header-rows: 1
+#### Hive connector column properties
 
-* - Property name
-  - Description
-  - Default
-* - `partition_projection_type`
-  - Defines the type of partition projection to use on this column. May be used
-    only on partition columns. Available types: `ENUM`, `INTEGER`, `DATE`,
-    `INJECTED`. Mapped from the AWS Athena table property
-    [projection.${columnName}.type](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_values`
-  - Used with `partition_projection_type` set to `ENUM`. Contains a static list
-    of values used to generate partitions. Mapped from the AWS Athena table
-    property
-    [projection.${columnName}.values](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_range`
-  - Used with `partition_projection_type` set to `INTEGER` or `DATE` to define a
-    range. It is a two-element array, describing the minimum and maximum range
-    values used to generate partitions. Generation starts from the minimum, then
-    increments by the defined `partition_projection_interval` to the maximum.
-    For example, the format is `['1', '4']` for a `partition_projection_type` of
-    `INTEGER` and `['2001-01-01', '2001-01-07']` or `['NOW-3DAYS', 'NOW']` for a
-    `partition_projection_type` of `DATE`. Mapped from the AWS Athena table
-    property
-    [projection.${columnName}.range](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_interval`
-  - Used with `partition_projection_type` set to `INTEGER` or `DATE`. It
-    represents the interval used to generate partitions within the given range
-    `partition_projection_range`. Mapped from the AWS Athena table property
-    [projection.${columnName}.interval](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_digits`
-  - Used with `partition_projection_type` set to `INTEGER`. The number of digits
-    to be used with integer column projection. Mapped from the AWS Athena table
-    property
-    [projection.${columnName}.digits](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_format`
-  - Used with `partition_projection_type` set to `DATE`. The date column
-    projection format, defined as a string such as `yyyy MM` or `MM-dd-yy
-    HH:mm:ss` for use with the [Java DateTimeFormatter
-    class](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
-    Mapped from the AWS Athena table property
-    [projection.${columnName}.format](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
-* - `partition_projection_interval_unit`
-  - Used with `partition_projection_type=DATA`. The date column projection range
-    interval unit given in `partition_projection_interval`. Mapped from the AWS
-    Athena table property
-    [projection.${columnName}.interval.unit](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html).
-  -
+| Property name | Description | Default |
+|---|---|---|
+| `partition_projection_type` | Defines the type of partition projection to use on this column. May be used only on partition columns. Available types: `ENUM`, `INTEGER`, `DATE`, `INJECTED`. Mapped from the AWS Athena table property [projection.${columnName}.type](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
+| `partition_projection_values` | Used with `partition_projection_type` set to `ENUM`. Contains a static list of values used to generate partitions. Mapped from the AWS Athena table property [projection.${columnName}.values](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
+| `partition_projection_range` | Used with `partition_projection_type` set to `INTEGER` or `DATE` to define a range. It is a two-element array, describing the minimum and maximum range values used to generate partitions. Generation starts from the minimum, then increments by the defined `partition_projection_interval` to the maximum. For example, the format is `['1', '4']` for a `partition_projection_type` of `INTEGER` and `['2001-01-01', '2001-01-07']` or `['NOW-3DAYS', 'NOW']` for a `partition_projection_type` of `DATE`. Mapped from the AWS Athena table property [projection.${columnName}.range](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
+| `partition_projection_interval` | Used with `partition_projection_type` set to `INTEGER` or `DATE`. It represents the interval used to generate partitions within the given range `partition_projection_range`. Mapped from the AWS Athena table property [projection.${columnName}.interval](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
+| `partition_projection_digits` | Used with `partition_projection_type` set to `INTEGER`. The number of digits to be used with integer column projection. Mapped from the AWS Athena table property [projection.${columnName}.digits](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
+| `partition_projection_format` | Used with `partition_projection_type` set to `DATE`. The date column projection format, defined as a string such as `yyyy MM` or `MM-dd-yy HH:mm:ss` for use with the [Java DateTimeFormatter class](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html). Mapped from the AWS Athena table property [projection.${columnName}.format](https://docs.aws.amazon.com/athena/latest/ug/partition-projection-supported-types.html). |  |
 
-:::
 
 #### Metadata columns
 
@@ -1238,10 +886,12 @@ functionality:
 - Support all Hive data types and correct mapping to Trino types
 - Ability to process custom UDFs
 
+
 ## Performance
 
 The connector includes a number of performance improvements, detailed in the
 following sections.
+
 
 ### Table statistics
 
@@ -1252,39 +902,23 @@ When writing data, the Hive connector always collects basic statistics
 (`numFiles`, `numRows`, `rawDataSize`, `totalSize`)
 and by default will also collect column level statistics:
 
-:::{list-table} Available table statistics
-:widths: 35, 65
-:header-rows: 1
+#### Available table statistics
 
-* - Column type
-  - Collectible statistics
-* - `TINYINT`
-  - Number of nulls, number of distinct values, min/max values
-* - `SMALLINT`
-  - Number of nulls, number of distinct values, min/max values
-* - `INTEGER`
-  - Number of nulls, number of distinct values, min/max values
-* - `BIGINT`
-  - Number of nulls, number of distinct values, min/max values
-* - `DOUBLE`
-  - Number of nulls, number of distinct values, min/max values
-* - `REAL`
-  - Number of nulls, number of distinct values, min/max values
-* - `DECIMAL`
-  - Number of nulls, number of distinct values, min/max values
-* - `DATE`
-  - Number of nulls, number of distinct values, min/max values
-* - `TIMESTAMP`
-  - Number of nulls, number of distinct values, min/max values
-* - `VARCHAR`
-  - Number of nulls, number of distinct values
-* - `CHAR`
-  - Number of nulls, number of distinct values
-* - `VARBINARY`
-  - Number of nulls
-* - `BOOLEAN`
-  - Number of nulls, number of true/false values
-:::
+| Column type | Collectible statistics |
+|---|---|
+| `TINYINT` | Number of nulls, number of distinct values, min/max values |
+| `SMALLINT` | Number of nulls, number of distinct values, min/max values |
+| `INTEGER` | Number of nulls, number of distinct values, min/max values |
+| `BIGINT` | Number of nulls, number of distinct values, min/max values |
+| `DOUBLE` | Number of nulls, number of distinct values, min/max values |
+| `REAL` | Number of nulls, number of distinct values, min/max values |
+| `DECIMAL` | Number of nulls, number of distinct values, min/max values |
+| `DATE` | Number of nulls, number of distinct values, min/max values |
+| `TIMESTAMP` | Number of nulls, number of distinct values, min/max values |
+| `VARCHAR` | Number of nulls, number of distinct values |
+| `CHAR` | Number of nulls, number of distinct values |
+| `VARBINARY` | Number of nulls |
+
 
 #### Updating table and partition statistics
 
@@ -1394,42 +1028,14 @@ features. Altering these properties from their default values is likely to
 cause instability and performance degradation.
 :::
 
-:::{list-table}
-:widths: 30, 50, 20
-:header-rows: 1
+| Property name | Description | Default value |
+|---|---|---|
+| `hive.max-outstanding-splits` | The target number of buffered splits for each table scan in a query, before the scheduler tries to pause. | `1000` |
+| `hive.max-outstanding-splits-size` | The maximum size allowed for buffered splits for each table scan in a query, before the query fails. | `256 MB` |
+| `hive.max-splits-per-second` | The maximum number of splits generated per second per table scan. This can be used to reduce the load on the storage system. By default, there is no limit, which results in Trino maximizing the parallelization of data access. |  |
+| `hive.max-initial-splits` | For each table scan, the coordinator first assigns file sections of up to `max-initial-split-size`. After `max-initial-splits` have been assigned, `max-split-size` is used for the remaining splits. | `200` |
+| `hive.max-initial-split-size` | The size of a single file section assigned to a worker until `max-initial-splits` have been assigned. Smaller splits results in more parallelism, which gives a boost to smaller queries. | `32 MB` |
 
-* - Property name
-  - Description
-  - Default value
-* - `hive.max-outstanding-splits`
-  - The target number of buffered splits for each table scan in a query, before
-    the scheduler tries to pause.
-  - `1000`
-* - `hive.max-outstanding-splits-size`
-  - The maximum size allowed for buffered splits for each table scan in a query,
-    before the query fails.
-  - `256 MB`
-* - `hive.max-splits-per-second`
-  - The maximum number of splits generated per second per table scan. This can
-    be used to reduce the load on the storage system. By default, there is no
-    limit, which results in Trino maximizing the parallelization of data access.
-  -
-* - `hive.max-initial-splits`
-  - For each table scan, the coordinator first assigns file sections of up to
-    `max-initial-split-size`. After `max-initial-splits` have been assigned,
-    `max-split-size` is used for the remaining splits.
-  - `200`
-* - `hive.max-initial-split-size`
-  - The size of a single file section assigned to a worker until
-    `max-initial-splits` have been assigned. Smaller splits results in more
-    parallelism, which gives a boost to smaller queries.
-  - `32 MB`
-* - `hive.max-split-size`
-  - The largest size of a single file section assigned to a worker. Smaller
-        splits result in more parallelism and thus can decrease latency, but
-        also have more overhead and increase load on the system.
-  - `64 MB`
-:::
 
 ## Hive 3-related limitations
 

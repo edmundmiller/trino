@@ -49,29 +49,15 @@ configured in the catalog. Performance, results, and cost of all AI function
 invocations are dependent on the LLM provider and the model used. You must
 specify a model that is suitable for textual analysis.
 
-:::{list-table} AI functions provider configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### AI functions provider configuration properties
 
-* - Property name
-  - Description
-* - `ai.provider`
-  - Required name of the provider. Must be `anthropic` for using the
-    [Anthropic provider](ai-anthropic) or `openai` for [OpenAI](ai-openai) or
-    [Ollama](ai-ollama).
-* - `ai.anthropic.endpoint`
-  - URL for the Anthropic API endpoint. Defaults to `https://api.anthropic.com`.
-* - `ai.anthropic.api-key`
-  - API key value for Anthropic API access. Required with `ai.provider` set to
-    `anthropic`.
-* - `ai.openai.endpoint`
-  - URL for the OpenAI API or Ollama endpoint. Defaults to
-    `https://api.openai.com`. Set to the URL endpoint for Ollama when using
-    models via Ollama and add any string for the `ai.openai.api-key`.
-* - `ai.openai.api-key`
-  - API key value for OpenAI API access. Required with `ai.provider` set to
-    `openai`. Required and ignored with Ollama use.
-:::
+| Property name | Description |
+|---|---|
+| `ai.provider` | Required name of the provider. Must be `anthropic` for using the [Anthropic provider](ai-anthropic) or `openai` for [OpenAI](ai-openai) or [Ollama](ai-ollama). |
+| `ai.anthropic.endpoint` | URL for the Anthropic API endpoint. Defaults to `https://api.anthropic.com`. |
+| `ai.anthropic.api-key` | API key value for Anthropic API access. Required with `ai.provider` set to `anthropic`. |
+| `ai.openai.endpoint` | URL for the OpenAI API or Ollama endpoint. Defaults to `https://api.openai.com`. Set to the URL endpoint for Ollama when using models via Ollama and add any string for the `ai.openai.api-key`. |
+
 
 The AI functions connect to the providers over HTTP. Configure the connection
 using the `ai` prefix with the [](/admin/properties-http-client).
@@ -138,31 +124,19 @@ providers charge based input and output tokens.
 Optionally configure different models from the same provider for each functions
 as an override:
 
-:::{list-table} AI function model configuration properties
-:widths: 40, 60
-:header-rows: 1
+#### AI function model configuration properties
 
-* - Property name
-  - Description
-* - `ai.model`
-  - Required name of the model. Valid names vary by provider. Model must be
-    suitable for textual analysis. The model is used for all functions, unless a
-    specific model is configured for a function as override.
-* - `ai.analyze-sentiment.model`
-  - Optional override to use a different model for {func}`ai_analyze_sentiment`.
-* - `ai.classify.model`
-  - Optional override to use a different model for {func}`ai_classify`.
-* - `ai.extract.model`
-  - Optional override to use a different model for {func}`ai_extract`.
-* - `ai.fix-grammar.model`
-  - Optional override to use a different model for {func}`ai_fix_grammar`.
-* - `ai.generate.model`
-  - Optional override to use a different model for {func}`ai_gen`.
-* - `ai.mask.model`
-  - Optional override to use a different model for {func}`ai_mask`.
-* - `ai.translate.model`
-  - Optional override to use a different model for {func}`ai_translate`.
-:::
+| Property name | Description |
+|---|---|
+| `ai.model` | Required name of the model. Valid names vary by provider. Model must be suitable for textual analysis. The model is used for all functions, unless a specific model is configured for a function as override. |
+| `ai.analyze-sentiment.model` | Optional override to use a different model for {func}`ai_analyze_sentiment`. |
+| `ai.classify.model` | Optional override to use a different model for {func}`ai_classify`. |
+| `ai.extract.model` | Optional override to use a different model for {func}`ai_extract`. |
+| `ai.fix-grammar.model` | Optional override to use a different model for {func}`ai_fix_grammar`. |
+| `ai.generate.model` | Optional override to use a different model for {func}`ai_gen`. |
+| `ai.mask.model` | Optional override to use a different model for {func}`ai_mask`. |
+
+
 
 ## Functions
 

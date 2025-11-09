@@ -7,6 +7,7 @@ description: Mysql documentation
 
 <img src="../_static/img/mysql.png" class="connector-logo">
 
+
 The MySQL connector allows querying and creating tables in an external
 [MySQL](https://www.mysql.com/) instance. This can be used to join data between different
 systems like MySQL and Hive, or between two different MySQL instances.
@@ -113,18 +114,9 @@ WITH (
 
 The following are supported MySQL table properties: 
 
-:::{list-table}
-:widths: 30, 10, 60
-:header-rows: 1
+| Property name | Required | Description |
+|---|---|---|
 
-* - Property name
-  - Required
-  - Description
-* - `primary_key`
-  - No
-  - The primary key of the table, can choose multi columns as the table primary key.
-    All key columns must be defined as `NOT NULL`.
-:::
 
 ## Type mapping
 
@@ -139,95 +131,37 @@ each direction.
 The connector maps MySQL types to the corresponding Trino types following
 this table:
 
-:::{list-table} MySQL to Trino type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### MySQL to Trino type mapping
 
-* - MySQL database type
-  - Trino type
-  - Notes
-* - `BIT`
-  - `BOOLEAN`
-  -
-* - `BOOLEAN`
-  - `TINYINT`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `TINYINT UNSIGNED`
-  - `SMALLINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `SMALLINT UNSIGNED`
-  - `INTEGER`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `INTEGER UNSIGNED`
-  - `BIGINT`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `BIGINT UNSIGNED`
-  - `DECIMAL(20, 0)`
-  -
-* - `DOUBLE PRECISION`
-  - `DOUBLE`
-  -
-* - `FLOAT`
-  - `REAL`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-  - See [MySQL DECIMAL type handling](mysql-decimal-handling)
-* - `CHAR(n)`
-  - `CHAR(n)`
-  -
-* - `VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `TINYTEXT`
-  - `VARCHAR(255)`
-  -
-* - `TEXT`
-  - `VARCHAR(65535)`
-  -
-* - `MEDIUMTEXT`
-  - `VARCHAR(16777215)`
-  -
-* - `LONGTEXT`
-  - `VARCHAR`
-  -
-* - `ENUM(n)`
-  - `VARCHAR(n)`
-  -
-* - `BINARY`, `VARBINARY`, `TINYBLOB`, `BLOB`, `MEDIUMBLOB`, `LONGBLOB`
-  - `VARBINARY`
-  -
-* - `JSON`
-  - `JSON`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME(n)`
-  - `TIME(n)`
-  -
-* - `DATETIME(n)`
-  - `TIMESTAMP(n)`
-  -
-* - `TIMESTAMP(n)`
-  - `TIMESTAMP(n) WITH TIME ZONE`
-  -
-:::
+| MySQL database type | Trino type | Notes |
+|---|---|---|
+| `BIT` | `BOOLEAN` |  |
+| `BOOLEAN` | `TINYINT` |  |
+| `TINYINT` | `TINYINT` |  |
+| `TINYINT UNSIGNED` | `SMALLINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `SMALLINT UNSIGNED` | `INTEGER` |  |
+| `INTEGER` | `INTEGER` |  |
+| `INTEGER UNSIGNED` | `BIGINT` |  |
+| `BIGINT` | `BIGINT` |  |
+| `BIGINT UNSIGNED` | `DECIMAL(20, 0)` |  |
+| `DOUBLE PRECISION` | `DOUBLE` |  |
+| `FLOAT` | `REAL` |  |
+| `REAL` | `REAL` |  |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` | See [MySQL DECIMAL type handling](mysql-decimal-handling) |
+| `CHAR(n)` | `CHAR(n)` |  |
+| `VARCHAR(n)` | `VARCHAR(n)` |  |
+| `TINYTEXT` | `VARCHAR(255)` |  |
+| `TEXT` | `VARCHAR(65535)` |  |
+| `MEDIUMTEXT` | `VARCHAR(16777215)` |  |
+| `LONGTEXT` | `VARCHAR` |  |
+| `ENUM(n)` | `VARCHAR(n)` |  |
+| `BINARY`, `VARBINARY`, `TINYBLOB`, `BLOB`, `MEDIUMBLOB`, `LONGBLOB` | `VARBINARY` |  |
+| `JSON` | `JSON` |  |
+| `DATE` | `DATE` |  |
+| `TIME(n)` | `TIME(n)` |  |
+| `DATETIME(n)` | `TIMESTAMP(n)` |  |
+
 
 No other types are supported.
 
@@ -236,59 +170,25 @@ No other types are supported.
 The connector maps Trino types to the corresponding MySQL types following
 this table:
 
-:::{list-table} Trino to MySQL type mapping
-:widths: 30, 30, 40
-:header-rows: 1
+#### Trino to MySQL type mapping
 
-* - Trino type
-  - MySQL type
-  - Notes
-* - `BOOLEAN`
-  - `TINYINT`
-  -
-* - `TINYINT`
-  - `TINYINT`
-  -
-* - `SMALLINT`
-  - `SMALLINT`
-  -
-* - `INTEGER`
-  - `INTEGER`
-  -
-* - `BIGINT`
-  - `BIGINT`
-  -
-* - `REAL`
-  - `REAL`
-  -
-* - `DOUBLE`
-  - `DOUBLE PRECISION`
-  -
-* - `DECIMAL(p, s)`
-  - `DECIMAL(p, s)`
-  - [MySQL DECIMAL type handling](mysql-decimal-handling)
-* - `CHAR(n)`
-  - `CHAR(n)`
-  -
-* - `VARCHAR(n)`
-  - `VARCHAR(n)`
-  -
-* - `JSON`
-  - `JSON`
-  -
-* - `DATE`
-  - `DATE`
-  -
-* - `TIME(n)`
-  - `TIME(n)`
-  -
-* - `TIMESTAMP(n)`
-  - `DATETIME(n)`
-  -
-* - `TIMESTAMP(n) WITH TIME ZONE`
-  - `TIMESTAMP(n)`
-  -
-:::
+| Trino type | MySQL type | Notes |
+|---|---|---|
+| `BOOLEAN` | `TINYINT` |  |
+| `TINYINT` | `TINYINT` |  |
+| `SMALLINT` | `SMALLINT` |  |
+| `INTEGER` | `INTEGER` |  |
+| `BIGINT` | `BIGINT` |  |
+| `REAL` | `REAL` |  |
+| `DOUBLE` | `DOUBLE PRECISION` |  |
+| `DECIMAL(p, s)` | `DECIMAL(p, s)` | [MySQL DECIMAL type handling](mysql-decimal-handling) |
+| `CHAR(n)` | `CHAR(n)` |  |
+| `VARCHAR(n)` | `VARCHAR(n)` |  |
+| `JSON` | `JSON` |  |
+| `DATE` | `DATE` |  |
+| `TIME(n)` | `TIME(n)` |  |
+| `TIMESTAMP(n)` | `DATETIME(n)` |  |
+
 
 No other types are supported.
 
@@ -394,6 +294,7 @@ column table, the following statement is not supported:
 UPDATE table SET col1 = 1, col2 = 2, col3 = 3 WHERE col3 = 1
 ```
 
+
 (mysql-delete)=
 <!-- Fragment not found: sql-delete-limitation.fragment -->
 
@@ -407,6 +308,8 @@ tables.
 
 In rare cases, exceptions may occur during the merge operation, potentially
 resulting in a partial update.
+
+
 
 ### Procedures
 
@@ -448,6 +351,7 @@ CALL system.execute(query => 'ALTER TABLE your_table ALTER COLUMN your_column DR
 Verify that the specific database supports this syntax, and adapt as necessary
 based on the documentation for the specific connected database and database
 version.
+
 
 ### Table functions
 

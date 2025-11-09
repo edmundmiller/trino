@@ -64,6 +64,8 @@ The same UDF can also be declared as [](udf-catalog).
 
 Refer to the [](/udf/python/examples) for more complex use cases and examples.
 
+
+
 ## Python language details
 
 The Trino Python UDF integrations uses Python 3.13.0 in a sandboxed environment.
@@ -123,60 +125,31 @@ available within a Python UDF:
 The following table shows supported Trino types and their corresponding Python
 types for input and output values of a Python UDF:
 
-:::{list-table}
-:widths: 40, 60
-:header-rows: 1
+| Trino type | Python type |
+|---|---|
+| `ROW` | `tuple` |
+| `ARRAY` | `list` |
+| `MAP` | `dict` |
+| `BOOLEAN` | `bool` |
+| `TINYINT` | `int` |
+| `SMALLINT` | `int` |
+| `INTEGER` | `int` |
+| `BIGINT` | `int` |
+| `REAL` | `float` |
+| `DOUBLE` | `float` |
+| `DECIMAL` | `decimal.Decimal` |
+| `VARCHAR` | `str` |
+| `VARBINARY` | `bytes` |
+| `DATE` | `datetime.date` |
+| `TIME` | `datetime.time` |
+| `TIME WITH TIME ZONE` | `datetime.time` with `datetime.tzinfo` |
+| `TIMESTAMP` | `datetime.datetime` |
+| `TIMESTAMP WITH TIME ZONE` | `datetime.datetime` with `datetime.tzinfo` |
+| `INTERVAL YEAR TO MONTH` | `int` as the number of months |
+| `INTERVAL DAY TO SECOND` | `datetime.timedelta` |
+| `JSON` | `str` |
+| `UUID` | `uuid.UUID` |
 
-* - Trino type
-  - Python type
-* - `ROW`
-  - `tuple`
-* - `ARRAY`
-  - `list`
-* - `MAP`
-  - `dict`
-* - `BOOLEAN`
-  - `bool`
-* - `TINYINT`
-  - `int`
-* - `SMALLINT`
-  - `int`
-* - `INTEGER`
-  - `int`
-* - `BIGINT`
-  - `int`
-* - `REAL`
-  - `float`
-* - `DOUBLE`
-  - `float`
-* - `DECIMAL`
-  - `decimal.Decimal`
-* - `VARCHAR`
-  - `str`
-* - `VARBINARY`
-  - `bytes`
-* - `DATE`
-  - `datetime.date`
-* - `TIME`
-  - `datetime.time`
-* - `TIME WITH TIME ZONE`
-  - `datetime.time` with `datetime.tzinfo`
-* - `TIMESTAMP`
-  - `datetime.datetime`
-* - `TIMESTAMP WITH TIME ZONE`
-  - `datetime.datetime` with `datetime.tzinfo`
-* - `INTERVAL YEAR TO MONTH`
-  - `int` as the number of months
-* - `INTERVAL DAY TO SECOND`
-  - `datetime.timedelta`
-* - `JSON`
-  - `str`
-* - `UUID`
-  - `uuid.UUID`
-* - `IPADDRESS`
-  - `ipaddress.IPv4Address` or `ipaddress.IPv6Address`
-
-:::
 
 ### Time and timestamp
 
