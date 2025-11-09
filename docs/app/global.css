@@ -3,3 +3,58 @@
 @import 'fumadocs-ui/css/preset.css';
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
+
+/* Trino Brand Theme */
+:root {
+  /* Primary brand colors */
+  --color-fd-primary: 221 0 161; /* Trino Pink #dd00a1 */
+  --color-fd-primary-foreground: 255 255 255;
+
+  /* Secondary/accent colors */
+  --color-fd-secondary: 30 220 255; /* Trino Cyan #1EDCFF */
+  --color-fd-secondary-foreground: 0 0 51;
+
+  /* Background colors */
+  --color-fd-background: 255 255 255;
+  --color-fd-foreground: 10 10 10;
+  --color-fd-muted: 245 245 245;
+  --color-fd-muted-foreground: 115 115 115;
+
+  /* Card colors */
+  --color-fd-card: 255 255 255;
+  --color-fd-card-foreground: 10 10 10;
+
+  /* Border colors */
+  --color-fd-border: 229 229 229;
+
+  /* Accent colors */
+  --color-fd-accent: 248 182 0; /* Trino Gold #F8B600 */
+  --color-fd-accent-foreground: 0 0 51;
+}
+
+.dark {
+  /* Primary brand colors for dark mode */
+  --color-fd-primary: 221 0 161; /* Trino Pink #dd00a1 */
+  --color-fd-primary-foreground: 255 255 255;
+
+  /* Secondary/accent colors */
+  --color-fd-secondary: 30 220 255; /* Trino Cyan #1EDCFF */
+  --color-fd-secondary-foreground: 0 0 51;
+
+  /* Background colors - using Trino's dark theme */
+  --color-fd-background: 0 0 51; /* Trino Dark Blue #000033 */
+  --color-fd-foreground: 255 255 255;
+  --color-fd-muted: 37 40 48; /* Trino UI Dark #252830 */
+  --color-fd-muted-foreground: 163 163 163;
+
+  /* Card colors */
+  --color-fd-card: 27 27 27; /* Trino UI Dark #1b1b1b */
+  --color-fd-card-foreground: 255 255 255;
+
+  /* Border colors */
+  --color-fd-border: 38 38 38;
+
+  /* Accent colors */
+  --color-fd-accent: 248 182 0; /* Trino Gold #F8B600 */
+  --color-fd-accent-foreground: 0 0 51;
+}
