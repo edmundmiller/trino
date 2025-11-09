@@ -5,10 +5,5 @@ export default {
     './app/**/*.{ts,tsx}',
     './content/**/*.{md,mdx}',
     './mdx-components.{ts,tsx}',
-    './node_modules/fumadocs-ui/dist/**/*.js',
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
 };
