@@ -19,24 +19,18 @@ configuration can also be managed using [](/sql/create-catalog) and
 [](/sql/drop-catalog). New worker nodes joining the cluster receive the current
 catalog configuration from the coordinator node.
 
-:::{warning}
-This feature is experimental only. Because of the security implications the
+> **Warning:** This feature is experimental only. Because of the security implications the
 syntax might change and be backward incompatible.
-:::
 
-:::{warning}
-Some connectors are known not to release all resources when dropping a catalog
+> **Warning:** Some connectors are known not to release all resources when dropping a catalog
 that uses such connector. This includes all connectors that can read data from
 HDFS, S3, GCS, or Azure, which are [](/connector/hive),
 [](/connector/iceberg), [](/connector/delta-lake), and
 [](/connector/hudi).
-:::
 
-:::{warning}
-The complete `CREATE CATALOG` query is logged, and visible in the [Web
+> **Warning:** The complete `CREATE CATALOG` query is logged, and visible in the [Web
 UI](/docs/admin/web-interface). This includes any sensitive properties, like
 passwords and other credentials. See [](/security/secrets).
-:::
 
 ## `catalog.prune.update-interval`
 

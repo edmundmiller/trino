@@ -120,12 +120,10 @@ idle time, initialization parameters, and accessed catalogs.
 
 ## System connector procedures
 
-:::{function} runtime.kill_query(query_id, message)
+#### `runtime.kill_query(query_id, message)`
 
 Kill the query identified by `query_id`. The query failure message includes the
 specified `message`. `message` is optional.
-
-:::
 
 ## Type mapping
 

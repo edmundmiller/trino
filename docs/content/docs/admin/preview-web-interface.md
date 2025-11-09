@@ -9,14 +9,10 @@ a new web interface. It changes look and feel, available features, and many
 other aspects. In the future this new user interface will replace the existing
 user interface.
 
-:::{warning}
-
-The Preview Web UI is not suitable for production usage, and only available for
+> **Warning:** The Preview Web UI is not suitable for production usage, and only available for
 testing and evaluation purposes. Feedback and assistance with development is
 encouraged. Find collaborators and discussions in ongoing pull requests and the
 [#web-ui channel](https://trinodb.slack.com/messages/CKCEWGYT0).
-
-:::
 
 ## Activation
 

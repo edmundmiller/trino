@@ -469,10 +469,8 @@ The table schema is read from the transaction log instead. If the
 schema is changed by an external system, Trino automatically uses the new
 schema.
 
-:::{warning}
-Using `CREATE TABLE` with an existing table content is disallowed,
+> **Warning:** Using `CREATE TABLE` with an existing table content is disallowed,
 use the `system.register_table` procedure instead.
-:::
 
 If the specified location does not already contain a Delta table, the connector
 automatically writes the initial transaction log entries and registers the table
@@ -1026,13 +1024,11 @@ with the `delta.hive-catalog-name` catalog configuration property.
 The following table describes performance tuning catalog properties specific to
 the Delta Lake connector.
 
-:::{warning}
-Performance tuning configuration properties are considered expert-level
+> **Warning:** Performance tuning configuration properties are considered expert-level
 features. Altering these properties from their default values is likely to
 cause instability and performance degradation. It is strongly suggested that
 you use them only to address non-trivial performance issues, and that you
 keep a backup of the original values if you change them.
-:::
 
 #### Delta Lake performance tuning configuration properties
 

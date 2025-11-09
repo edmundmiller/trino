@@ -49,12 +49,10 @@ determine the user credentials for the connection, often a service user. You can
 use [secrets ](/docs//security/secrets) to avoid actual values in the catalog
 properties files.
 
-:::{note}
-Oracle does not expose metadata comment via `REMARKS` column by default
+> **Note:** Oracle does not expose metadata comment via `REMARKS` column by default
 in JDBC driver. You can enable it using `oracle.remarks-reporting.enabled`
 config option. See [Additional Oracle Performance Extensions](https://docs.oracle.com/en/database/oracle/oracle-database/19/jjdbc/performance-extensions.html)
 for more details.
-:::
 
 By default, the Oracle connector uses connection pooling for performance
 improvement. The below configuration shows the typical default values. To update
@@ -109,11 +107,9 @@ SHOW SCHEMAS FROM example;
 If you used a different name for your catalog properties file, use that catalog
 name instead of `example`.
 
-:::{note}
-The Oracle user must have access to the table in order to access it from Trino.
+> **Note:** The Oracle user must have access to the table in order to access it from Trino.
 The user configuration, in the connection properties file, determines your
 privileges in these schemas.
-:::
 
 ### Examples
 
@@ -180,11 +176,9 @@ No other types are supported.
 Trino supports creating tables with the following types in an Oracle database.
 The table shows the mappings from Trino to Oracle data types:
 
-:::{note}
-For types not listed in the table below, Trino can't perform the `CREATE
+> **Note:** For types not listed in the table below, Trino can't perform the `CREATE
 TABLE <table> AS SELECT` operations. When data is inserted into existing
 tables, `Oracle to Trino` type mapping is used.
-:::
 
 #### Trino to Oracle Type Mapping
 
@@ -233,11 +227,9 @@ rounds the fractional seconds to nine digits.
 Oracle `DATE` type stores hours, minutes, and seconds, so it is mapped
 to Trino `TIMESTAMP(0)`.
 
-:::{warning}
-Due to date and time differences in the libraries used by Trino and the
+> **Warning:** Due to date and time differences in the libraries used by Trino and the
 Oracle JDBC driver, attempting to insert or select a datetime value earlier
 than `1582-10-15` results in an incorrect date inserted.
-:::
 
 ### Mapping character types
 

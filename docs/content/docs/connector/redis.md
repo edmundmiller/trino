@@ -258,10 +258,8 @@ The connector contains the following decoders:
 - `avro`: Message is parsed based on an Avro schema, and Avro fields are
   mapped to table columns.
 
-:::{note}
-If no table definition file exists for a table, the `dummy` decoder is
+> **Note:** If no table definition file exists for a table, the `dummy` decoder is
 used, which does not expose any columns.
-:::
 
 <!-- Fragment not found: raw-decoder.fragment -->
 

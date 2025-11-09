@@ -89,12 +89,10 @@ extract the `example-plugin-1.0.zip` archive. Rename the resulting directory
 `example-plugin-1.0` to `example-plugin` and copy it into the `plugin` directory
 of your Trino installation on all workers and the coordinator of the cluster.
 
-:::{note} 
-Every Trino plugin must be in a separate directory underneath the `plugin`
+> **Note:** Every Trino plugin must be in a separate directory underneath the `plugin`
 directory. Do not put JAR files directly into the `plugin` directory. Each
 plugin directory should only contain JAR files. Any subdirectories and other
 files are ignored.
-:::
 
 By default, the plugin directory is the `plugin` directory relative to the
 directory in which Trino is installed, but it is configurable using the

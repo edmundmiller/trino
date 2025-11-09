@@ -175,13 +175,10 @@ Examples:
 * **Azure Storage:** `abfss://my-spooling-container@account.dfs.core.windows.net/my-segments/`
 * **Google Cloud Storage:** `gs://my-spooling-bucket/my-segments/`
 
-:::{note}
-For Azure Storage, use the ABFS format with hierarchical namespace enabled. 
+> **Note:** For Azure Storage, use the ABFS format with hierarchical namespace enabled. 
 The legacy WASB format (`wasbs://` or `wasb://`) is also supported but deprecated.
-:::
 
-:::{caution}
-The specified object storage location must not be used for spooling for another
+> **Caution:** The specified object storage location must not be used for spooling for another
 Trino cluster or any object storage catalog. When using the same object storage
 for multiple services, you must use separate locations for each one. For
 example:
@@ -189,7 +186,6 @@ example:
 * `s3://my-spooling-bucket/my-segments/cluster1-spooling/`
 * `s3://my-spooling-bucket/my-segments/cluster2-spooling/`
 * `s3://my-spooling-bucket/my-segments/iceberg-catalog/`
-:::
 
 ### `fs.segment.ttl`
 

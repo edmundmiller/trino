@@ -654,8 +654,7 @@ session property:
 SET SESSION <catalog_name>.non_transactional_optimize_enabled=true
 ```
 
-:::{warning}
-Because Hive tables are non-transactional, take note of the following possible
+> **Warning:** Because Hive tables are non-transactional, take note of the following possible
 outcomes:
 
 - If queries are run against tables that are currently being optimized,
@@ -664,7 +663,6 @@ outcomes:
   a manual cleanup of the table directory is needed. In this situation, refer
   to the Trino logs and query failure messages to see which files must be
   deleted.
-:::
 
 #### Table properties
 
@@ -1022,11 +1020,9 @@ caching](/docs/object-storage/file-system-cache).
 The following table describes performance tuning properties for the Hive
 connector.
 
-:::{warning}
-Performance tuning configuration properties are considered expert-level
+> **Warning:** Performance tuning configuration properties are considered expert-level
 features. Altering these properties from their default values is likely to
 cause instability and performance degradation.
-:::
 
 | Property name | Description | Default value |
 |---|---|---|

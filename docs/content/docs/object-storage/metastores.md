@@ -95,8 +95,7 @@ as previously described with the following additional property:
 |---|---|---|
 
 
-:::{warning}
-Setting `iceberg.hive-catalog.locking-enabled=false` will cause the catalog to
+> **Warning:** Setting `iceberg.hive-catalog.locking-enabled=false` will cause the catalog to
 commit to tables without using Hive locks. This should only be set to false if all
 following conditions are met:
 
@@ -107,7 +106,6 @@ following conditions are met:
   2.3.10, 4.1.0, 4.0.1 or later.
 * All other catalogs committing to tables that this catalogs commits to are also
   on Iceberg 1.3 or later, and disabled Hive locks on commit.
-:::
 
 ### Thrift metastore authentication
 
@@ -294,8 +292,7 @@ directory.
 | `iceberg.jdbc-catalog.schema-version` | JDBC catalog schema version. Valid values are `V0` or `V1`. Defaults to `V1`. |
 
 
-:::{warning}
-The JDBC catalog may have compatibility issues if Iceberg introduces breaking
+> **Warning:** The JDBC catalog may have compatibility issues if Iceberg introduces breaking
 changes in the future. Consider the [REST catalog
 <iceberg-rest-catalog>](#REST catalog
 <iceberg-rest-catalog>) as an alternative solution.
@@ -303,7 +300,6 @@ changes in the future. Consider the [REST catalog
 The JDBC catalog requires the metadata tables to already exist.
 Refer to [Iceberg repository](https://github.com/apache/iceberg/blob/main/core/src/main/java/org/apache/iceberg/jdbc/JdbcUtil.java)
 for creating those tables.
-:::
 
 The following example shows a minimal catalog configuration using an
 Iceberg JDBC metadata catalog:

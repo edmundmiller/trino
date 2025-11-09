@@ -41,11 +41,9 @@ determine the user credentials for the connection, often a service user. You can
 use [secrets ](/docs//security/secrets) to avoid using actual values in catalog
 properties files.
 
-:::{note}
-If your Exasol database uses a self-signed TLS certificate you must
+> **Note:** If your Exasol database uses a self-signed TLS certificate you must
 specify the certificate's fingerprint in the JDBC URL using parameter
 ``fingerprint``, e.g.: ``jdbc:exa:exasol.example.com:8563;fingerprint=ABC123``.
-:::
 
 <!-- Fragment not found: jdbc-authentication.fragment -->
 

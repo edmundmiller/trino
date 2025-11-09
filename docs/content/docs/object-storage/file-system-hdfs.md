@@ -109,11 +109,9 @@ to secure access to the Trino coordinator could result in unauthorized access to
 sensitive data on the Hadoop cluster. Refer to [/security](/docs//security) for further
 information, and specifically consider configuring [](/security/kerberos).
 
-:::{note}
-If your `krb5.conf` location is different from `/etc/krb5.conf` you must set it
+> **Note:** If your `krb5.conf` location is different from `/etc/krb5.conf` you must set it
 explicitly using the `java.security.krb5.conf` JVM property in the `jvm.config`
 file. For example, `-Djava.security.krb5.conf=/example/path/krb5.conf`.
-:::
 
 #### Keytab files
 

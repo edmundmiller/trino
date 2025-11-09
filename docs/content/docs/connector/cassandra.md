@@ -57,10 +57,8 @@ The following configuration properties are available:
 | `cassandra.password`             | Password used for authentication to the Cassandra cluster. Requires `cassandra.security=PASSWORD`. This is a global setting used for all connections, regardless of the user connected to Trino.                                                                                                                                                                                                                            |
 | `cassandra.protocol-version`     | It is possible to override the protocol version for older Cassandra clusters. By default, the value corresponds to the default protocol version used in the underlying Cassandra java driver. Possible values include `V3`, `V4`, `V5`, `V6`.                                                                                                                                                                               |
 
-:::{note}
-If authorization is enabled, `cassandra.username` must have enough permissions to perform `SELECT` queries on
+> **Note:** If authorization is enabled, `cassandra.username` must have enough permissions to perform `SELECT` queries on
 the `system.size_estimates` table.
-:::
 
 The following advanced configuration properties are available:
 

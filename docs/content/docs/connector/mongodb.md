@@ -202,9 +202,7 @@ If batchSize is 0, Driver's default are used.
 If batchSize is positive, it represents the size of each batch of objects retrieved. It can be adjusted to optimize performance and limit data transfer.
 If batchSize is negative, it limits the number of objects returned, that fit within the max batch size limit (usually 4MB), and the cursor is closed. For example if batchSize is -10, then the server returns a maximum of 10 documents, and as many as can fit in 4MB, then closes the cursor.
 
-:::{note}
-Do not use a batch size of `1`.
-:::
+> **Note:** Do not use a batch size of `1`.
 
 This property is optional; the default is `0`.
 
@@ -227,12 +225,10 @@ This property is optional; the default is `5s`.
 
 MongoDB maintains table definitions on the special collection where `mongodb.schema-collection` configuration value specifies.
 
-:::{note}
-The plugin cannot detect that a collection has been deleted. You must
+> **Note:** The plugin cannot detect that a collection has been deleted. You must
 delete the entry by executing `db.getCollection("_schema").remove( { table:
 deleted_table_name })` in the MongoDB Shell. You can also drop a collection in
 Trino by running `DROP TABLE table_name`.
-:::
 
 A schema collection consists of a MongoDB document for a table.
 
@@ -333,23 +329,23 @@ SELECT CAST(_id AS VARCHAR), * FROM orders WHERE _id = ObjectId('55b151633864d64
 The first four bytes of each [ObjectId](https://docs.mongodb.com/manual/reference/method/ObjectId) represent
 an embedded timestamp of its creation time. Trino provides a couple of functions to take advantage of this MongoDB feature.
 
-:::{function} objectid_timestamp(ObjectId) -> timestamp
+#### `objectid_timestamp(ObjectId) -> timestamp`
+
 Extracts the TIMESTAMP WITH TIME ZONE from a given ObjectId:
 
 ```sql
 SELECT objectid_timestamp(ObjectId('507f191e810c19729de860ea'));
 -- 2012-10-17 20:46:22.000 UTC
 ```
-:::
 
-:::{function} timestamp_objectid(timestamp) -> ObjectId
+#### `timestamp_objectid(timestamp) -> ObjectId`
+
 Creates an ObjectId from a TIMESTAMP WITH TIME ZONE:
 
 ```sql
 SELECT timestamp_objectid(TIMESTAMP '2021-08-07 17:51:36 +00:00');
 -- 61 0e c8 28 00 00 00 00 00 00 00 00
 ```
-:::
 
 In MongoDB, you can filter all the documents created after `2021-08-07 17:51:36`
 with a query like this:

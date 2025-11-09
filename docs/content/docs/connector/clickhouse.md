@@ -115,10 +115,8 @@ Run `SELECT` to access the `clicks` table in the `web` database:
 SELECT * FROM example.web.clicks;
 ```
 
-:::{note}
-If you used a different name for your catalog properties file, use
+> **Note:** If you used a different name for your catalog properties file, use
 that catalog name instead of `example` in the above examples.
-:::
 
 ## Table properties
 

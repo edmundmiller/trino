@@ -266,9 +266,7 @@ FROM example.web.page_views
 WHERE "$partition_date" = date '2022-04-07';
 ```
 
-:::{note}
-Two special partitions `__NULL__` and `__UNPARTITIONED__` are not supported.
-:::
+> **Note:** Two special partitions `__NULL__` and `__UNPARTITIONED__` are not supported.
 
 ## SQL support
 

@@ -174,9 +174,7 @@ curl --request PUT \
 }'
 ```
 
-:::{note}
-It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
-:::
+> **Note:** It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
 
 ### Date types
 
@@ -265,9 +263,7 @@ The preceding configuration causes Trino to return the `array_string_field`
 field as a `VARCHAR` containing raw JSON. You can parse these fields with the
 [built-in JSON functions](/docs/functions/json).
 
-:::{note}
-It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
-:::
+> **Note:** It is not allowed to use `asRawJson` and `isArray` flags simultaneously for the same column.
 
 ## Special columns
 

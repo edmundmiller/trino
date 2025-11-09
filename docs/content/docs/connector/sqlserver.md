@@ -357,15 +357,11 @@ database directly. It requires syntax native to SQL Server, because the full que
 is pushed down and processed in SQL Server. In order to use this table function set
 `sqlserver.stored-procedure-table-function-enabled` to `true`.
 
-:::{note}
-The `procedure` function does not support running StoredProcedures that return multiple statements,
+> **Note:** The `procedure` function does not support running StoredProcedures that return multiple statements,
 use a non-select statement, use output parameters, or use conditional statements.
-:::
 
-:::{warning}
-This feature is experimental only. The function has security implication and syntax might change and
+> **Warning:** This feature is experimental only. The function has security implication and syntax might change and
 be backward incompatible.
-:::
 
 The follow example runs the stored procedure `employee_sp` in the `example` catalog and the
 `example_schema` schema in the underlying SQL Server database:

@@ -143,7 +143,8 @@ as an override:
 The following functions are available in each catalog configured with the `ai`
 connector under the `ai` schema and use the configured LLM provider:
 
-:::{function} ai_analyze_sentiment(text) -> varchar
+#### `ai_analyze_sentiment(text) -> varchar`
+
 Analyzes the sentiment of the input text.
 
 The sentiment result is `positive`, `negative`, `neutral`, or `mixed`.
@@ -152,45 +153,45 @@ The sentiment result is `positive`, `negative`, `neutral`, or `mixed`.
 SELECT ai_analyze_sentiment('I love Trino');
 -- positive
 ```
-:::
 
-:::{function} ai_classify(text, labels) -> varchar
+#### `ai_classify(text, labels) -> varchar`
+
 Classifies the input text according to the provided labels.
 
 ```sql
 SELECT ai_classify('Buy now!', ARRAY['spam', 'not spam']);
 -- spam
 ```
-:::
 
-:::{function} ai_extract(text, labels) -> map(varchar, varchar)
+#### `ai_extract(text, labels) -> map(varchar, varchar)`
+
 Extracts values for the provided labels from the input text.
 
 ```sql
 SELECT ai_extract('John is 25 years old', ARRAY['name', 'age']);
 -- {name=John, age=25}
 ```
-:::
 
-:::{function} ai_fix_grammar(text) -> varchar
+#### `ai_fix_grammar(text) -> varchar`
+
 Corrects grammatical errors in the input text.
 
 ```sql
 SELECT ai_fix_grammar('I are happy. What you doing?');
 -- I am happy. What are you doing?
 ```
-:::
 
-:::{function} ai_gen(prompt) -> varchar
+#### `ai_gen(prompt) -> varchar`
+
 Generates text based on the input prompt.
 
 ```sql
 SELECT ai_gen('Describe Trino in a few words');
 -- Distributed SQL query engine.
 ```
-:::
 
-:::{function} ai_mask(text, labels) -> varchar
+#### `ai_mask(text, labels) -> varchar`
+
 Masks the values for the provided labels in the input text by replacing them
 with the text `[MASKED]`.
 
@@ -200,9 +201,9 @@ SELECT ai_mask(
     ARRAY['phone', 'address']);
 -- Contact me at [MASKED] or visit us at [MASKED].
 ```
-:::
 
-:::{function} ai_translate(text, language) -> varchar
+#### `ai_translate(text, language) -> varchar`
+
 Translates the input text to the specified language.
 
 ```sql
@@ -212,4 +213,3 @@ SELECT ai_translate('I like coffee', 'es');
 SELECT ai_translate('I like coffee', 'zh-TW');
 -- 我喜歡咖啡
 ```
-:::
